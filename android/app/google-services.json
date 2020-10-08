@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "585972276536",
+    "firebase_url": "https://marketingvalhalla-2020.firebaseio.com",
+    "project_id": "marketingvalhalla-2020",
+    "storage_bucket": "marketingvalhalla-2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:585972276536:android:63aaf5e886c4a99925b5cd",
+        "android_client_info": {
+          "package_name": "com.codevalhalla.firebaselogin.firebase_login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "585972276536-g8b8je6492dnpc4c9u9eaq6ftpd81q8s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codevalhalla.firebaselogin.firebase_login",
+            "certificate_hash": "2939c793d0eb1810a82c488e9320fccc8d3bbe67"
+          }
+        },
+        {
+          "client_id": "585972276536-qrnjb25fq0ki4b20i9tt98iva2m9uad3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB30iT1zRm46xvgidzm6N_OS7ImKRhs1fM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "585972276536-qrnjb25fq0ki4b20i9tt98iva2m9uad3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
