@@ -140,6 +140,23 @@ mixin _$UserStore on _UserStore, Store {
     return _$loginUsersAsyncAction.run(() => super.loginUsers(email, pass));
   }
 
+  final _$registerUserAsyncAction = AsyncAction('_UserStore.registerUser');
+
+  @override
+  Future<void> registerUser(String username, String email, String pass) {
+    return _$registerUserAsyncAction
+        .run(() => super.registerUser(username, email, pass));
+  }
+
+  final _$sendEmailValidationUserAsyncAction =
+      AsyncAction('_UserStore.sendEmailValidationUser');
+
+  @override
+  Future<void> sendEmailValidationUser(String email, String password) {
+    return _$sendEmailValidationUserAsyncAction
+        .run(() => super.sendEmailValidationUser(email, password));
+  }
+
   final _$logoutAsyncAction = AsyncAction('_UserStore.logout');
 
   @override
@@ -147,11 +164,13 @@ mixin _$UserStore on _UserStore, Store {
     return _$logoutAsyncAction.run(() => super.logout());
   }
 
-  final _$forgotPasswordAsyncAction = AsyncAction('_UserStore.forgotPassword');
+  final _$sendResetPasswordAsyncAction =
+      AsyncAction('_UserStore.sendResetPassword');
 
   @override
-  Future<dynamic> forgotPassword() {
-    return _$forgotPasswordAsyncAction.run(() => super.forgotPassword());
+  Future<void> sendResetPassword(String email) {
+    return _$sendResetPasswordAsyncAction
+        .run(() => super.sendResetPassword(email));
   }
 
   final _$_UserStoreActionController = ActionController(name: '_UserStore');

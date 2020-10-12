@@ -76,4 +76,46 @@ class NetworkService {
     }
     return message;
   }
+
+  Future<String> sendEmailValidation(String email, String password) async {
+    String message = 'Error in sending email validation';
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      userCredential.user.sendEmailVerification();
+      message = 'Email validation sent';
+      await FirebaseAuth.instance.signOut();
+      print(message);
+    } catch (e) {
+      if (e.code == 'user-not-found') {
+        message = 'No user found for that email.';
+        print(message);
+      } else if (e.code == 'wrong-password') {
+        message = 'Wrong password provided for that user.';
+        print(message);
+      }
+    }
+    return message;
+  }
+
+  Future<String> sendResetPassword(String email) async {
+    String message = 'Error in sending the password';
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: email,
+      );
+      message = 'Email with new password sent';
+      print(message);
+    } catch (e) {
+      if (e.code.toString().contains('user-not-found')) {
+        message = 'No user found for that email.';
+        print(message);
+      } else
+        print('E.CODE: ' + e.code.toString());
+    }
+    return message;
+  }
 }

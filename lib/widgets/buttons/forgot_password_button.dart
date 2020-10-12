@@ -1,3 +1,4 @@
+import 'package:firebase_login/widgets/dialogs/reset_pwd_dialog.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordButton extends StatefulWidget {
@@ -19,7 +20,9 @@ class _ForgotPasswordButtonState extends State<ForgotPasswordButton> {
               .caption
               .copyWith(color: Colors.orangeAccent),
         ),
-        onPressed: () {},
+        onPressed: () async {
+          showDialog(context: context, child: ResetPasswordDialog());
+        },
       ),
     );
   }

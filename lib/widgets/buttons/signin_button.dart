@@ -47,7 +47,8 @@ class _SigninButtonState extends State<SigninButton> {
                 print(_userStore.errorStore.errorMessage);
                 // _showErrorMessage(_userStore.errorStore.errorMessage);
               }
-              _formStore.reset();
+              if (_userStore.errorStore.errorMessage != 'Email not verified!')
+                _formStore.reset();
             } else {
               print('Please fill in correctly all the fields');
             }

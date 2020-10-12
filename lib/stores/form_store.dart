@@ -52,6 +52,12 @@ abstract class _FormStore with Store {
       password.isNotEmpty;
 
   @computed
+  bool get canSendEmailValidation =>
+      !formErrorStore.hasErrorInSendEmailValidation &&
+      userEmail.isNotEmpty &&
+      password.isNotEmpty;
+
+  @computed
   bool get canRegister =>
       !formErrorStore.hasErrorsInRegister &&
       userEmail.isNotEmpty &&
@@ -184,4 +190,8 @@ abstract class _FormErrorStore with Store {
 
   @computed
   bool get hasErrorInForgotPassword => userEmail != null;
+
+  @computed
+  bool get hasErrorInSendEmailValidation =>
+      userEmail != null || password != null;
 }

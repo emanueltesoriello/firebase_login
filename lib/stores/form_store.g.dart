@@ -15,6 +15,13 @@ mixin _$FormStore on _FormStore, Store {
   bool get canLogin => (_$canLoginComputed ??=
           Computed<bool>(() => super.canLogin, name: '_FormStore.canLogin'))
       .value;
+  Computed<bool> _$canSendEmailValidationComputed;
+
+  @override
+  bool get canSendEmailValidation => (_$canSendEmailValidationComputed ??=
+          Computed<bool>(() => super.canSendEmailValidation,
+              name: '_FormStore.canSendEmailValidation'))
+      .value;
   Computed<bool> _$canRegisterComputed;
 
   @override
@@ -227,6 +234,7 @@ confirmPassword: ${confirmPassword},
 success: ${success},
 loading: ${loading},
 canLogin: ${canLogin},
+canSendEmailValidation: ${canSendEmailValidation},
 canRegister: ${canRegister},
 canForgetPassword: ${canForgetPassword}
     ''';
@@ -255,6 +263,14 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
           Computed<bool>(() => super.hasErrorInForgotPassword,
               name: '_FormErrorStore.hasErrorInForgotPassword'))
       .value;
+  Computed<bool> _$hasErrorInSendEmailValidationComputed;
+
+  @override
+  bool get hasErrorInSendEmailValidation =>
+      (_$hasErrorInSendEmailValidationComputed ??= Computed<bool>(
+              () => super.hasErrorInSendEmailValidation,
+              name: '_FormErrorStore.hasErrorInSendEmailValidation'))
+          .value;
 
   final _$userEmailAtom = Atom(name: '_FormErrorStore.userEmail');
 
@@ -325,7 +341,8 @@ password: ${password},
 confirmPassword: ${confirmPassword},
 hasErrorsInLogin: ${hasErrorsInLogin},
 hasErrorsInRegister: ${hasErrorsInRegister},
-hasErrorInForgotPassword: ${hasErrorInForgotPassword}
+hasErrorInForgotPassword: ${hasErrorInForgotPassword},
+hasErrorInSendEmailValidation: ${hasErrorInSendEmailValidation}
     ''';
   }
 }

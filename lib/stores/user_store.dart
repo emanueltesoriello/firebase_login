@@ -120,6 +120,26 @@ abstract class _UserStore with Store {
   }
 
   @action
+  Future<void> sendEmailValidationUser(String email, String password) async {
+    loading = true;
+    try {
+      final NetworkService networkService = NetworkService(getAuth);
+      String response =
+          await networkService.sendEmailValidation(email, password);
+      if (response.isNotEmpty) {
+        loading = false;
+        errorStore.setErrorMessage(response);
+      } else {
+        loading = false;
+        success = true;
+      }
+    } catch (e) {
+      loading = false;
+      errorStore.setErrorMessage(e);
+    }
+  }
+
+  @action
   Future<void> logout() async {
     loading = true;
     try {
@@ -139,7 +159,21 @@ abstract class _UserStore with Store {
   }
 
   @action
-  Future forgotPassword() async {
-    //loading = true;
+  Future<void> sendResetPassword(String email) async {
+    loading = true;
+    try {
+      final NetworkService networkService = NetworkService(getAuth);
+      String response = await networkService.sendResetPassword(email);
+      if (response.isNotEmpty) {
+        loading = false;
+        errorStore.setErrorMessage(response);
+      } else {
+        loading = false;
+        success = true;
+      }
+    } catch (e) {
+      loading = false;
+      errorStore.setErrorMessage(e);
+    }
   }
 }

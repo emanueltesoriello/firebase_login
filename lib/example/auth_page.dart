@@ -1,6 +1,8 @@
+import 'package:firebase_login/stores/form_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
+import 'package:firebase_login/utilities/device_utils.dart';
+import 'package:firebase_login/widgets/buttons/forgot_password_button.dart';
 import 'package:firebase_login/widgets/buttons/register_button.dart';
-import 'package:firebase_login/widgets/dialogs/reset_pwd_dialog.dart';
 import 'package:firebase_login/widgets/textfields/confirm_password_textformfield.dart';
 import 'package:firebase_login/widgets/textfields/email_textformfield.dart';
 import 'package:firebase_login/widgets/textfields/username_textformfield.dart';
@@ -18,30 +20,66 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   bool isLogin = true;
+  FormStore _formStore;
+  UserStore _userStore;
 
-  _showSendEmailValidationDialog() {
-    return showDialog(
-      context: context.read(),
-      builder: (context) {
-        return ResetPwdDialog(
-          title: 'Insert your e-mail',
-        );
-      },
-    );
+  @override
+  void initState() {
+    super.initState();
+    _formStore = context.read();
+    _userStore = context.read();
   }
 
-  _showErrorMessage(String message) {
-    if (message == 'Email not verified!') {
+  _sendEmailValidation() async {
+    print('Send email validation button pressed');
+    if (_formStore.canSendEmailValidation) {
+      DeviceUtils.hideKeyboard(context);
+      await _userStore.sendEmailValidationUser(
+          _formStore.userEmail, _formStore.password);
+      if (_userStore.errorStore.errorMessage.isNotEmpty) {
+        print(_userStore.errorStore.errorMessage);
+      }
+      _formStore.reset();
+    } else {
+      print('Please fill in correctly all the fields');
+    }
+  }
+
+  _showMessage(String message) {
+    if (message == 'Email validation sent') {
+      Future.delayed(Duration(milliseconds: 0), () {
+        FlushbarHelper.createInformation(
+          message:
+              'Please check the email that we have just sent you to validate your email.',
+          title: 'Email sent!',
+          duration: Duration(seconds: 4),
+        )..show(context);
+      });
+
+      return SizedBox.shrink();
+    } else if (message == 'Email with new password sent') {
+      Future.delayed(Duration(milliseconds: 0), () {
+        FlushbarHelper.createInformation(
+          message:
+              'Please check the email that we have just sent you to reset your password.',
+          title: 'Email sent!',
+          duration: Duration(seconds: 4),
+        )..show(context);
+      });
+
+      return SizedBox.shrink();
+    } else if (message == 'Email not verified!') {
       Future.delayed(Duration(milliseconds: 0), () {
         if (message != null && message.isNotEmpty) {
           FlushbarHelper.createAction(
               message: message,
               title: 'Error',
-              duration: Duration(seconds: 50),
+              duration: Duration(seconds: 6),
               button: FlatButton(
-                  onPressed: null,//_showSendEmailValidationDialog(),
+                  onPressed: () => _sendEmailValidation(),
                   child: Text(
-                    "Didn't receive any email?",
+                    "Didn't receive any email?\nSend again",
+                    textAlign: TextAlign.right,
                     style: TextStyle(color: Colors.white),
                   )))
             ..show(context);
@@ -64,10 +102,9 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) => Observer(
         builder: (_) {
-          UserStore _userStore = context.read();
           if (_userStore.errorStore.errorMessage.isNotEmpty) {
             print(_userStore.errorStore.errorMessage);
-            _showErrorMessage(_userStore.errorStore.errorMessage);
+            _showMessage(_userStore.errorStore.errorMessage);
           }
           return Scaffold(
             appBar: AppBar(
@@ -87,9 +124,7 @@ class _AuthPageState extends State<AuthPage> {
                     SizedBox(height: 10),
                     !isLogin ? ConfirmPasswordTextFormField() : Container(),
                     SizedBox(height: 10),
-                    SizedBox(
-                        height:
-                            30), //!isLogin ? ForgotPasswordButton() : Container(),
+                    isLogin ? ForgotPasswordButton() : Container(),
                     SizedBox(height: 10),
                     !isLogin ? RegisterButton() : SigninButton(),
                     SizedBox(height: 10),
