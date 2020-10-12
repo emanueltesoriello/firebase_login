@@ -42,8 +42,9 @@ class NetworkService {
       try {
         userCredential.user.updateProfile(displayName: username);
         await userCredential.user.sendEmailVerification();
-        message = '';
-        print('Registration successfull');
+        await FirebaseAuth.instance.signOut();
+        message = 'Registration successfull';
+        print(message);
       } catch (e) {
         message =
             'An error occured while trying to send email verification. Please try again later.';

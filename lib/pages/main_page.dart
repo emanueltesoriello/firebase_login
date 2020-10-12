@@ -1,6 +1,6 @@
-import 'package:firebase_login/example/auth_page.dart';
-import 'package:firebase_login/example/home_page.dart';
-import 'package:firebase_login/example/splash_screen.dart';
+import 'package:firebase_login/pages/auth_page.dart';
+import 'package:firebase_login/pages/home_page.dart';
+import 'package:firebase_login/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../stores/user_store.dart';
