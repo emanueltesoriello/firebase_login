@@ -26,14 +26,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _showWelcomeMessage();
   }
 
   @override
-  Widget build(BuildContext context) => Form(
-        child: Observer(builder: (_) {
+  Widget build(BuildContext context) => Observer(
+        builder: (_) {
           UserStore _userStore = context.read();
           return Scaffold(
             body: Padding(
@@ -50,6 +49,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           );
-        }),
+        },
       );
 }

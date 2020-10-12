@@ -6,15 +6,13 @@ import 'package:provider/provider.dart';
 
 class EmailTextFormField extends StatefulWidget {
   final InputDecoration decoration;
-  EmailTextFormField(
-      {this.decoration = const InputDecoration(hintText: 'Type your Email')});
+  EmailTextFormField({this.decoration = const InputDecoration()});
 
   @override
   _EmailTextFormFieldState createState() => _EmailTextFormFieldState();
 }
 
 class _EmailTextFormFieldState extends State<EmailTextFormField> {
-  //FocusNode _passwordFocusNode;
   TextEditingController _userEmailController = TextEditingController();
 
   @override
@@ -23,7 +21,7 @@ class _EmailTextFormFieldState extends State<EmailTextFormField> {
       builder: (_) {
         FormStore _store = context.read();
         return TextFieldWidget(
-          decoration: widget.decoration,
+          //decoration: widget.decoration,
           hint: 'Type your Email',
           inputType: TextInputType.emailAddress,
           icon: Icons.person,

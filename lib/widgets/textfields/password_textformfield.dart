@@ -6,9 +6,7 @@ import 'package:provider/provider.dart';
 
 class PasswordTextFormField extends StatefulWidget {
   final InputDecoration decoration;
-  PasswordTextFormField(
-      {this.decoration =
-          const InputDecoration(hintText: 'Type your Password')});
+  PasswordTextFormField({this.decoration = const InputDecoration()});
 
   @override
   _PasswordTextFormFieldState createState() => _PasswordTextFormFieldState();
@@ -24,7 +22,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
       builder: (_) {
         FormStore _store = context.read();
         return TextFieldWidget(
-          decoration: widget.decoration,
+          //decoration: widget.decoration,
           hint: 'Type your Password',
           isObscure: true,
           padding: EdgeInsets.only(top: 16.0),
@@ -32,7 +30,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
           iconColor: Colors.white70,
           textController: _passwordController,
           focusNode: _passwordFocusNode,
-          errorText: _store.formErrorStore.confirmPassword,
+          errorText: _store.formErrorStore.password,
           onChanged: (value) {
             _store.setPassword(_passwordController.text);
           },

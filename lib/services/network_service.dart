@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:parse_server_sdk/parse_server_sdk.dart';
 
 class NetworkService {
   final FirebaseAuth auth;
@@ -9,13 +8,20 @@ class NetworkService {
   Future<String> login(String email, String pass) async {
     String message = 'login error';
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: pass,
       );
-      message = '';
-      print('Login successfull');
-    } on FirebaseAuthException catch (e) {
+      if (userCredential.user.emailVerified) {
+        message = '';
+        print('Login successfull');
+      } else {
+        await FirebaseAuth.instance.signOut();
+        message = 'Email not verified!';
+        print(message);
+      }
+    } catch (e) {
       if (e.code == 'user-not-found') {
         message = 'No user found for that email.';
         print(message);
@@ -33,8 +39,16 @@ class NetworkService {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: pass);
-      message = '';
-      print('registration successfull');
+      try {
+        userCredential.user.updateProfile(displayName: username);
+        await userCredential.user.sendEmailVerification();
+        message = '';
+        print('Registration successfull');
+      } catch (e) {
+        message =
+            'An error occured while trying to send email verification. Please try again later.';
+        print(message);
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         message = 'The password provided is too weak.';

@@ -6,9 +6,7 @@ import 'package:provider/provider.dart';
 
 class UsernameTextFormField extends StatefulWidget {
   final InputDecoration decoration;
-  UsernameTextFormField(
-      {this.decoration =
-          const InputDecoration(hintText: 'Type your Username')});
+  UsernameTextFormField({this.decoration = const InputDecoration()});
 
   @override
   _UsernameTextFormFieldState createState() => _UsernameTextFormFieldState();

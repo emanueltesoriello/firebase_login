@@ -13,19 +13,19 @@ class RegisterButton extends StatefulWidget {
 }
 
 class _RegisterButtonState extends State<RegisterButton> {
-  _showErrorMessage(String message) {
-    Future.delayed(Duration(milliseconds: 0), () {
+  /*_showErrorMessage(BuildContext ctx, String message) {
+    Future.delayed(Duration(milliseconds: 2000), () {
       if (message != null && message.isNotEmpty) {
         FlushbarHelper.createError(
           message: message,
           title: 'Error',
           duration: Duration(seconds: 3),
-        )..show(context);
+        )..show(ctx);
       }
     });
 
     return SizedBox.shrink();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +45,11 @@ class _RegisterButtonState extends State<RegisterButton> {
                   _formStore.userEmail, _formStore.password);
               if (_userStore.errorStore.errorMessage.isNotEmpty) {
                 print(_userStore.errorStore.errorMessage);
-                _showErrorMessage(_userStore.errorStore.errorMessage);
+                //_showErrorMessage(context, _userStore.errorStore.errorMessage);
               }
               _formStore.reset();
             } else {
-              _showErrorMessage('Please fill in all fields');
+              print('Please fill in correctly all the fields');
             }
           },
         );

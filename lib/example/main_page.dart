@@ -16,11 +16,6 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) => new Observer(
         builder: (_) {
           UserStore _userStore = context.read();
-          /*Scaffold(
-            body: Center(
-              child: Text('No user'),
-            ),
-          );*///return HomePage();
           if (_userStore.loading) {
             print('ConnectionState waiting');
             return SplashScreen();

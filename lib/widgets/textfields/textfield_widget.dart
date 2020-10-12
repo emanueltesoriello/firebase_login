@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class TextFieldWidget extends StatelessWidget {
+class TextFieldWidget extends StatefulWidget {
   final IconData icon;
   final String hint;
   final String errorText;
@@ -39,24 +39,29 @@ class TextFieldWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _TextFieldWidgetState createState() => _TextFieldWidgetState();
+}
+
+class _TextFieldWidgetState extends State<TextFieldWidget> {
+  @override
   Widget build(BuildContext context) {
     // InputDecoration
     return TextFormField(
-      controller: textController,
-      focusNode: focusNode,
-      onFieldSubmitted: onFieldSubmitted,
-      onChanged: onChanged,
-      autofocus: autoFocus,
-      textInputAction: inputAction,
-      obscureText: this.isObscure,
-      maxLength: 25,
-      keyboardType: this.inputType,
+      controller: widget.textController,
+      focusNode: widget.focusNode,
+      onFieldSubmitted: widget.onFieldSubmitted,
+      onChanged: widget.onChanged,
+      autofocus: widget.autoFocus,
+      textInputAction: widget.inputAction,
+      obscureText: widget.isObscure,
+      maxLength: 50,
+      keyboardType: widget.inputType,
       style: Theme.of(context).textTheme.body1,
-      decoration: decoration.copyWith(
-        //hintText: this.hint,
+      decoration: widget.decoration.copyWith(
+        hintText: widget.hint,
         /* hintStyle:
                 Theme.of(context).textTheme.body1.copyWith(color: hintColor),*/
-        errorText: errorText,
+        errorText: widget.errorText,
         counterText: '',
       ),
     );

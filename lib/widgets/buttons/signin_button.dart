@@ -13,7 +13,7 @@ class SigninButton extends StatefulWidget {
 }
 
 class _SigninButtonState extends State<SigninButton> {
-  _showErrorMessage(String message) {
+  /*_showErrorMessage(String message) {
     Future.delayed(Duration(milliseconds: 0), () {
       if (message != null && message.isNotEmpty) {
         FlushbarHelper.createError(
@@ -25,7 +25,7 @@ class _SigninButtonState extends State<SigninButton> {
     });
 
     return SizedBox.shrink();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +45,11 @@ class _SigninButtonState extends State<SigninButton> {
                   _formStore.userEmail, _formStore.password);
               if (_userStore.errorStore.errorMessage.isNotEmpty) {
                 print(_userStore.errorStore.errorMessage);
-                _showErrorMessage(_userStore.errorStore.errorMessage);
+                // _showErrorMessage(_userStore.errorStore.errorMessage);
               }
               _formStore.reset();
             } else {
-              _showErrorMessage('Please fill in all fields');
+              print('Please fill in correctly all the fields');
             }
           },
         );
