@@ -14,11 +14,11 @@ class _ForgotPasswordButtonState extends State<ForgotPasswordButton> {
       child: FlatButton(
         padding: EdgeInsets.all(0.0),
         child: Text(
-          'Hai dimenticato la password?',
+          'Forgot password?',
           style: Theme.of(context)
               .textTheme
               .caption
-              .copyWith(color: Colors.orangeAccent),
+              .copyWith(decoration: TextDecoration.underline),
         ),
         onPressed: () async {
           showDialog(context: context, child: ResetPasswordDialog());

@@ -27,8 +27,8 @@ class _FetchAppPageState extends State<FetchAppPage> {
         UserStore _userStore = context.read();
         return MaterialApp(
           theme: ThemeData(
-            primarySwatch: Colors.orange,
-            brightness: Brightness.dark,
+            primarySwatch: Colors.blue,
+            brightness: Brightness.light,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           home: ObserverFuture<FirebaseApp, Exception>(

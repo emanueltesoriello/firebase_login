@@ -36,7 +36,7 @@ class _RegisterButtonState extends State<RegisterButton> {
         return TransparentButtonWidget(
           buttonText: 'Register',
           textColor: Colors.white,
-          buttonColor: _formStore.canRegister ? Colors.green : Colors.red,
+          buttonColor: _formStore.canRegister ? null : Colors.grey,
           onPressed: () async {
             print('Register pressed');
             if (_formStore.canRegister) {

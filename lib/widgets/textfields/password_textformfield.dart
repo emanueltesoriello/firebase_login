@@ -23,7 +23,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
         FormStore _store = context.read();
         return TextFieldWidget(
           //decoration: widget.decoration,
-          hint: 'Type your Password',
+          hint: 'Password',
           isObscure: true,
           padding: EdgeInsets.only(top: 16.0),
           icon: Icons.lock,

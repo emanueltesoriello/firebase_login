@@ -5,12 +5,14 @@ class TransparentButtonWidget extends StatelessWidget {
   final Color textColor;
   final VoidCallback onPressed;
   final Color buttonColor;
+  final Color disabledColor;
 
   const TransparentButtonWidget({
     Key key,
     this.buttonText,
     this.textColor = Colors.white,
-    this.buttonColor = Colors.transparent,
+    this.buttonColor,
+    this.disabledColor,
     this.onPressed,
   }) : super(key: key);
 
@@ -19,6 +21,7 @@ class TransparentButtonWidget extends StatelessWidget {
     return RaisedButton(
       onPressed: onPressed,
       color: buttonColor,
+      disabledColor: disabledColor,
       child: Container(
         child: Center(
           child: Text(
