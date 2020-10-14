@@ -94,6 +94,56 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
+  Widget _buildBody() {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 25, right: 25),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            FadeInImage.memoryNetwork(
+              height: targetHeight / 5,
+              placeholder: kTransparentImage,
+              image:
+                  'https://marketinggenius.nl/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png',
+            ),
+            SizedBox(height: 20),
+            _titleAndSubtitle(),
+            !isLogin ? UsernameTextFormField() : Container(),
+            SizedBox(height: 5),
+            EmailTextFormField(),
+            SizedBox(height: 5),
+            PasswordTextFormField(),
+            SizedBox(height: 5),
+            !isLogin ? ConfirmPasswordTextFormField() : Container(),
+            SizedBox(height: 5),
+            isLogin ? ForgotPasswordButton() : Container(),
+            SizedBox(height: 10),
+            !isLogin ? _registerButton() : _loginButton(),
+            SizedBox(height: 10),
+            !isLogin ? _buildAcceptSwitch() : Container(),
+            !isLogin ? SizedBox(height: 5) : Container(),
+            FlatButton(
+                onPressed: () {
+                  setState(() {
+                    isLogin = !isLogin;
+                  });
+                },
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text(isLogin
+                      ? "Don't have an account? "
+                      : "Already have an account? "),
+                  Text(isLogin ? "Sign up" : "Sign in",
+                      style: TextStyle(color: Colors.blue))
+                ])),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) => Observer(
         builder: (_) {
@@ -106,56 +156,28 @@ class _AuthPageState extends State<AuthPage> {
             message.showMessage();
           }
           return Scaffold(
-            body: Center(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 25, right: 25),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      FadeInImage.memoryNetwork(
-                        height: targetHeight / 5,
-                        placeholder: kTransparentImage,
-                        image:
-                            'https://marketinggenius.nl/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png',
-                      ),
-                      SizedBox(height: 20),
-                      _titleAndSubtitle(),
-                      !isLogin ? UsernameTextFormField() : Container(),
-                      SizedBox(height: 5),
-                      EmailTextFormField(),
-                      SizedBox(height: 5),
-                      PasswordTextFormField(),
-                      SizedBox(height: 5),
-                      !isLogin ? ConfirmPasswordTextFormField() : Container(),
-                      SizedBox(height: 5),
-                      isLogin ? ForgotPasswordButton() : Container(),
-                      SizedBox(height: 10),
-                      !isLogin ? _registerButton() : _loginButton(),
-                      SizedBox(height: 10),
-                      !isLogin ? _buildAcceptSwitch() : Container(),
-                      !isLogin ? SizedBox(height: 5) : Container(),
-                      FlatButton(
-                          onPressed: () {
-                            setState(() {
-                              isLogin = !isLogin;
-                            });
-                          },
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(isLogin
-                                    ? "Don't have an account? "
-                                    : "Already have an account? "),
-                                Text(isLogin ? "Sign up" : "Sign in",
-                                    style: TextStyle(color: Colors.blue))
-                              ])),
-                    ],
+            body: targetWidth > 830.0
+                ? Container(
+                    width: targetWidth,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                                'web/images/desktop_background.jpg'))),
+                    child: Center(
+                      child: Container(
+                          color: Colors.white,
+                          width: targetWidth > 1920.0
+                              ? targetWidth / 5
+                              : targetWidth / 3,
+                          height: targetHeight / 1.3,
+                          alignment: Alignment.center,
+                          child: _buildBody()),
+                    ),
+                  )
+                : Center(
+                    child: _buildBody(),
                   ),
-                ),
-              ),
-            ),
           );
         },
       );
