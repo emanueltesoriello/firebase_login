@@ -15,6 +15,15 @@ import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class AuthPage extends StatefulWidget {
+  final String appName;
+  final String loginDescription;
+  final String signupDescription;
+
+  AuthPage({
+    this.appName = '[APP_NAME]',
+    this.loginDescription = 'Small description for login',
+    this.signupDescription = 'Small description for signup',
+  });
   @override
   _AuthPageState createState() => _AuthPageState();
 }
@@ -61,13 +70,16 @@ class _AuthPageState extends State<AuthPage> {
 
   Widget _titleAndSubtitle() {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Text(isLogin ? "Welcome back to [APP NAME]" : "Welcome to [APP NAME]",
+      Text(
+          isLogin
+              ? "Welcome back to ${widget.appName}"
+              : "Welcome to ${widget.appName}",
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: targetHeight / 40)),
       SizedBox(height: 5),
-      Text(isLogin
-          ? "Small description for login"
-          : "Small description for signup")
+      Text(
+        isLogin ? widget.loginDescription : widget.signupDescription,
+      )
     ]);
   }
 

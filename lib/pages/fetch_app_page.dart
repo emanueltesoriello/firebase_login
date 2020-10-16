@@ -6,11 +6,13 @@ import 'package:mobx_widget/mobx_widget.dart';
 import 'package:provider/provider.dart';
 
 class FetchAppPage extends StatefulWidget {
-  final Widget mainPage;
   final Widget splashScreen;
   final Widget noData;
+  final Widget homePage;
+  final Widget authPage;
   FetchAppPage({
-    @required this.mainPage,
+    @required this.homePage,
+    @required this.authPage,
     @required this.splashScreen,
     @required this.noData,
   });
@@ -38,7 +40,11 @@ class _FetchAppPageState extends State<FetchAppPage> {
                 true, // If true, it will call [fetchData] automatically
             fetchData: () => _userStore.fetchApp(), // VoidCallback
             observableFuture: () => _userStore.myFirebaseApp,
-            onData: (_, data) => widget.mainPage,
+            onData: (_, data) => MainPage(
+              splashScreen: widget.splashScreen,
+              homePage: widget.homePage,
+              authPage: widget.authPage,
+            ),
             onNull: (_) => widget.noData,
             onError: (_, error) => Scaffold(
               body: Scaffold(
@@ -54,4 +60,36 @@ class _FetchAppPageState extends State<FetchAppPage> {
       },
     );
   }
+}
+
+class MainPage extends StatefulWidget {
+  final Widget splashScreen;
+  final Widget homePage;
+  final Widget authPage;
+  MainPage({
+    @required this.homePage,
+    @required this.splashScreen,
+    @required this.authPage,
+  });
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
+  Widget build(BuildContext context) => new Observer(
+        builder: (_) {
+          UserStore _userStore = context.read();
+          if (_userStore.loading) {
+            print('ConnectionState waiting');
+            return widget.splashScreen;
+          } else if (_userStore.getIsUserLogged) {
+            print('User logged');
+            return widget.homePage;
+          } else {
+            print('No user');
+            return widget.authPage;
+          }
+        },
+      );
 }
