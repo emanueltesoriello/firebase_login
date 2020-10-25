@@ -22,7 +22,9 @@ abstract class _FormStore with Store {
       reaction((_) => userEmail, validateUserEmail),
       reaction((_) => userName, validateUserName),
       reaction((_) => password, validatePassword),
-      reaction((_) => confirmPassword, validateConfirmPassword)
+      reaction((_) => confirmPassword, validateConfirmPassword),
+      reaction((_) => chamberOfCommerce, validateChamberOfCommerce),
+      reaction((_) => companyName, validateCompanyName)
     ];
   }
 
@@ -38,6 +40,12 @@ abstract class _FormStore with Store {
 
   @observable
   String confirmPassword = '';
+
+  @observable
+  String chamberOfCommerce = '';
+
+  @observable
+  String companyName = '';
 
   @observable
   bool success = false;
@@ -69,10 +77,26 @@ abstract class _FormStore with Store {
   bool get canForgetPassword =>
       !formErrorStore.hasErrorInForgotPassword && userEmail.isNotEmpty;
 
+  @computed
+  bool get canAddCompany =>
+      !formErrorStore.hasErrorsInAddCompany &&
+      chamberOfCommerce.isNotEmpty &&
+      companyName.isNotEmpty;
+
   // actions:-------------------------------------------------------------------
   @action
   void setUserId(String value) {
     userEmail = value;
+  }
+
+  @action
+  void setChamberOfCommerce(String value) {
+    chamberOfCommerce = value;
+  }
+
+  @action
+  void setCompanyName(String value) {
+    companyName = value;
   }
 
   @action
@@ -134,6 +158,30 @@ abstract class _FormStore with Store {
     }
   }
 
+  @action
+  void validateChamberOfCommerce(String value) {
+    if (value.isEmpty) {
+      formErrorStore.chamberOfCommerce =
+          "Chamber of Commerce no. can't be empty";
+    } else if (value.length < 3) {
+      formErrorStore.chamberOfCommerce =
+          'Please enter a valid Chamber of Commerce no.';
+    } else {
+      formErrorStore.chamberOfCommerce = null;
+    }
+  }
+
+  @action
+  void validateCompanyName(String value) {
+    if (value.isEmpty) {
+      formErrorStore.companyName = "Company name can't be empty";
+    } else if (value.length < 3) {
+      formErrorStore.companyName = 'Please enter a valid company name';
+    } else {
+      formErrorStore.companyName = null;
+    }
+  }
+
 //TODO remove
   @action
   Future register() async {
@@ -178,6 +226,12 @@ abstract class _FormErrorStore with Store {
   @observable
   String confirmPassword;
 
+  @observable
+  String chamberOfCommerce;
+
+  @observable
+  String companyName;
+
   @computed
   bool get hasErrorsInLogin => userEmail != null || password != null;
 
@@ -194,4 +248,7 @@ abstract class _FormErrorStore with Store {
   @computed
   bool get hasErrorInSendEmailValidation =>
       userEmail != null || password != null;
+  @computed
+  bool get hasErrorsInAddCompany =>
+      chamberOfCommerce != null || companyName != null;
 }

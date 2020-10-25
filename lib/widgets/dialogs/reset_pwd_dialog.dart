@@ -1,4 +1,5 @@
 import 'package:firebase_login/widgets/buttons/send_reset_password_button.dart';
+import 'package:firebase_login/widgets/decorations/generic_rounded_button_decoration.dart';
 import 'package:firebase_login/widgets/textfields/email_textformfield.dart';
 import 'package:firebase_login/widgets/textfields/password_textformfield.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,6 @@ class ResetPasswordDialog extends StatelessWidget {
           'Reset your password',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.white,
             fontSize: targetHeight / 40,
           ),
         ),
@@ -30,7 +30,12 @@ class ResetPasswordDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           EmailTextFormField(),
-          SendResetPasswordButton(),
+          GenericRoundedButtonDecoration(
+            buttonColor: Colors.blue,
+            splashColor: Colors.blue[100],
+            disabledColor: Colors.grey,
+            child: SendResetPasswordButton(),
+          ),
         ],
       ),
     );

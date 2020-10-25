@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_login/pages/auth_page.dart';
 import 'package:firebase_login/pages/fetch_app_page.dart';
-import 'package:firebase_login/pages/home_page.dart';
+import 'package:firebase_login/pages/navigator_page.dart';
 import 'package:firebase_login/pages/splash_screen.dart';
+import 'package:firebase_login/stores/query_store.dart';
 import 'package:flutter/material.dart';
 import './stores/form_store.dart';
 import './stores/user_store.dart';
@@ -29,9 +30,12 @@ class _MyAppState extends State<MyApp> {
         Provider<UserStore>(
           create: (_) => UserStore(firebaseApp: _initApp),
         ),
+        Provider<QueryStore>(
+          create: (_) => QueryStore(),
+        ),
       ],
       child: FetchAppPage(
-        homePage: HomePage(),
+        navigatorPage: NavigatorPage(),
         authPage: AuthPage(
             appName: 'MarketingValhalla',
             loginDescription:

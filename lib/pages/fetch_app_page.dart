@@ -8,10 +8,10 @@ import 'package:provider/provider.dart';
 class FetchAppPage extends StatefulWidget {
   final Widget splashScreen;
   final Widget noData;
-  final Widget homePage;
+  final Widget navigatorPage;
   final Widget authPage;
   FetchAppPage({
-    @required this.homePage,
+    @required this.navigatorPage,
     @required this.authPage,
     @required this.splashScreen,
     @required this.noData,
@@ -42,7 +42,7 @@ class _FetchAppPageState extends State<FetchAppPage> {
             observableFuture: () => _userStore.myFirebaseApp,
             onData: (_, data) => MainPage(
               splashScreen: widget.splashScreen,
-              homePage: widget.homePage,
+              navigatorPage: widget.navigatorPage,
               authPage: widget.authPage,
             ),
             onNull: (_) => widget.noData,
@@ -64,10 +64,10 @@ class _FetchAppPageState extends State<FetchAppPage> {
 
 class MainPage extends StatefulWidget {
   final Widget splashScreen;
-  final Widget homePage;
+  final Widget navigatorPage;
   final Widget authPage;
   MainPage({
-    @required this.homePage,
+    @required this.navigatorPage,
     @required this.splashScreen,
     @required this.authPage,
   });
@@ -85,7 +85,7 @@ class _MainPageState extends State<MainPage> {
             return widget.splashScreen;
           } else if (_userStore.getIsUserLogged) {
             print('User logged');
-            return widget.homePage;
+            return widget.navigatorPage;
           } else {
             print('No user');
             return widget.authPage;

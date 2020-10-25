@@ -23,7 +23,7 @@ class _SendResetPasswordButtonState extends State<SendResetPasswordButton> {
         return TransparentButtonWidget(
           buttonText: 'Send password',
           textColor: Colors.white,
-          buttonColor: _formStore.canForgetPassword ? Colors.green : Colors.red,
+          buttonColor: _formStore.canForgetPassword ? null : Colors.grey,
           onPressed: () async {
             print('Send reset password button pressed');
             if (_formStore.canForgetPassword) {
