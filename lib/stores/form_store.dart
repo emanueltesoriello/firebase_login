@@ -24,7 +24,8 @@ abstract class _FormStore with Store {
       reaction((_) => password, validatePassword),
       reaction((_) => confirmPassword, validateConfirmPassword),
       reaction((_) => chamberOfCommerce, validateChamberOfCommerce),
-      reaction((_) => companyName, validateCompanyName)
+      reaction((_) => companyName, validateCompanyName),
+      reaction((_) => magicCode, validateMagicCode)
     ];
   }
 
@@ -46,6 +47,9 @@ abstract class _FormStore with Store {
 
   @observable
   String companyName = '';
+
+  @observable
+  String magicCode = '';
 
   @observable
   bool success = false;
@@ -83,6 +87,10 @@ abstract class _FormStore with Store {
       chamberOfCommerce.isNotEmpty &&
       companyName.isNotEmpty;
 
+  @computed
+  bool get canInsertMagicCode =>
+      !formErrorStore.hasErrorsInInsertMagicCode && magicCode.isNotEmpty;
+
   // actions:-------------------------------------------------------------------
   @action
   void setUserId(String value) {
@@ -112,6 +120,11 @@ abstract class _FormStore with Store {
   @action
   void setConfirmPassword(String value) {
     confirmPassword = value;
+  }
+
+  @action
+  void setMagicCode(String value) {
+    magicCode = value;
   }
 
   @action
@@ -182,10 +195,15 @@ abstract class _FormStore with Store {
     }
   }
 
-//TODO remove
   @action
-  Future register() async {
-    loading = true;
+  void validateMagicCode(String value) {
+    if (value.isEmpty) {
+      formErrorStore.magicCode = "Magic Code can't be empty";
+    } else if (value.length < 3) {
+      formErrorStore.magicCode = 'Please enter a valid Magic Code';
+    } else {
+      formErrorStore.magicCode = null;
+    }
   }
 
   // general methods:-----------------------------------------------------------
@@ -218,6 +236,9 @@ abstract class _FormErrorStore with Store {
   String userEmail;
 
   @observable
+  String magicCode;
+
+  @observable
   String userName;
 
   @observable
@@ -248,7 +269,11 @@ abstract class _FormErrorStore with Store {
   @computed
   bool get hasErrorInSendEmailValidation =>
       userEmail != null || password != null;
+
   @computed
   bool get hasErrorsInAddCompany =>
       chamberOfCommerce != null || companyName != null;
+
+  @computed
+  bool get hasErrorsInInsertMagicCode => magicCode != null;
 }

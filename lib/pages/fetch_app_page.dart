@@ -31,6 +31,7 @@ class _FetchAppPageState extends State<FetchAppPage> {
           theme: ThemeData(
             primarySwatch: Colors.blue,
             brightness: Brightness.light,
+            buttonColor: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           home: ObserverFuture<FirebaseApp, Exception>(

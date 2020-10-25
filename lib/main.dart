@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_login/pages/auth_page.dart';
 import 'package:firebase_login/pages/fetch_app_page.dart';
+import 'package:firebase_login/pages/home_page.dart';
 import 'package:firebase_login/pages/navigator_page.dart';
+import 'package:firebase_login/pages/no_company.dart';
 import 'package:firebase_login/pages/splash_screen.dart';
 import 'package:firebase_login/stores/query_store.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +37,8 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: FetchAppPage(
-        navigatorPage: NavigatorPage(),
+        navigatorPage: NavigatorPage(
+            homePage: HomePage(), noCompany: NoCompany(enableMagicCode: true)),
         authPage: AuthPage(
             appName: 'MarketingValhalla',
             loginDescription:

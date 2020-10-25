@@ -1,28 +1,24 @@
-import 'package:firebase_login/pages/home_page.dart';
-import 'package:firebase_login/pages/no_company.dart';
-import 'package:firebase_login/stores/user_store.dart';
-import 'package:firebase_login/widgets/buttons/logout.dart';
-import 'package:firebase_login/widgets/decorations/generic_rounded_button_decoration.dart';
+import 'package:firebase_login/pages/splash_screen.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:firebase_login/stores/query_store.dart';
-import 'package:mobx_widget/mobx_widget.dart';
 import 'package:provider/provider.dart';
 
 class NavigatorPage extends StatefulWidget {
+  final Widget homePage;
+  final Widget noCompany;
+  NavigatorPage({@required this.homePage, @required this.noCompany});
   @override
   _NavigatorPageState createState() => _NavigatorPageState();
 }
 
 class _NavigatorPageState extends State<NavigatorPage> {
-  UserStore _userStore;
   QueryStore _queryStore;
 
   @override
   void initState() {
     super.initState();
-    _userStore = context.read();
     _queryStore = context.read();
     _queryStore.fetchTheUser();
     _showWelcomeMessage();
@@ -40,22 +36,18 @@ class _NavigatorPageState extends State<NavigatorPage> {
     return SizedBox.shrink();
   }
 
-  /*Widget _test() {
-    return Container(
-        child: ObserverText(
-      style: TextStyle(color: Colors.blue, fontSize: 16),
-      onData: (_) => '${_queryStore.getTheTest}',
-    ));
-  }*/
-
   @override
   Widget build(BuildContext context) => Observer(
         builder: (_) {
           return Observer(builder: (_) {
-            if (_queryStore.getTheUser.companyVatNumber == null) {
-              return NoCompany();
-            } else {
-              return HomePage();
+            if (_queryStore.loading)
+              return SplashScreen();
+            else {
+              if (_queryStore.getTheUser.companyVatNumber == null) {
+                return widget.noCompany;
+              } else {
+                return widget.homePage;
+              }
             }
           });
         },

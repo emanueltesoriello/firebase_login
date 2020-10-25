@@ -36,6 +36,20 @@ mixin _$FormStore on _FormStore, Store {
           () => super.canForgetPassword,
           name: '_FormStore.canForgetPassword'))
       .value;
+  Computed<bool> _$canAddCompanyComputed;
+
+  @override
+  bool get canAddCompany =>
+      (_$canAddCompanyComputed ??= Computed<bool>(() => super.canAddCompany,
+              name: '_FormStore.canAddCompany'))
+          .value;
+  Computed<bool> _$canInsertMagicCodeComputed;
+
+  @override
+  bool get canInsertMagicCode => (_$canInsertMagicCodeComputed ??=
+          Computed<bool>(() => super.canInsertMagicCode,
+              name: '_FormStore.canInsertMagicCode'))
+      .value;
 
   final _$userEmailAtom = Atom(name: '_FormStore.userEmail');
 
@@ -97,6 +111,51 @@ mixin _$FormStore on _FormStore, Store {
     });
   }
 
+  final _$chamberOfCommerceAtom = Atom(name: '_FormStore.chamberOfCommerce');
+
+  @override
+  String get chamberOfCommerce {
+    _$chamberOfCommerceAtom.reportRead();
+    return super.chamberOfCommerce;
+  }
+
+  @override
+  set chamberOfCommerce(String value) {
+    _$chamberOfCommerceAtom.reportWrite(value, super.chamberOfCommerce, () {
+      super.chamberOfCommerce = value;
+    });
+  }
+
+  final _$companyNameAtom = Atom(name: '_FormStore.companyName');
+
+  @override
+  String get companyName {
+    _$companyNameAtom.reportRead();
+    return super.companyName;
+  }
+
+  @override
+  set companyName(String value) {
+    _$companyNameAtom.reportWrite(value, super.companyName, () {
+      super.companyName = value;
+    });
+  }
+
+  final _$magicCodeAtom = Atom(name: '_FormStore.magicCode');
+
+  @override
+  String get magicCode {
+    _$magicCodeAtom.reportRead();
+    return super.magicCode;
+  }
+
+  @override
+  set magicCode(String value) {
+    _$magicCodeAtom.reportWrite(value, super.magicCode, () {
+      super.magicCode = value;
+    });
+  }
+
   final _$successAtom = Atom(name: '_FormStore.success');
 
   @override
@@ -127,13 +186,6 @@ mixin _$FormStore on _FormStore, Store {
     });
   }
 
-  final _$registerAsyncAction = AsyncAction('_FormStore.register');
-
-  @override
-  Future<dynamic> register() {
-    return _$registerAsyncAction.run(() => super.register());
-  }
-
   final _$_FormStoreActionController = ActionController(name: '_FormStore');
 
   @override
@@ -142,6 +194,28 @@ mixin _$FormStore on _FormStore, Store {
         _$_FormStoreActionController.startAction(name: '_FormStore.setUserId');
     try {
       return super.setUserId(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setChamberOfCommerce(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.setChamberOfCommerce');
+    try {
+      return super.setChamberOfCommerce(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setCompanyName(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.setCompanyName');
+    try {
+      return super.setCompanyName(value);
     } finally {
       _$_FormStoreActionController.endAction(_$actionInfo);
     }
@@ -175,6 +249,17 @@ mixin _$FormStore on _FormStore, Store {
         name: '_FormStore.setConfirmPassword');
     try {
       return super.setConfirmPassword(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setMagicCode(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.setMagicCode');
+    try {
+      return super.setMagicCode(value);
     } finally {
       _$_FormStoreActionController.endAction(_$actionInfo);
     }
@@ -225,18 +310,56 @@ mixin _$FormStore on _FormStore, Store {
   }
 
   @override
+  void validateChamberOfCommerce(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.validateChamberOfCommerce');
+    try {
+      return super.validateChamberOfCommerce(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void validateCompanyName(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.validateCompanyName');
+    try {
+      return super.validateCompanyName(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void validateMagicCode(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.validateMagicCode');
+    try {
+      return super.validateMagicCode(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 userEmail: ${userEmail},
 userName: ${userName},
 password: ${password},
 confirmPassword: ${confirmPassword},
+chamberOfCommerce: ${chamberOfCommerce},
+companyName: ${companyName},
+magicCode: ${magicCode},
 success: ${success},
 loading: ${loading},
 canLogin: ${canLogin},
 canSendEmailValidation: ${canSendEmailValidation},
 canRegister: ${canRegister},
-canForgetPassword: ${canForgetPassword}
+canForgetPassword: ${canForgetPassword},
+canAddCompany: ${canAddCompany},
+canInsertMagicCode: ${canInsertMagicCode}
     ''';
   }
 }
@@ -271,6 +394,21 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
               () => super.hasErrorInSendEmailValidation,
               name: '_FormErrorStore.hasErrorInSendEmailValidation'))
           .value;
+  Computed<bool> _$hasErrorsInAddCompanyComputed;
+
+  @override
+  bool get hasErrorsInAddCompany => (_$hasErrorsInAddCompanyComputed ??=
+          Computed<bool>(() => super.hasErrorsInAddCompany,
+              name: '_FormErrorStore.hasErrorsInAddCompany'))
+      .value;
+  Computed<bool> _$hasErrorsInInsertMagicCodeComputed;
+
+  @override
+  bool get hasErrorsInInsertMagicCode =>
+      (_$hasErrorsInInsertMagicCodeComputed ??= Computed<bool>(
+              () => super.hasErrorsInInsertMagicCode,
+              name: '_FormErrorStore.hasErrorsInInsertMagicCode'))
+          .value;
 
   final _$userEmailAtom = Atom(name: '_FormErrorStore.userEmail');
 
@@ -284,6 +422,21 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
   set userEmail(String value) {
     _$userEmailAtom.reportWrite(value, super.userEmail, () {
       super.userEmail = value;
+    });
+  }
+
+  final _$magicCodeAtom = Atom(name: '_FormErrorStore.magicCode');
+
+  @override
+  String get magicCode {
+    _$magicCodeAtom.reportRead();
+    return super.magicCode;
+  }
+
+  @override
+  set magicCode(String value) {
+    _$magicCodeAtom.reportWrite(value, super.magicCode, () {
+      super.magicCode = value;
     });
   }
 
@@ -332,17 +485,53 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     });
   }
 
+  final _$chamberOfCommerceAtom =
+      Atom(name: '_FormErrorStore.chamberOfCommerce');
+
+  @override
+  String get chamberOfCommerce {
+    _$chamberOfCommerceAtom.reportRead();
+    return super.chamberOfCommerce;
+  }
+
+  @override
+  set chamberOfCommerce(String value) {
+    _$chamberOfCommerceAtom.reportWrite(value, super.chamberOfCommerce, () {
+      super.chamberOfCommerce = value;
+    });
+  }
+
+  final _$companyNameAtom = Atom(name: '_FormErrorStore.companyName');
+
+  @override
+  String get companyName {
+    _$companyNameAtom.reportRead();
+    return super.companyName;
+  }
+
+  @override
+  set companyName(String value) {
+    _$companyNameAtom.reportWrite(value, super.companyName, () {
+      super.companyName = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 userEmail: ${userEmail},
+magicCode: ${magicCode},
 userName: ${userName},
 password: ${password},
 confirmPassword: ${confirmPassword},
+chamberOfCommerce: ${chamberOfCommerce},
+companyName: ${companyName},
 hasErrorsInLogin: ${hasErrorsInLogin},
 hasErrorsInRegister: ${hasErrorsInRegister},
 hasErrorInForgotPassword: ${hasErrorInForgotPassword},
-hasErrorInSendEmailValidation: ${hasErrorInSendEmailValidation}
+hasErrorInSendEmailValidation: ${hasErrorInSendEmailValidation},
+hasErrorsInAddCompany: ${hasErrorsInAddCompany},
+hasErrorsInInsertMagicCode: ${hasErrorsInInsertMagicCode}
     ''';
   }
 }

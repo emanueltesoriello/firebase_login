@@ -14,100 +14,112 @@ abstract class _QueryStore with Store {
   final ErrorStore errorStore = ErrorStore();
 
   @observable
-  ObservableFuture<String> _testFuture;
+  ObservableFuture<mv.User> _user;
 
   @observable
-  ObservableFuture<mv.User> _user;
+  bool loading = false;
 
   // ***********************************************
   // ***************** FETCH DATA ******************
-  @action
-  Future fetchTests() async {
-    await FirebaseFirestore.instance
-        .collection("test")
-        .doc('YvI9HWAzoH72jF3LiH2X')
-        .snapshots()
-        .forEach((element) {
-      print(element.data()['test']);
-      _testFuture = ObservableFuture(Future.value(element.data()['test']));
-    }).catchError((e) {
-      print(e);
-    });
-    return _testFuture;
-  }
 
   @action
   Future fetchTheUser() async {
-    String userId = FirebaseAuth.instance.currentUser.uid;
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(userId)
-        .snapshots()
-        .forEach((element) {
-      print(element.data());
-      if (element.exists) {
-        _user =
-            ObservableFuture(Future.value(mv.User.fromJSON(element.data())));
-      } else
-        _user = ObservableFuture(Future.value(null));
-    }).catchError((e) {
+    loading = true;
+    try {
+      String userId = FirebaseAuth.instance.currentUser.uid;
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userId)
+          .snapshots()
+          .forEach((element) async {
+        print(element.data());
+        if (element.exists) {
+          await FirebaseFirestore.instance
+              .collection("companies")
+              .doc(element.data()['companyVatNumber'])
+              .snapshots()
+              .forEach((companyData) async {
+            if (companyData.exists) {
+              List<dynamic> companyAdmins = companyData.data()['companyAdmins'];
+              var userData = element.data();
+              userData.addAll({'companyAdmins': companyAdmins});
+              _user =
+                  ObservableFuture(Future.value(mv.User.fromJSON(userData)));
+              loading = false;
+            } else {
+              _user = ObservableFuture(Future.value(null));
+              loading = false;
+            }
+          });
+        } else {
+          _user = ObservableFuture(Future.value(null));
+          loading = false;
+        }
+      }).catchError((e) {
+        print(e);
+        loading = false;
+      });
+    } catch (e) {
       print(e);
-    });
-    return _testFuture;
+      loading = false;
+    }
+    loading = false;
   }
 
   @action
   Future addNewCompany(String chamberOfCommerceNo, String companyName) async {
-    //print('Chamber of commerce: ' + chamberOfCommerceNo);
-    //print('Company name: ' + companyName);
-    String userId = FirebaseAuth.instance.currentUser.uid;
-    DocumentSnapshot ds = await FirebaseFirestore.instance
-        .collection("companies")
-        .doc(chamberOfCommerceNo.toLowerCase())
-        .get()
-      ..exists;
-    bool companyExist = ds.exists;
-    if (companyExist) {
-      print('Company exists');
-      errorStore.setErrorMessage(
-          'Attention, this company already exist! Please use a Magic Code if you want to use this company, or change the Chamber of commerce.');
-    } else {
-      print("Company doen't exists!");
-      // add document into companies
-      await FirebaseFirestore.instance
+    loading = true;
+    try {
+      String userId = FirebaseAuth.instance.currentUser.uid;
+      String userName = FirebaseAuth.instance.currentUser.displayName;
+      DocumentSnapshot ds = await FirebaseFirestore.instance
           .collection("companies")
-          .doc(chamberOfCommerceNo)
-          .set({'companyName': companyName});
-      // add document into users
-      await FirebaseFirestore.instance.collection("users").doc(userId).set({
-        'companyVatNumber': chamberOfCommerceNo,
-        'companyName': companyName
-      });
-      //saveCompanyQuery;
-    }
-    /*String userId = FirebaseAuth.instance.currentUser.uid;
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(userId)r
-        .snapshots()
-        .forEach((element) {
-      print(element.data());
-      if (element.exists) {
-        _user =
-            ObservableFuture(Future.value(mv.User.fromJSON(element.data())));
-      } else
-        _user = ObservableFuture(Future.value(null));
-    }).catchError((e) {
+          .doc(chamberOfCommerceNo.toLowerCase())
+          .get()
+        ..exists;
+      bool companyExist = ds.exists;
+      if (companyExist) {
+        print('Company exists');
+        errorStore.setErrorMessage(
+            'Attention, this company already exist!\nPlease use a Magic Code if you want to use this company, or change the Chamber of commerce.');
+        loading = false;
+      } else {
+        print("Company doen't exists!");
+        // add document into companies
+        await FirebaseFirestore.instance
+            .collection("companies")
+            .doc(chamberOfCommerceNo)
+            .set({
+          'companyName': companyName,
+          'companyAdmins': [userId]
+        });
+        // add document into users
+        await FirebaseFirestore.instance.collection("users").doc(userId).set({
+          'companyVatNumber': chamberOfCommerceNo,
+          'objectId': userId,
+          'userName': userName,
+        });
+        loading = false;
+      }
+    } catch (e) {
       print(e);
-    });
-    return _testFuture;*/
+      loading = false;
+    }
+    loading = false;
+  }
+
+  @action
+  Future insertMagicCode(String magicCode) async {
+    loading = true;
+    print(magicCode);
+    loading = false;
   }
 
   // ***********************************************
   // ***************** GET DATA ******************
 
-  String get getTheTest =>
-      _testFuture != null ? (_testFuture.result ?? '') : '';
+  /*String get getTheTest =>
+      _testFuture != null ? (_testFuture.result ?? '') : '';*/
 
   mv.User get getTheUser =>
       _user != null ? _user.result ?? mv.User() : mv.User();

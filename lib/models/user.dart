@@ -1,14 +1,23 @@
 class User {
-  final String objectId, name, fcmToken, companyVatNumber;
+  final String objectId, userName, fcmToken, companyVatNumber;
+  final bool isCompanyAdmin;
 
-  User({this.objectId, this.name, this.fcmToken, this.companyVatNumber});
+  User(
+      {this.objectId,
+      this.userName,
+      this.fcmToken,
+      this.companyVatNumber,
+      this.isCompanyAdmin});
 
   factory User.fromJSON(Map<String, dynamic> json) {
     print('JSON: ' + json.toString());
     return User(
         objectId: json['objectId'],
-        name: json['name'],
+        userName: json['userName'],
         companyVatNumber: json['companyVatNumber'],
-        fcmToken: json['fcmToken']);
+        fcmToken: json['fcmToken'],
+        isCompanyAdmin: json['companyAdmins'] != null
+            ? json['companyAdmins'].contains(json['objectId'])
+            : false);
   }
 }

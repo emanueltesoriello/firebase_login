@@ -1,4 +1,3 @@
-import 'package:firebase_login/pages/no_company.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/buttons/logout.dart';
 import 'package:firebase_login/widgets/decorations/generic_rounded_button_decoration.dart';
@@ -16,11 +15,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   UserStore _userStore;
+  QueryStore _queryStore;
 
   @override
   void initState() {
     super.initState();
     _userStore = context.read();
+    _queryStore = context.read();
     _showWelcomeMessage();
   }
 
@@ -36,11 +37,19 @@ class _HomePageState extends State<HomePage> {
     return SizedBox.shrink();
   }
 
+  Widget _floatingActionButton() {
+    return _queryStore.getTheUser.isCompanyAdmin
+        ? FloatingActionButton(onPressed: () {}, child: Icon(Icons.add))
+        : Container();
+  }
+
   @override
   Widget build(BuildContext context) => Observer(
         builder: (_) {
           return Observer(builder: (_) {
+            print(_queryStore.getTheUser.isCompanyAdmin);
             return Scaffold(
+              floatingActionButton: _floatingActionButton(),
               body: Container(
                 width: MediaQuery.of(context).size.width,
                 child: Column(
@@ -53,12 +62,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(height: 10),
                     ObserverText(
-                      onData: (_) =>
-                          'USER: ${_userStore.getAuth?.currentUser?.email}',
-                    ),
-                    //_username(),
+                        onData: (_) =>
+                            'USER: ${_userStore.getAuth?.currentUser?.email}'),
                     SizedBox(height: 30),
-                    //_test(),
                     SizedBox(height: 100),
                     Container(
                       height: MediaQuery.of(context).size.height / 16,
