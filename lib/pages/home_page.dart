@@ -1,3 +1,4 @@
+import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/buttons/logout.dart';
 import 'package:firebase_login/widgets/decorations/generic_rounded_button_decoration.dart';
@@ -56,22 +57,40 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'WELCOME TO MARKETING VALHALLA!',
+                      'WELCOME TO YOUR HOMEPAGE!',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 40),
                     ),
                     SizedBox(height: 10),
-                    ObserverText(
-                        onData: (_) =>
-                            'USER: ${_userStore.getAuth?.currentUser?.email}'),
-                    SizedBox(height: 30),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        ObserverText(
+                            onData: (_) =>
+                                'Email: ${_userStore.getAuth?.currentUser?.email}'),
+                        ObserverText(
+                            onData: (_) =>
+                                'Username: ${_queryStore.getTheUser.userName}'),
+                        ObserverText(
+                            onData: (_) =>
+                                'Company Vat Number: ${_queryStore.getTheUser.companyVatNumber}'),
+                        ObserverText(
+                            onData: (_) =>
+                                'UserId: ${_queryStore.getTheUser.objectId}'),
+                        _queryStore.getTheUser.isCompanyAdmin
+                            ? ObserverText(
+                                onData: (_) =>
+                                    'MagicCode: ${_queryStore.getTheUser.magicCode}')
+                            : Container(),
+                      ],
+                    ),
                     SizedBox(height: 100),
                     Container(
                       height: MediaQuery.of(context).size.height / 16,
                       width: MediaQuery.of(context).size.width / 1.2,
                       child: GenericRoundedButtonDecoration(
-                        buttonColor: Colors.blue,
-                        splashColor: Colors.blue[100],
+                        buttonColor: CustomColors.primaryColor,
+                        splashColor: CustomColors.backGroundColor,
                         disabledColor: Colors.grey,
                         child: LogoutButton(),
                       ),

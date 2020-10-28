@@ -38,7 +38,9 @@ class _MyAppState extends State<MyApp> {
       ],
       child: FetchAppPage(
         navigatorPage: NavigatorPage(
-            homePage: HomePage(), noCompany: NoCompany(enableMagicCode: true)),
+            homePage: HomePage(),
+            noCompany: NoCompany(
+                title: 'Welcome to Marketing Valhalla', enableMagicCode: true)),
         authPage: AuthPage(
             appName: 'MarketingValhalla',
             loginDescription:

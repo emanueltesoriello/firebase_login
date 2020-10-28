@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_login/models/user.dart' as mv;
 import 'package:firebase_login/stores/error_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:uuid/uuid.dart';
 
 part 'query_store.g.dart';
 
@@ -41,8 +42,10 @@ abstract class _QueryStore with Store {
               .forEach((companyData) async {
             if (companyData.exists) {
               List<dynamic> companyAdmins = companyData.data()['companyAdmins'];
+              String magicCode = companyData.data()['magicCode'];
               var userData = element.data();
-              userData.addAll({'companyAdmins': companyAdmins});
+              userData.addAll(
+                  {'companyAdmins': companyAdmins, 'magicCode': magicCode});
               _user =
                   ObservableFuture(Future.value(mv.User.fromJSON(userData)));
               loading = false;
@@ -85,19 +88,27 @@ abstract class _QueryStore with Store {
         loading = false;
       } else {
         print("Company doen't exists!");
+        var mgCode = Uuid().v1();
         // add document into companies
         await FirebaseFirestore.instance
             .collection("companies")
             .doc(chamberOfCommerceNo)
             .set({
           'companyName': companyName,
-          'companyAdmins': [userId]
+          'companyAdmins': [userId],
+          'magicCode': mgCode
         });
         // add document into users
         await FirebaseFirestore.instance.collection("users").doc(userId).set({
           'companyVatNumber': chamberOfCommerceNo,
           'objectId': userId,
           'userName': userName,
+        });
+        await FirebaseFirestore.instance
+            .collection("magic-codes")
+            .doc(mgCode)
+            .set({
+          'companyVatNumber': chamberOfCommerceNo,
         });
         loading = false;
       }
@@ -109,9 +120,34 @@ abstract class _QueryStore with Store {
   }
 
   @action
-  Future insertMagicCode(String magicCode) async {
+  Future checkMagicCode(String magicCode) async {
     loading = true;
-    print(magicCode);
+    try {
+      DocumentSnapshot ds = await FirebaseFirestore.instance
+          .collection("magic-codes")
+          .doc(magicCode)
+          .get();
+      if (ds.exists) {
+        String userId = FirebaseAuth.instance.currentUser.uid;
+        String userName = FirebaseAuth.instance.currentUser.displayName;
+        print('Correct magic code');
+        // add document into users
+        await FirebaseFirestore.instance.collection("users").doc(userId).set({
+          'companyVatNumber': ds.data()['companyVatNumber'],
+          'objectId': userId,
+          'userName': userName,
+        });
+        loading = false;
+      } else {
+        print('Wrong magic code');
+        errorStore.setErrorMessage(
+            'Attention, you have inserted a wrong magic code!');
+        loading = false;
+      }
+    } catch (e) {
+      print(e);
+      loading = false;
+    }
     loading = false;
   }
 

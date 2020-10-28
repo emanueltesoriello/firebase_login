@@ -1,4 +1,5 @@
 import 'package:firebase_login/constants/auth_messages.dart';
+import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/form_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/buttons/forgot_password_button.dart';
@@ -47,8 +48,8 @@ class _AuthPageState extends State<AuthPage> {
       height: targetHeight / 16,
       width: targetWidth / 1.2,
       child: GenericRoundedButtonDecoration(
-        buttonColor: Colors.blue,
-        splashColor: Colors.blue[100],
+        buttonColor: CustomColors.primaryColor,
+        splashColor: CustomColors.backGroundColor,
         disabledColor: Colors.grey,
         child: LoginButton(),
       ),
@@ -60,8 +61,8 @@ class _AuthPageState extends State<AuthPage> {
       height: targetHeight / 16,
       width: targetWidth / 1.2,
       child: GenericRoundedButtonDecoration(
-        buttonColor: Colors.blue,
-        splashColor: Colors.blue[100],
+        buttonColor: CustomColors.primaryColor,
+        splashColor: CustomColors.backGroundColor,
         disabledColor: Colors.grey,
         child: RegisterButton(),
       ),
@@ -148,7 +149,7 @@ class _AuthPageState extends State<AuthPage> {
                       ? "Don't have an account? "
                       : "Already have an account? "),
                   Text(isLogin ? "Sign up" : "Sign in",
-                      style: TextStyle(color: Colors.blue))
+                      style: TextStyle(color: CustomColors.primaryColor))
                 ])),
           ],
         ),

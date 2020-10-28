@@ -28,12 +28,12 @@ class _SendMagicCodeButtonState extends State<SendMagicCodeButton> {
             print('Send magic code button pressed');
             if (_formStore.canInsertMagicCode) {
               DeviceUtils.hideKeyboard(context);
-              await _queryStore.insertMagicCode(_formStore.magicCode);
+              Navigator.of(context).pop();
+              await _queryStore.checkMagicCode(_formStore.magicCode);
               if (_queryStore.errorStore.errorMessage.isNotEmpty) {
                 print(_queryStore.errorStore.errorMessage);
               }
               _formStore.reset();
-              // Navigator.of(context).pop();
             } else {
               print('Please fill in correctly the email');
             }

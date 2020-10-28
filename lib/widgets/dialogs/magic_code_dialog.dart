@@ -1,3 +1,4 @@
+import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/widgets/buttons/send_magic_code_button.dart';
 import 'package:firebase_login/widgets/decorations/generic_rounded_button_decoration.dart';
 import 'package:firebase_login/widgets/textfields/magic_code_textformfield.dart';
@@ -10,28 +11,39 @@ class MagicCodeDialog extends StatelessWidget {
   Widget _appBar() {
     return Container(
       width: targetWidth,
-      child: Center(
-        child: Text(
-          'Insert your Magic Code',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: targetHeight / 40,
+      margin: EdgeInsets.only(top: targetHeight / 40, left: 10, right: 10),
+      child: Column(
+        children: [
+          Text(
+            'Insert your Magic Code',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: targetHeight / 41, fontWeight: FontWeight.bold),
           ),
-        ),
+          SizedBox(height: 5),
+          Text(
+            'Thanks to this magic code you will be able to access into your Company!',
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
 
   Widget _body(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: targetWidth / 25, right: targetWidth / 25),
+      margin: EdgeInsets.only(
+          left: targetWidth / 25,
+          right: targetWidth / 25,
+          bottom: targetHeight / 30),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           MagicCodeTextFormField(),
+          SizedBox(height: targetHeight / 20),
           GenericRoundedButtonDecoration(
-            buttonColor: Colors.blue,
-            splashColor: Colors.blue[100],
+            buttonColor: CustomColors.primaryColor,
+            splashColor: CustomColors.backGroundColor,
             disabledColor: Colors.grey,
             child: SendMagicCodeButton(),
           ),
@@ -49,14 +61,11 @@ class MagicCodeDialog extends StatelessWidget {
       content: Form(
         child: Container(
           height: targetHeight / 2.6,
-          child: Flex(
-            direction: Axis.vertical,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Expanded(flex: 18, child: _appBar()),
-              Expanded(
-                flex: 40,
-                child: _body(context),
-              ),
+              _appBar(),
+              _body(context),
             ],
           ),
         ),

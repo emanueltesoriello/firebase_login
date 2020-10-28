@@ -1,3 +1,4 @@
+import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/query_store.dart';
 import 'package:firebase_login/widgets/buttons/do_you_have_magic_code_button.dart';
 import 'package:firebase_login/widgets/buttons/save_new_company_button.dart';
@@ -8,6 +9,7 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class NoCompany extends StatefulWidget {
   final String title;
@@ -77,8 +79,8 @@ class _NoCompanyState extends State<NoCompany> {
     return Container(
       width: targetWidth / 1.12,
       child: ChamberOfCommerceTextFormField(
-        decoration: textfieldInputDecoration('Chamber of Commerce no.'),
-      ),
+          //decoration: textfieldInputDecoration('Chamber of Commerce no.'),
+          ),
     );
   }
 
@@ -86,19 +88,8 @@ class _NoCompanyState extends State<NoCompany> {
     return Container(
       width: targetWidth / 1.12,
       child: CompanyNameTextFormField(
-        decoration: textfieldInputDecoration('Company name'),
-      ),
-    );
-  }
-
-  Widget _buildDescription() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(widget.title, style: TextStyle(fontSize: 40)),
-        SizedBox(height: targetHeight / 50),
-        Text(widget.description, style: TextStyle(height: 1.5)),
-      ],
+          // decoration: textfieldInputDecoration('Company name'),
+          ),
     );
   }
 
@@ -120,11 +111,41 @@ class _NoCompanyState extends State<NoCompany> {
       FlushbarHelper.createInformation(
         message: _queryStore.errorStore.errorMessage,
         title: 'Attention!',
-        duration: Duration(seconds: 60),
+        duration: Duration(seconds: 10),
       )..show(context);
     });
 
     return SizedBox.shrink();
+  }
+
+  Widget _titleAndSubtitle() {
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Text(widget.title,
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: targetHeight / 40)),
+      SizedBox(height: 5),
+      Text(widget.description, style: TextStyle(height: 1.5)),
+    ]);
+  }
+
+  Widget _magicCodeSection() {
+    return Column(
+      children: [
+        Text('Or are joining a company?'),
+        Container(height: targetHeight / 50, width: targetWidth),
+        Container(
+          height: targetHeight / 16,
+          width: targetWidth / 1.2,
+          child: GenericRoundedButtonDecoration(
+            buttonColor: CustomColors.primaryColor,
+            splashColor: CustomColors.backGroundColor,
+            disabledColor: Colors.grey,
+            child: DoYouHaveMagicCodeButton(),
+          ),
+        ),
+        Container(height: targetHeight / 20),
+      ],
+    );
   }
 
   @override
@@ -141,35 +162,43 @@ class _NoCompanyState extends State<NoCompany> {
         }
         return Scaffold(
           backgroundColor: Colors.white,
-          appBar: AppBar(backgroundColor: Colors.white, elevation: 0.0),
-          body: Container(
-            padding: EdgeInsets.only(
-                left: targetHeight / 30,
-                right: targetHeight / 30,
-                top: targetHeight / 30),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Column(children: <Widget>[
-                  Container(width: targetWidth, child: _buildDescription()),
-                  SizedBox(height: targetHeight / 20),
-                  _buildCompanyVatTextField(),
-                  Container(height: targetHeight / 50, width: targetWidth),
-                  _buildCompanyNameTextField(),
-                  widget.enableMagicCode
-                      ? DoYouHaveMagicCodeButton()
-                      : Container()
-                ]),
-                MediaQuery.of(context).viewInsets.bottom == 0
-                    ? Container(
-                        width: targetWidth / 2.2,
-                        height: targetHeight / 20,
-                        margin: EdgeInsets.only(bottom: targetHeight / 30),
-                        child: _saveButton())
-                    : Container(),
-              ],
+          //appBar: AppBar(backgroundColor: Colors.white, elevation: 0.0),
+          body: SingleChildScrollView(
+            child: Container(
+              height: targetHeight,
+              padding: EdgeInsets.only(
+                  left: targetHeight / 30,
+                  right: targetHeight / 30,
+                  top: targetHeight / 30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Column(children: <Widget>[
+                    SizedBox(height: targetHeight / 20),
+                    FadeInImage.memoryNetwork(
+                      height: targetHeight / 5,
+                      placeholder: kTransparentImage,
+                      image:
+                          'https://marketinggenius.nl/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png',
+                    ),
+                    SizedBox(height: 20),
+                    _titleAndSubtitle(),
+                    SizedBox(height: targetHeight / 50),
+                    _buildCompanyVatTextField(),
+                    Container(height: targetHeight / 50),
+                    _buildCompanyNameTextField(),
+                    Container(height: targetHeight / 30),
+                    _saveButton()
+                  ]),
+                  MediaQuery.of(context).viewInsets.bottom == 0
+                      ? widget.enableMagicCode
+                          ? _magicCodeSection()
+                          : Container()
+                      : Container(),
+                ],
+              ),
             ),
           ),
         );

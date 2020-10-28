@@ -59,9 +59,9 @@ mixin _$QueryStore on _QueryStore, Store {
       AsyncAction('_QueryStore.insertMagicCode');
 
   @override
-  Future<dynamic> insertMagicCode(String magicCode) {
+  Future<dynamic> checkMagicCode(String magicCode) {
     return _$insertMagicCodeAsyncAction
-        .run(() => super.insertMagicCode(magicCode));
+        .run(() => super.checkMagicCode(magicCode));
   }
 
   @override

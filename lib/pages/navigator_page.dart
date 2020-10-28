@@ -21,19 +21,6 @@ class _NavigatorPageState extends State<NavigatorPage> {
     super.initState();
     _queryStore = context.read();
     _queryStore.fetchTheUser();
-    _showWelcomeMessage();
-  }
-
-  _showWelcomeMessage() {
-    Future.delayed(Duration(milliseconds: 0), () {
-      FlushbarHelper.createInformation(
-        message: 'Enjoy our app!',
-        title: 'Welcome!',
-        duration: Duration(seconds: 3),
-      )..show(context);
-    });
-
-    return SizedBox.shrink();
   }
 
   @override
