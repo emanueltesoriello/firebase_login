@@ -37,7 +37,7 @@ abstract class _QueryStore with Store {
         if (element.exists) {
           await FirebaseFirestore.instance
               .collection("companies")
-              .doc(element.data()['companyVatNumber'])
+              .doc(element.data()['companyVatNumber'].toString().toLowerCase())
               .snapshots()
               .forEach((companyData) async {
             if (companyData.exists) {
@@ -92,7 +92,7 @@ abstract class _QueryStore with Store {
         // add document into companies
         await FirebaseFirestore.instance
             .collection("companies")
-            .doc(chamberOfCommerceNo)
+            .doc(chamberOfCommerceNo.toLowerCase())
             .set({
           'companyName': companyName,
           'companyAdmins': [userId],

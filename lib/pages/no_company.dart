@@ -98,8 +98,8 @@ class _NoCompanyState extends State<NoCompany> {
       height: targetHeight / 16,
       width: targetWidth / 1.2,
       child: GenericRoundedButtonDecoration(
-        buttonColor: Colors.blue,
-        splashColor: Colors.blue[100],
+        buttonColor: CustomColors.primaryColor,
+        splashColor: CustomColors.backGroundColor,
         disabledColor: Colors.grey,
         child: SaveButton(),
       ),
@@ -111,7 +111,7 @@ class _NoCompanyState extends State<NoCompany> {
       FlushbarHelper.createInformation(
         message: _queryStore.errorStore.errorMessage,
         title: 'Attention!',
-        duration: Duration(seconds: 10),
+        duration: Duration(seconds: 5),
       )..show(context);
     });
 

@@ -218,6 +218,9 @@ abstract class _FormStore with Store {
     userName = '';
     password = '';
     confirmPassword = '';
+    chamberOfCommerce = '';
+    companyName = '';
+    magicCode = '';
     success = false;
     loading = false;
   }

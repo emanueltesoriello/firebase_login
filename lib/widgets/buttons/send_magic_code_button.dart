@@ -21,7 +21,7 @@ class _SendMagicCodeButtonState extends State<SendMagicCodeButton> {
         QueryStore _queryStore = context.read();
         FormStore _formStore = context.read();
         return TransparentButtonWidget(
-          buttonText: 'Send Magic Code',
+          buttonText: 'Use Magic Code',
           textColor: Colors.white,
           buttonColor: _formStore.canInsertMagicCode ? null : Colors.grey,
           onPressed: () async {

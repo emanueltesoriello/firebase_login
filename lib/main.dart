@@ -6,13 +6,14 @@ import 'package:firebase_login/pages/navigator_page.dart';
 import 'package:firebase_login/pages/no_company.dart';
 import 'package:firebase_login/pages/splash_screen.dart';
 import 'package:firebase_login/stores/query_store.dart';
+import 'package:firebase_login/widgets/restart_widget.dart';
 import 'package:flutter/material.dart';
 import './stores/form_store.dart';
 import './stores/user_store.dart';
 import 'package:provider/provider.dart';
 
 // Example
-void main() => runApp(MyApp());
+void main() => runApp(RestartWidget(child: MyApp()));
 
 class MyApp extends StatefulWidget {
   @override

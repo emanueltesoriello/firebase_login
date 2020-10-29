@@ -1,4 +1,5 @@
 import 'package:firebase_login/stores/form_store.dart';
+import 'package:firebase_login/widgets/restart_widget.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import '../../stores/user_store.dart';
@@ -40,6 +41,7 @@ class _LogoutButtonState extends State<LogoutButton> {
           print(_userStore.errorStore.errorMessage);
           _showErrorMessage(_userStore.errorStore.errorMessage);
         } else {
+          RestartWidget.restartApp(context);
           _formStore.reset();
         }
       },

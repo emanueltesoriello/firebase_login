@@ -20,7 +20,7 @@ class _SaveButtonState extends State<SaveButton> {
         QueryStore _queryStore = context.read();
         FormStore _formStore = context.read();
         return TransparentButtonWidget(
-          buttonText: 'Save',
+          buttonText: 'Create new company',
           textColor: Colors.white,
           buttonColor: _formStore.canAddCompany ? null : Colors.grey,
           onPressed: () async {
@@ -36,6 +36,7 @@ class _SaveButtonState extends State<SaveButton> {
             } else {
               print('Please fill in correctly all the fields');
             }
+            _formStore.reset();
           },
         );
       },
