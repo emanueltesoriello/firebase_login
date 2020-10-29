@@ -41,11 +41,15 @@ class MagicCodeDialog extends StatelessWidget {
         children: <Widget>[
           MagicCodeTextFormField(),
           SizedBox(height: targetHeight / 20),
-          GenericRoundedButtonDecoration(
-            buttonColor: CustomColors.primaryColor,
-            splashColor: CustomColors.backGroundColor,
-            disabledColor: Colors.grey,
-            child: SendMagicCodeButton(),
+          Container(
+            height: targetHeight / 16,
+            width: targetWidth / 1.2,
+            child: GenericRoundedButtonDecoration(
+              buttonColor: CustomColors.primaryColor,
+              splashColor: CustomColors.backGroundColor,
+              disabledColor: Colors.grey,
+              child: SendMagicCodeButton(),
+            ),
           ),
         ],
       ),
@@ -59,16 +63,30 @@ class MagicCodeDialog extends StatelessWidget {
     return AlertDialog(
       contentPadding: EdgeInsets.all(0),
       content: Form(
-        child: Container(
-          height: targetHeight / 2.6,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              _appBar(),
-              _body(context),
-            ],
-          ),
-        ),
+        child: targetWidth > 830.0
+            ? Container(
+                width: targetWidth > 1920.0
+                    ? targetWidth / 5.2
+                    : targetWidth / 3.2,
+                height: targetHeight / 2.6,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    _appBar(),
+                    _body(context),
+                  ],
+                ),
+              )
+            : Container(
+                height: targetHeight / 2.6,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    _appBar(),
+                    _body(context),
+                  ],
+                ),
+              ),
       ),
     );
   }

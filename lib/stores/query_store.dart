@@ -15,7 +15,7 @@ abstract class _QueryStore with Store {
   final ErrorStore errorStore = ErrorStore();
 
   @observable
-  ObservableFuture<mv.User> _user;
+  ObservableFuture<mv.User> user;
 
   @observable
   bool loading = false;
@@ -46,16 +46,15 @@ abstract class _QueryStore with Store {
               var userData = element.data();
               userData.addAll(
                   {'companyAdmins': companyAdmins, 'magicCode': magicCode});
-              _user =
-                  ObservableFuture(Future.value(mv.User.fromJSON(userData)));
+              user = ObservableFuture(Future.value(mv.User.fromJSON(userData)));
               loading = false;
             } else {
-              _user = ObservableFuture(Future.value(null));
+              user = ObservableFuture(Future.value(null));
               loading = false;
             }
           });
         } else {
-          _user = ObservableFuture(Future.value(null));
+          user = ObservableFuture(Future.value(null));
           loading = false;
         }
       }).catchError((e) {
@@ -154,9 +153,5 @@ abstract class _QueryStore with Store {
   // ***********************************************
   // ***************** GET DATA ******************
 
-  /*String get getTheTest =>
-      _testFuture != null ? (_testFuture.result ?? '') : '';*/
-
-  mv.User get getTheUser =>
-      _user != null ? _user.result ?? mv.User() : mv.User();
+  mv.User get getTheUser => this.user?.result ?? mv.User();
 }

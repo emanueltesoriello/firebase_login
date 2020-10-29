@@ -19,7 +19,7 @@ class NoCompany extends StatefulWidget {
   NoCompany({
     this.title = 'Welcome!',
     this.description =
-        "To understand your business and help you set up the ultimate marketing plan we need to have some more info.",
+        "Please create a new company or join an existing one using the Magic Code!",
     this.enableMagicCode = false,
   });
   @override
@@ -129,22 +129,75 @@ class _NoCompanyState extends State<NoCompany> {
   }
 
   Widget _magicCodeSection() {
-    return Column(
-      children: [
-        Text('Or are joining a company?'),
-        Container(height: targetHeight / 50, width: targetWidth),
-        Container(
-          height: targetHeight / 16,
-          width: targetWidth / 1.2,
-          child: GenericRoundedButtonDecoration(
-            buttonColor: CustomColors.primaryColor,
-            splashColor: CustomColors.backGroundColor,
-            disabledColor: Colors.grey,
-            child: DoYouHaveMagicCodeButton(),
+    return Container(
+      child: Column(
+        children: [
+          Text('Or are joining a company?'),
+          Container(height: targetHeight / 50, width: targetWidth),
+          Container(
+            height: targetHeight / 16,
+            width: targetWidth / 1.2,
+            child: GenericRoundedButtonDecoration(
+              buttonColor: CustomColors.primaryColor,
+              splashColor: CustomColors.backGroundColor,
+              disabledColor: Colors.grey,
+              child: DoYouHaveMagicCodeButton(),
+            ),
           ),
-        ),
-        Container(height: targetHeight / 20),
-      ],
+          targetWidth > 890.0
+              ? Container()
+              : Container(height: targetHeight / 20),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBody() {
+    return Container(
+      height: targetHeight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+            child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  SizedBox(height: targetHeight / 20),
+                  FadeInImage.memoryNetwork(
+                    height: targetHeight / 5,
+                    placeholder: kTransparentImage,
+                    image:
+                        'https://marketinggenius.nl/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png',
+                  ),
+                  targetWidth > 890.0
+                      ? SizedBox(height: 5)
+                      : Container(height: targetHeight / 30),
+                  _titleAndSubtitle(),
+                  targetWidth > 890.0
+                      ? SizedBox(height: 5)
+                      : Container(height: targetHeight / 30),
+                  _buildCompanyVatTextField(),
+                  targetWidth > 890.0
+                      ? SizedBox(height: 5)
+                      : Container(height: targetHeight / 30),
+                  _buildCompanyNameTextField(),
+                  targetWidth > 890.0
+                      ? SizedBox(height: 5)
+                      : Container(height: targetHeight / 30),
+                  _saveButton()
+                ]),
+          ),
+          MediaQuery.of(context).viewInsets.bottom == 0
+              ? widget.enableMagicCode
+                  ? _magicCodeSection()
+                  : Container()
+              : Container(),
+        ],
+      ),
     );
   }
 
@@ -160,47 +213,39 @@ class _NoCompanyState extends State<NoCompany> {
           print(_queryStore.errorStore.errorMessage);
           showMessage();
         }
+        print(targetWidth);
         return Scaffold(
           backgroundColor: Colors.white,
-          //appBar: AppBar(backgroundColor: Colors.white, elevation: 0.0),
           body: SingleChildScrollView(
-            child: Container(
-              height: targetHeight,
-              padding: EdgeInsets.only(
-                  left: targetHeight / 30,
-                  right: targetHeight / 30,
-                  top: targetHeight / 30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Column(children: <Widget>[
-                    SizedBox(height: targetHeight / 20),
-                    FadeInImage.memoryNetwork(
-                      height: targetHeight / 5,
-                      placeholder: kTransparentImage,
-                      image:
-                          'https://marketinggenius.nl/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png',
-                    ),
-                    SizedBox(height: 20),
-                    _titleAndSubtitle(),
-                    SizedBox(height: targetHeight / 50),
-                    _buildCompanyVatTextField(),
-                    Container(height: targetHeight / 50),
-                    _buildCompanyNameTextField(),
-                    Container(height: targetHeight / 30),
-                    _saveButton()
-                  ]),
-                  MediaQuery.of(context).viewInsets.bottom == 0
-                      ? widget.enableMagicCode
-                          ? _magicCodeSection()
-                          : Container()
-                      : Container(),
-                ],
-              ),
-            ),
-          ),
+              child: targetWidth > 890.0
+                  ? Container(
+                      width: targetWidth,
+                      height: targetHeight,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage(
+                                  'web/images/desktop_background.jpg'))),
+                      child: Center(
+                        child: Container(
+                            color: Colors.white,
+                            width: targetWidth > 1920.0
+                                ? targetWidth / 5
+                                : targetWidth / 3,
+                            height: targetHeight / 1.3,
+                            padding: const EdgeInsets.all(25),
+                            alignment: Alignment.center,
+                            child: _buildBody()),
+                      ),
+                    )
+                  : Container(
+                      padding: EdgeInsets.only(
+                        left: targetHeight / 30,
+                        right: targetHeight / 30,
+                        top: targetHeight / 30,
+                        // bottom: targetHeight / 20
+                      ),
+                      child: _buildBody())),
         );
       },
     );

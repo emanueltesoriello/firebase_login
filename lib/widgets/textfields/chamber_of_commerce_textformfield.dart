@@ -26,7 +26,7 @@ class _ChamberOfCommerceTextFormFieldState
           decoration: widget.decoration,
           hint: widget.decoration.labelText != null
               ? null
-              : 'Chamber of Commerce no.',
+              : 'Company username',
           inputType: TextInputType.text,
           icon: Icons.person,
           iconColor: Colors.white70,

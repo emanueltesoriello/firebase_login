@@ -30,11 +30,15 @@ class ResetPasswordDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           EmailTextFormField(),
-          GenericRoundedButtonDecoration(
-            buttonColor: Colors.blue,
-            splashColor: Colors.blue[100],
-            disabledColor: Colors.grey,
-            child: SendResetPasswordButton(),
+          Container(
+            height: targetHeight / 16,
+            width: targetWidth / 1.2,
+            child: GenericRoundedButtonDecoration(
+              buttonColor: Colors.blue,
+              splashColor: Colors.blue[100],
+              disabledColor: Colors.grey,
+              child: SendResetPasswordButton(),
+            ),
           ),
         ],
       ),
@@ -48,19 +52,36 @@ class ResetPasswordDialog extends StatelessWidget {
     return AlertDialog(
       contentPadding: EdgeInsets.all(0),
       content: Form(
-        child: Container(
-          height: targetHeight / 2.6,
-          child: Flex(
-            direction: Axis.vertical,
-            children: <Widget>[
-              Expanded(flex: 18, child: _appBar()),
-              Expanded(
-                flex: 40,
-                child: _body(context),
+        child: targetWidth > 830.0
+            ? Container(
+                width: targetWidth > 1920.0
+                    ? targetWidth / 5.2
+                    : targetWidth / 3.2,
+                height: targetHeight / 2.6,
+                child: Flex(
+                  direction: Axis.vertical,
+                  children: <Widget>[
+                    Expanded(flex: 18, child: _appBar()),
+                    Expanded(
+                      flex: 40,
+                      child: _body(context),
+                    ),
+                  ],
+                ),
+              )
+            : Container(
+                height: targetHeight / 2.6,
+                child: Flex(
+                  direction: Axis.vertical,
+                  children: <Widget>[
+                    Expanded(flex: 18, child: _appBar()),
+                    Expanded(
+                      flex: 40,
+                      child: _body(context),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
       ),
     );
   }

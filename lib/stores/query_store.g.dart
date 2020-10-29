@@ -14,13 +14,13 @@ mixin _$QueryStore on _QueryStore, Store {
   @override
   ObservableFuture<mv.User> get _user {
     _$_userAtom.reportRead();
-    return super._user;
+    return super.user;
   }
 
   @override
   set _user(ObservableFuture<mv.User> value) {
-    _$_userAtom.reportWrite(value, super._user, () {
-      super._user = value;
+    _$_userAtom.reportWrite(value, super.user, () {
+      super.user = value;
     });
   }
 
@@ -55,12 +55,11 @@ mixin _$QueryStore on _QueryStore, Store {
         .run(() => super.addNewCompany(chamberOfCommerceNo, companyName));
   }
 
-  final _$insertMagicCodeAsyncAction =
-      AsyncAction('_QueryStore.insertMagicCode');
+  final _$checkMagicCodeAsyncAction = AsyncAction('_QueryStore.checkMagicCode');
 
   @override
   Future<dynamic> checkMagicCode(String magicCode) {
-    return _$insertMagicCodeAsyncAction
+    return _$checkMagicCodeAsyncAction
         .run(() => super.checkMagicCode(magicCode));
   }
 
