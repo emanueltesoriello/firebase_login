@@ -31,7 +31,7 @@ class _LogoutButtonState extends State<LogoutButton> {
     return TransparentButtonWidget(
       buttonText: 'Logout',
       textColor: Colors.white,
-      buttonColor: Colors.orange,
+      //buttonColor: Colors.orange,
       onPressed: () async {
         UserStore _userStore = context.read();
         FormStore _formStore = context.read();

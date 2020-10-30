@@ -2,6 +2,7 @@ import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/buttons/logout.dart';
 import 'package:firebase_login/widgets/decorations/generic_rounded_button_decoration.dart';
+import 'package:firebase_login/widgets/drawer.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -76,22 +77,14 @@ class _HomePageState extends State<HomePage> {
               ObserverText(
                   onData: (_) => 'UserId: ${_queryStore.getTheUser.objectId}'),
               _queryStore.getTheUser.isCompanyAdmin
-                  ? ObserverText(
-                      onData: (_) =>
+                  ? _queryStore.getTheUser.magicCode != null
+                      ? SelectableText(
                           'MagicCode: ${_queryStore.getTheUser.magicCode}')
+                      : ObserverText(
+                          onData: (_) =>
+                              'MagicCode: ${_queryStore.getTheUser.magicCode}')
                   : Container(),
             ],
-          ),
-          SizedBox(height: 100),
-          Container(
-            height: MediaQuery.of(context).size.height / 16,
-            width: MediaQuery.of(context).size.width / 1.2,
-            child: GenericRoundedButtonDecoration(
-              buttonColor: CustomColors.primaryColor,
-              splashColor: CustomColors.backGroundColor,
-              disabledColor: Colors.grey,
-              child: LogoutButton(),
-            ),
           ),
         ],
       ),
@@ -104,19 +97,26 @@ class _HomePageState extends State<HomePage> {
         targetHeight = MediaQuery.of(context).size.height;
         targetWidth = MediaQuery.of(context).size.width;
         return Scaffold(
+            appBar: targetWidth > 890.0
+                ? AppBar(backgroundColor: CustomColors.backGroundColor)
+                : AppBar(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    iconTheme: IconThemeData(color: Colors.black)),
+            drawer: CustomDrawer(),
             floatingActionButton: _floatingActionButton(),
             body: targetWidth > 890.0
                 ? Container(
                     width: targetWidth,
                     height: targetHeight,
-                    decoration: BoxDecoration(
+                    /*decoration: BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.cover,
                             image: AssetImage(
-                                'web/images/desktop_background.jpg'))),
+                                'web/images/desktop_background.jpg'))),*/
                     child: Center(
                         child: Container(
-                            color: Colors.white,
+                            //color: Colors.white,
                             width: targetWidth > 1920.0
                                 ? targetWidth / 5
                                 : targetWidth / 3,
