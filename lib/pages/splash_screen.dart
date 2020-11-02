@@ -2,6 +2,13 @@ import 'package:firebase_login/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
+  final Color progressIndicatorBackgroundColor;
+  final Color progressIndicatorValueColor;
+
+  SplashScreen(
+      {this.progressIndicatorBackgroundColor = CustomColors.primaryColor,
+      this.progressIndicatorValueColor = const Color(0xFFE3F2FD)});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,10 +21,9 @@ class SplashScreen extends StatelessWidget {
             children: <Widget>[
               Center(
                 child: CircularProgressIndicator(
-                  backgroundColor: CustomColors.primaryColor,
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                    Colors.blue[50],
-                  ),
+                  backgroundColor: progressIndicatorBackgroundColor,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      progressIndicatorValueColor),
                 ),
               ),
             ],

@@ -15,13 +15,27 @@ class NoCompany extends StatefulWidget {
   final String title;
   final String description;
   final bool enableMagicCode;
+  final String imageURL;
+  final Color backgroundColor;
+  final Color buttonColor;
+  final Color buttonSplashColor;
+  final Color buttonDisabledColor;
+  final String backgroundImageAsset;
 
   NoCompany({
     this.title = 'Welcome!',
     this.description =
         "Please create a new company or join an existing one using the Magic Code!",
     this.enableMagicCode = false,
+    this.imageURL =
+        'https://marketinggenius.nl/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png',
+    this.backgroundColor = Colors.white,
+    this.buttonColor = CustomColors.primaryColor,
+    this.buttonSplashColor = CustomColors.backGroundColor,
+    this.buttonDisabledColor = Colors.grey,
+    this.backgroundImageAsset = 'web/images/desktop_background.jpg',
   });
+
   @override
   _NoCompanyState createState() => _NoCompanyState();
 }
@@ -35,44 +49,6 @@ class _NoCompanyState extends State<NoCompany> {
   void initState() {
     super.initState();
     _queryStore = context.read();
-  }
-
-  Icon switchIcon(String labelText) {
-    Icon icon;
-    switch (labelText) {
-      case 'Chamber of Commerce no.':
-        icon = Icon(
-          Icons.account_balance,
-          color: Theme.of(context).buttonColor,
-        );
-        break;
-      case 'Company name':
-        icon = Icon(Icons.title, color: Theme.of(context).buttonColor);
-        break;
-      default:
-    }
-    return icon;
-  }
-
-  InputDecoration textfieldInputDecoration(String labelText) {
-    return InputDecoration(
-      prefixIcon: switchIcon(labelText),
-      labelText: labelText,
-      filled: true,
-      floatingLabelBehavior: FloatingLabelBehavior.auto,
-      fillColor: Color.fromRGBO(254, 254, 252, 1),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(targetHeight / 40 / 2)),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-          borderRadius:
-              BorderRadius.all(Radius.circular(targetHeight / 40 / 2 - 10)),
-          borderSide: BorderSide(color: Colors.red)),
-      errorBorder: OutlineInputBorder(
-          borderRadius:
-              BorderRadius.all(Radius.circular(targetHeight / 40 / 2 - 10)),
-          borderSide: BorderSide(color: Colors.red)),
-    );
   }
 
   Widget _buildCompanyVatTextField() {
@@ -98,9 +74,9 @@ class _NoCompanyState extends State<NoCompany> {
       height: targetHeight / 16,
       width: targetWidth / 1.2,
       child: GenericRoundedButtonDecoration(
-        buttonColor: CustomColors.primaryColor,
-        splashColor: CustomColors.backGroundColor,
-        disabledColor: Colors.grey,
+        buttonColor: widget.buttonColor,
+        splashColor: widget.buttonSplashColor,
+        disabledColor: widget.buttonDisabledColor,
         child: SaveButton(),
       ),
     );
@@ -138,9 +114,9 @@ class _NoCompanyState extends State<NoCompany> {
             height: targetHeight / 16,
             width: targetWidth / 1.2,
             child: GenericRoundedButtonDecoration(
-              buttonColor: CustomColors.primaryColor,
-              splashColor: CustomColors.backGroundColor,
-              disabledColor: Colors.grey,
+              buttonColor: widget.buttonColor,
+              splashColor: widget.buttonSplashColor,
+              disabledColor: widget.buttonDisabledColor,
               child: DoYouHaveMagicCodeButton(),
             ),
           ),
@@ -170,8 +146,7 @@ class _NoCompanyState extends State<NoCompany> {
                   FadeInImage.memoryNetwork(
                     height: targetHeight / 5,
                     placeholder: kTransparentImage,
-                    image:
-                        'https://marketinggenius.nl/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png',
+                    image: widget.imageURL,
                   ),
                   targetWidth > 890.0
                       ? SizedBox(height: 5)
@@ -215,7 +190,7 @@ class _NoCompanyState extends State<NoCompany> {
         }
         print(targetWidth);
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: widget.backgroundColor,
           body: SingleChildScrollView(
               child: targetWidth > 890.0
                   ? Container(
@@ -224,8 +199,7 @@ class _NoCompanyState extends State<NoCompany> {
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: AssetImage(
-                                  'web/images/desktop_background.jpg'))),
+                              image: AssetImage(widget.backgroundImageAsset))),
                       child: Center(
                         child: Container(
                             color: Colors.white,

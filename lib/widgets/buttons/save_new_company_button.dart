@@ -2,12 +2,13 @@ import 'package:firebase_login/stores/query_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../stores/form_store.dart';
-import '../../stores/user_store.dart';
 import '../../utilities/device_utils.dart';
 import 'transparent_button_widget.dart';
 import 'package:provider/provider.dart';
 
 class SaveButton extends StatefulWidget {
+  final String text;
+  SaveButton({this.text = 'Create new company'});
   @override
   _SaveButtonState createState() => _SaveButtonState();
 }
@@ -20,7 +21,7 @@ class _SaveButtonState extends State<SaveButton> {
         QueryStore _queryStore = context.read();
         FormStore _formStore = context.read();
         return TransparentButtonWidget(
-          buttonText: 'Create new company',
+          buttonText: widget.text,
           textColor: Colors.white,
           buttonColor: _formStore.canAddCompany ? null : Colors.grey,
           onPressed: () async {

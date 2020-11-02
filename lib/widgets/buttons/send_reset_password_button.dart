@@ -8,6 +8,8 @@ import 'transparent_button_widget.dart';
 import 'package:provider/provider.dart';
 
 class SendResetPasswordButton extends StatefulWidget {
+  final String text;
+  SendResetPasswordButton({this.text = 'Send password'});
   @override
   _SendResetPasswordButtonState createState() =>
       _SendResetPasswordButtonState();
@@ -21,7 +23,7 @@ class _SendResetPasswordButtonState extends State<SendResetPasswordButton> {
         UserStore _userStore = context.read();
         FormStore _formStore = context.read();
         return TransparentButtonWidget(
-          buttonText: 'Send password',
+          buttonText: widget.text,
           textColor: Colors.white,
           buttonColor: _formStore.canForgetPassword ? null : Colors.grey,
           onPressed: () async {

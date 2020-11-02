@@ -7,6 +7,9 @@ import '../../widgets/buttons/transparent_button_widget.dart';
 import 'package:provider/provider.dart';
 
 class LogoutButton extends StatefulWidget {
+  final String text;
+  final Color textColor;
+  LogoutButton({this.text = 'Logout', this.textColor = Colors.white});
   @override
   _LogoutButtonState createState() => _LogoutButtonState();
 }
@@ -29,8 +32,8 @@ class _LogoutButtonState extends State<LogoutButton> {
   @override
   Widget build(BuildContext context) {
     return TransparentButtonWidget(
-      buttonText: 'Logout',
-      textColor: Colors.white,
+      buttonText: widget.text,
+      textColor: widget.textColor,
       //buttonColor: Colors.orange,
       onPressed: () async {
         UserStore _userStore = context.read();

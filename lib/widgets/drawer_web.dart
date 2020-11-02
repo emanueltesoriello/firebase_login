@@ -9,12 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class CustomDrawer extends StatefulWidget {
+class CustomDrawerWeb extends StatefulWidget {
   @override
-  _CustomDrawerState createState() => _CustomDrawerState();
+  _CustomDrawerWebState createState() => _CustomDrawerWebState();
 }
 
-class _CustomDrawerState extends State<CustomDrawer> {
+class _CustomDrawerWebState extends State<CustomDrawerWeb> {
   double targetWidth;
   double targetHeight;
   UserStore _userStore;
@@ -23,37 +23,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
   void initState() {
     super.initState();
     _userStore = context.read();
-  }
-
-  Widget _buildTop() {
-    return Container(
-      height: targetHeight / 5,
-      padding: EdgeInsets.only(top: targetHeight / 15),
-      color: CustomColors.backGroundColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Container(
-            height: targetHeight / 17,
-            width: targetHeight / 17,
-            child: Container(
-              child: CircleAvatarImage(
-                imageURL: _userStore.getAuth?.currentUser?.photoURL,
-                text:
-                    '${_userStore.getAuth?.currentUser?.displayName?.split(' ')[0].substring(0, 2).toUpperCase()}',
-              ),
-            ),
-          ),
-          TextDefaultBold(
-            text: 'Hi ${_userStore.getAuth?.currentUser?.displayName}',
-            color: Colors.white,
-          ),
-          SizedBox(
-            width: targetHeight / 12,
-          )
-        ],
-      ),
-    );
   }
 
   Widget _buildBody() {
@@ -72,20 +41,23 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 SizedBox(height: targetHeight / 100),
                 SizedBox(height: targetHeight / 100),
                 CustomListTile(
-                    title: 'Stats',
+                    title: 'Page 1',
                     iconPath: 'web/icons/stats_purple.png',
                     pagePath: '/home',
+                    color: Colors.white,
                     func: () {}),
-                Divider(color: Colors.black.withOpacity(0.5)),
                 CustomListTile(
-                    title: 'Team',
+                    title: 'Page 2',
                     iconPath: 'web/icons/stats_purple.png',
                     pagePath: '/team',
+                    color: Colors.white,
                     func: () {}),
+                Divider(color: Colors.white.withOpacity(0.5)),
                 CustomListTile(
                     title: 'Settings',
                     iconPath: 'web/icons/stats_purple.png',
                     pagePath: '/settings',
+                    color: Colors.white,
                     func: () {}),
               ],
             ),
@@ -93,10 +65,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
               margin: EdgeInsets.only(bottom: targetHeight / 40),
               height: MediaQuery.of(context).size.height / 20,
               child: GenericRoundedButtonDecoration(
-                buttonColor: CustomColors.backGroundColor,
+                buttonColor: Colors.white,
                 splashColor: CustomColors.primaryColor,
                 disabledColor: Colors.grey,
-                child: LogoutButton(),
+                child: LogoutButton(textColor: Colors.black),
               ),
             ),
           ],
@@ -113,15 +85,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
     targetHeight = deviceHeight;
     return Observer(
       builder: (_) {
-        return Drawer(
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                _buildTop(),
-                _buildBody(),
-              ],
-            ),
+        return Container(
+          color: CustomColors.backGroundColor,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              //_buildTop(),
+              _buildBody(),
+            ],
           ),
         );
       },

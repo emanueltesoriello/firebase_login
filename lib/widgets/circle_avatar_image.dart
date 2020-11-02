@@ -26,7 +26,7 @@ class CircleAvatarImage extends StatelessWidget {
             )
           : CircleAvatarText(
               text: text,
-              color: CustomColors.primaryColor,
+              color: color,
             ),
     );
   }

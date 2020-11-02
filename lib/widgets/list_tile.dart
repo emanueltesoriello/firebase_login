@@ -8,9 +8,15 @@ class CustomListTile extends StatelessWidget {
   @required
   final String iconPath;
   final String pagePath;
+  final Color color;
   final Function func;
 
-  CustomListTile({this.title, this.iconPath, this.pagePath, this.func});
+  CustomListTile(
+      {this.title,
+      this.iconPath,
+      this.pagePath,
+      this.func,
+      this.color = Colors.black});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +32,11 @@ class CustomListTile extends StatelessWidget {
         ),
         title: TextDefault(
           text: title,
-          color: Colors.black,
+          color: color,
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,
-          color: Colors.black,
+          color: color,
           size: MediaQuery.of(context).size.height * 0.020,
         ),
         onTap: func != null

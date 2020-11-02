@@ -3,6 +3,8 @@ import 'package:firebase_login/widgets/dialogs/magic_code_dialog.dart';
 import 'package:flutter/material.dart';
 
 class DoYouHaveMagicCodeButton extends StatefulWidget {
+  final String buttonText;
+  DoYouHaveMagicCodeButton({this.buttonText = 'Use magic code'});
   @override
   _DoYouHaveMagicCodeButtonState createState() =>
       _DoYouHaveMagicCodeButtonState();
@@ -12,7 +14,7 @@ class _DoYouHaveMagicCodeButtonState extends State<DoYouHaveMagicCodeButton> {
   @override
   Widget build(BuildContext context) {
     return TransparentButtonWidget(
-      buttonText: 'Use magic code',
+      buttonText: widget.buttonText,
       textColor: Colors.white,
       onPressed: () async {
         showDialog(context: context, child: MagicCodeDialog());

@@ -19,11 +19,26 @@ class AuthPage extends StatefulWidget {
   final String appName;
   final String loginDescription;
   final String signupDescription;
+  final String imageURL;
+  final Color backgroundColor;
+  final Color buttonColor;
+  final Color buttonSplashColor;
+  final Color buttonDisabledColor;
+  final Color switchToSignupColor;
+  final String backgroundImageAsset;
 
   AuthPage({
     this.appName = '[APP_NAME]',
     this.loginDescription = 'Small description for login',
     this.signupDescription = 'Small description for signup',
+    this.imageURL =
+        'https://marketinggenius.nl/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png',
+    this.backgroundColor = Colors.white,
+    this.buttonColor = CustomColors.primaryColor,
+    this.buttonSplashColor = CustomColors.backGroundColor,
+    this.buttonDisabledColor = Colors.grey,
+    this.switchToSignupColor = CustomColors.primaryColor,
+    this.backgroundImageAsset = 'web/images/desktop_background.jpg',
   });
   @override
   _AuthPageState createState() => _AuthPageState();
@@ -48,9 +63,9 @@ class _AuthPageState extends State<AuthPage> {
       height: targetHeight / 16,
       width: targetWidth / 1.2,
       child: GenericRoundedButtonDecoration(
-        buttonColor: CustomColors.primaryColor,
-        splashColor: CustomColors.backGroundColor,
-        disabledColor: Colors.grey,
+        buttonColor: widget.buttonColor,
+        splashColor: widget.buttonSplashColor,
+        disabledColor: widget.buttonDisabledColor,
         child: LoginButton(),
       ),
     );
@@ -61,9 +76,9 @@ class _AuthPageState extends State<AuthPage> {
       height: targetHeight / 16,
       width: targetWidth / 1.2,
       child: GenericRoundedButtonDecoration(
-        buttonColor: CustomColors.primaryColor,
-        splashColor: CustomColors.backGroundColor,
-        disabledColor: Colors.grey,
+        buttonColor: widget.buttonColor,
+        splashColor: widget.buttonSplashColor,
+        disabledColor: widget.buttonDisabledColor,
         child: RegisterButton(),
       ),
     );
@@ -116,11 +131,9 @@ class _AuthPageState extends State<AuthPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             FadeInImage.memoryNetwork(
-              height: targetHeight / 5,
-              placeholder: kTransparentImage,
-              image:
-                  'https://marketinggenius.nl/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png',
-            ),
+                height: targetHeight / 5,
+                placeholder: kTransparentImage,
+                image: widget.imageURL),
             SizedBox(height: 20),
             _titleAndSubtitle(),
             !isLogin ? UsernameTextFormField() : Container(),
@@ -149,7 +162,7 @@ class _AuthPageState extends State<AuthPage> {
                       ? "Don't have an account? "
                       : "Already have an account? "),
                   Text(isLogin ? "Sign up" : "Sign in",
-                      style: TextStyle(color: CustomColors.primaryColor))
+                      style: TextStyle(color: widget.switchToSignupColor))
                 ])),
           ],
         ),
@@ -175,8 +188,7 @@ class _AuthPageState extends State<AuthPage> {
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage(
-                                'web/images/desktop_background.jpg'))),
+                            image: AssetImage(widget.backgroundImageAsset))),
                     child: Center(
                       child: Container(
                           color: Colors.white,
