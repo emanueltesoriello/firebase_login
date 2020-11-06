@@ -1,5 +1,5 @@
 import 'package:firebase_login/constants/colors.dart';
-import 'package:firebase_login/widgets/decorations/text_default_bold.dart';
+import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:flutter/material.dart';
 
 class CircleAvatarText extends StatelessWidget {
@@ -16,7 +16,11 @@ class CircleAvatarText extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: Center(
-        child: TextDefaultBold(text: text, color: Colors.white),
+        child: TextDefault(
+          text: text,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

@@ -1,10 +1,12 @@
 import 'package:firebase_login/constants/colors.dart';
+import 'package:firebase_login/pages/home_page.dart';
+import 'package:firebase_login/pages/profile_page.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/circle_avatar_image.dart';
-import 'package:firebase_login/widgets/decorations/text_default_bold.dart';
+import 'package:firebase_login/widgets/list_tile.dart';
+import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:firebase_login/widgets/drawer.dart';
 import 'package:firebase_login/widgets/drawer_web.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:firebase_login/stores/query_store.dart';
@@ -13,7 +15,15 @@ import 'package:provider/provider.dart';
 class MainPage extends StatefulWidget {
   final Widget body;
   final FloatingActionButton floatingActionButton;
-  MainPage({this.body, this.floatingActionButton});
+  //final List<Widget> pages;
+  //final List<Widget> secondaryPages;
+
+  MainPage({
+    this.body,
+    this.floatingActionButton,
+    //this.pages = const [],
+    //this.secondaryPages = const [],
+  });
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -62,9 +72,10 @@ class _MainPageState extends State<MainPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          TextDefaultBold(
+          TextDefault(
             text: 'Company Logo',
             color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
           Container(
             height: targetHeight / 17,
@@ -83,6 +94,32 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  List<Widget> _pages({Color color = Colors.white}) {
+    return [
+      CustomListTile(
+          title: 'HomePage',
+          iconPath: 'web/icons/stats_purple.png',
+          color: color,
+          func: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => HomePage()));
+          }),
+    ];
+  }
+
+  List<Widget> _secondaryPages({Color color = Colors.white}) {
+    return [
+      CustomListTile(
+          title: 'Profile',
+          iconPath: 'web/icons/stats_purple.png',
+          color: color,
+          func: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => ProfilePage()));
+          }),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) => Observer(builder: (_) {
         print(_queryStore.getTheUser.isCompanyAdmin);
@@ -97,7 +134,12 @@ class _MainPageState extends State<MainPage> {
                     backgroundColor: Colors.transparent,
                     elevation: 0,
                     iconTheme: IconThemeData(color: Colors.black)),
-            drawer: CustomDrawer(),
+            drawer: CustomDrawer(
+              pages:
+                  _pages(color: CustomColors.backGroundColor), //widget.pages,
+              secondaryPages: _secondaryPages(
+                  color: CustomColors.backGroundColor), //widget.secondaryPages,
+            ),
             floatingActionButton: widget.floatingActionButton,
             body: targetWidth > 890.0 //is a large screen?
                 ? Column(children: [
@@ -110,8 +152,11 @@ class _MainPageState extends State<MainPage> {
                           targetWidth > 1280.0
                               ? Container(
                                   width: targetWidth / 5,
-                                  child: CustomDrawerWeb(),
-                                )
+                                  child: CustomDrawerWeb(
+                                    pages: _pages(), //widget.pages,
+                                    secondaryPages:
+                                        _secondaryPages(), //widget.secondaryPages,
+                                  ))
                               : Container(),
                           // is screen width > 1280?
                           Container(

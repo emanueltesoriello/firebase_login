@@ -1,5 +1,6 @@
 import 'package:firebase_login/constants/colors.dart';
-import 'package:firebase_login/widgets/decorations/text_default.dart';
+import 'package:firebase_login/widgets/texts/text_default.dart';
+import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:flutter/material.dart';
 
 class CustomListTile extends StatelessWidget {
@@ -33,6 +34,7 @@ class CustomListTile extends StatelessWidget {
         title: TextDefault(
           text: title,
           color: color,
+          fontWeight: FontWeight.bold,
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,

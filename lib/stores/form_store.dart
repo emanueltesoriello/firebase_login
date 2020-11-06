@@ -57,6 +57,9 @@ abstract class _FormStore with Store {
   @observable
   bool loading = false;
 
+  @observable
+  bool acceptPrivacySwitch = false;
+
   @computed
   bool get canLogin =>
       !formErrorStore.hasErrorsInLogin &&
@@ -75,7 +78,8 @@ abstract class _FormStore with Store {
       userEmail.isNotEmpty &&
       userName.isNotEmpty &&
       password.isNotEmpty &&
-      confirmPassword.isNotEmpty;
+      confirmPassword.isNotEmpty &&
+      acceptPrivacySwitch;
 
   @computed
   bool get canForgetPassword =>
@@ -125,6 +129,11 @@ abstract class _FormStore with Store {
   @action
   void setMagicCode(String value) {
     magicCode = value;
+  }
+
+  @action
+  void setAcceptPrivacySwitch(bool value) {
+    acceptPrivacySwitch = value;
   }
 
   @action

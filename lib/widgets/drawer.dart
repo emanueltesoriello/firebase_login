@@ -3,13 +3,25 @@ import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/buttons/logout.dart';
 import 'package:firebase_login/widgets/circle_avatar_image.dart';
 import 'package:firebase_login/widgets/decorations/generic_rounded_button_decoration.dart';
-import 'package:firebase_login/widgets/decorations/text_default_bold.dart';
+import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:firebase_login/widgets/list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatefulWidget {
+  final Color primaryColor;
+  final Color logoutColor;
+  final Color logoutSplashColor;
+  final List<Widget> pages;
+  final List<Widget> secondaryPages;
+  CustomDrawer({
+    this.primaryColor = CustomColors.backGroundColor,
+    this.logoutColor = CustomColors.backGroundColor,
+    this.logoutSplashColor = CustomColors.primaryColor,
+    this.pages = const [],
+    this.secondaryPages = const [],
+  });
   @override
   _CustomDrawerState createState() => _CustomDrawerState();
 }
@@ -29,7 +41,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     return Container(
       height: targetHeight / 5,
       padding: EdgeInsets.only(top: targetHeight / 15),
-      color: CustomColors.backGroundColor,
+      color: widget.primaryColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -44,9 +56,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
             ),
           ),
-          TextDefaultBold(
+          TextDefault(
             text: 'Hi ${_userStore.getAuth?.currentUser?.displayName}',
             color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
           SizedBox(
             width: targetHeight / 12,
@@ -57,6 +70,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
   }
 
   Widget _buildBody() {
+    var _pages = Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: widget.pages);
+    var _secondaryPages = Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: widget.secondaryPages);
     return Expanded(
       child: Container(
         padding:
@@ -69,32 +88,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                SizedBox(height: targetHeight / 100),
-                SizedBox(height: targetHeight / 100),
-                CustomListTile(
-                    title: 'Stats',
-                    iconPath: 'web/icons/stats_purple.png',
-                    pagePath: '/home',
-                    func: () {}),
+                SizedBox(height: targetHeight / 50),
+                _pages,
                 Divider(color: Colors.black.withOpacity(0.5)),
-                CustomListTile(
-                    title: 'Team',
-                    iconPath: 'web/icons/stats_purple.png',
-                    pagePath: '/team',
-                    func: () {}),
-                CustomListTile(
-                    title: 'Settings',
-                    iconPath: 'web/icons/stats_purple.png',
-                    pagePath: '/settings',
-                    func: () {}),
+                _secondaryPages
               ],
             ),
             Container(
               margin: EdgeInsets.only(bottom: targetHeight / 40),
               height: MediaQuery.of(context).size.height / 20,
               child: GenericRoundedButtonDecoration(
-                buttonColor: CustomColors.backGroundColor,
-                splashColor: CustomColors.primaryColor,
+                buttonColor: widget.logoutColor,
+                splashColor: widget.logoutSplashColor,
                 disabledColor: Colors.grey,
                 child: LogoutButton(),
               ),

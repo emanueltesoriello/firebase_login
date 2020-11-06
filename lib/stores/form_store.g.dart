@@ -186,6 +186,22 @@ mixin _$FormStore on _FormStore, Store {
     });
   }
 
+  final _$acceptPrivacySwitchAtom =
+      Atom(name: '_FormStore.acceptPrivacySwitch');
+
+  @override
+  bool get acceptPrivacySwitch {
+    _$acceptPrivacySwitchAtom.reportRead();
+    return super.acceptPrivacySwitch;
+  }
+
+  @override
+  set acceptPrivacySwitch(bool value) {
+    _$acceptPrivacySwitchAtom.reportWrite(value, super.acceptPrivacySwitch, () {
+      super.acceptPrivacySwitch = value;
+    });
+  }
+
   final _$_FormStoreActionController = ActionController(name: '_FormStore');
 
   @override
@@ -260,6 +276,17 @@ mixin _$FormStore on _FormStore, Store {
         name: '_FormStore.setMagicCode');
     try {
       return super.setMagicCode(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setAcceptPrivacySwitch(bool value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.setAcceptPrivacySwitch');
+    try {
+      return super.setAcceptPrivacySwitch(value);
     } finally {
       _$_FormStoreActionController.endAction(_$actionInfo);
     }
@@ -354,6 +381,7 @@ companyName: ${companyName},
 magicCode: ${magicCode},
 success: ${success},
 loading: ${loading},
+acceptPrivacySwitch: ${acceptPrivacySwitch},
 canLogin: ${canLogin},
 canSendEmailValidation: ${canSendEmailValidation},
 canRegister: ${canRegister},

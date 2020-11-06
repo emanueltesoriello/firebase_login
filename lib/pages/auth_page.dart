@@ -1,10 +1,12 @@
 import 'package:firebase_login/constants/auth_messages.dart';
 import 'package:firebase_login/constants/colors.dart';
+import 'package:firebase_login/services/launch_url.dart';
 import 'package:firebase_login/stores/form_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/buttons/forgot_password_button.dart';
 import 'package:firebase_login/widgets/buttons/register_button.dart';
 import 'package:firebase_login/widgets/decorations/generic_rounded_button_decoration.dart';
+import 'package:firebase_login/widgets/switches/accept_privacy_switch.dart';
 import 'package:firebase_login/widgets/textfields/confirm_password_textformfield.dart';
 import 'package:firebase_login/widgets/textfields/email_textformfield.dart';
 import 'package:firebase_login/widgets/textfields/username_textformfield.dart';
@@ -19,7 +21,8 @@ class AuthPage extends StatefulWidget {
   final String appName;
   final String loginDescription;
   final String signupDescription;
-  final String imageURL;
+  final String registerImageURL;
+  final String loginImageURL;
   final Color backgroundColor;
   final Color buttonColor;
   final Color buttonSplashColor;
@@ -31,7 +34,9 @@ class AuthPage extends StatefulWidget {
     this.appName = '[APP_NAME]',
     this.loginDescription = 'Small description for login',
     this.signupDescription = 'Small description for signup',
-    this.imageURL =
+    this.registerImageURL =
+        'https://marketinggenius.nl/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png',
+    this.loginImageURL =
         'https://marketinggenius.nl/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png',
     this.backgroundColor = Colors.white,
     this.buttonColor = CustomColors.primaryColor,
@@ -99,29 +104,6 @@ class _AuthPageState extends State<AuthPage> {
     ]);
   }
 
-  Widget _buildAcceptSwitch() {
-    return Container(
-      width: targetWidth / 1.12,
-      child: SwitchListTile(
-        value: true,
-        onChanged: (bool value) {
-          print(value);
-        },
-        title: FlatButton(
-          padding: EdgeInsets.all(0),
-          onPressed: () => {},
-          child: Text(
-            "I've read the privacy statement and the terms and I fully agree with them.",
-            style: Theme.of(context).textTheme.caption.copyWith(
-                decoration: TextDecoration.none,
-                color: Colors.black,
-                fontSize: targetHeight / 60),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildBody() {
     return SingleChildScrollView(
       child: Padding(
@@ -133,7 +115,8 @@ class _AuthPageState extends State<AuthPage> {
             FadeInImage.memoryNetwork(
                 height: targetHeight / 5,
                 placeholder: kTransparentImage,
-                image: widget.imageURL),
+                image:
+                    !isLogin ? widget.registerImageURL : widget.loginImageURL),
             SizedBox(height: 20),
             _titleAndSubtitle(),
             !isLogin ? UsernameTextFormField() : Container(),
@@ -148,7 +131,7 @@ class _AuthPageState extends State<AuthPage> {
             SizedBox(height: 10),
             !isLogin ? _registerButton() : _loginButton(),
             SizedBox(height: 10),
-            !isLogin ? _buildAcceptSwitch() : Container(),
+            !isLogin ? AcceptPrivacySwitch() : Container(),
             !isLogin ? SizedBox(height: 5) : Container(),
             FlatButton(
                 onPressed: () {

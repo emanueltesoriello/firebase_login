@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class TextDefaultBold extends StatelessWidget {
+class TextDefault extends StatelessWidget {
   final String text;
   final Color color;
   final TextAlign textAlign;
   final FontWeight fontWeight;
   final double fontHeight;
 
-  TextDefaultBold(
+  TextDefault(
       {this.text,
       this.color = Colors.black,
       this.textAlign = TextAlign.left,
-      this.fontWeight = FontWeight.bold,
+      this.fontWeight = FontWeight.normal,
       this.fontHeight = 1});
 
   @override
@@ -20,7 +20,7 @@ class TextDefaultBold extends StatelessWidget {
       text,
       textAlign: this.textAlign,
       style: TextStyle(
-        fontSize: MediaQuery.of(context).size.height * 0.017, //16.0,
+        fontSize: MediaQuery.of(context).size.height * 0.015, //16.0,
         color: color,
         fontWeight: fontWeight,
         height: fontHeight,
