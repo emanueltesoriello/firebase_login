@@ -3,6 +3,7 @@ import 'package:firebase_login/pages/main_page.dart';
 import 'package:firebase_login/pages/profile_page.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/list_tile.dart';
+import 'package:firebase_login/widgets/top_bar_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:firebase_login/stores/query_store.dart';
@@ -43,6 +44,7 @@ class _HomePageState extends State<HomePage> {
         targetWidth = MediaQuery.of(context).size.width;
         return MainPage(
           floatingActionButton: _floatingActionButton(),
+          topBarWeb: TopBarWeb(),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

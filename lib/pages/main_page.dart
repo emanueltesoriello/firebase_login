@@ -7,6 +7,7 @@ import 'package:firebase_login/widgets/list_tile.dart';
 import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:firebase_login/widgets/drawer.dart';
 import 'package:firebase_login/widgets/drawer_web.dart';
+import 'package:firebase_login/widgets/top_bar_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:firebase_login/stores/query_store.dart';
@@ -15,12 +16,14 @@ import 'package:provider/provider.dart';
 class MainPage extends StatefulWidget {
   final Widget body;
   final FloatingActionButton floatingActionButton;
+  final Widget topBarWeb;
   //final List<Widget> pages;
   //final List<Widget> secondaryPages;
 
   MainPage({
     this.body,
     this.floatingActionButton,
+    @required this.topBarWeb,
     //this.pages = const [],
     //this.secondaryPages = const [],
   });
@@ -53,46 +56,6 @@ class _MainPageState extends State<MainPage> {
 
     return SizedBox.shrink();
   }*/
-
-  Widget _buildTopBarWeb() {
-    return Container(
-      height: targetHeight / 12,
-      padding: EdgeInsets.only(left: targetWidth / 20, right: targetWidth / 30),
-      decoration: BoxDecoration(
-        color: CustomColors.primaryColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 4,
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          TextDefault(
-            text: 'Company Logo',
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-          Container(
-            height: targetHeight / 17,
-            width: targetHeight / 17,
-            child: Container(
-              child: CircleAvatarImage(
-                color: CustomColors.backGroundColor,
-                imageURL: _userStore.getAuth?.currentUser?.photoURL,
-                text:
-                    '${_userStore.getAuth?.currentUser?.displayName?.split(' ')[0].substring(0, 2).toUpperCase()}',
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   List<Widget> _pages({Color color = Colors.white}) {
     return [
@@ -144,7 +107,7 @@ class _MainPageState extends State<MainPage> {
             body: targetWidth > 890.0 //is a large screen?
                 ? Column(children: [
                     // is screen width > 1280?
-                    targetWidth > 1280.0 ? _buildTopBarWeb() : Container(),
+                    targetWidth > 1280.0 ? widget.topBarWeb : Container(),
                     Container(
                         height: targetHeight - targetHeight / 12,
                         child: Row(children: [
