@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 class MagicCodeDialog extends StatelessWidget {
   double targetHeight;
   double targetWidth;
+  Radius borderRadius;
+  MagicCodeDialog({@required this.borderRadius});
 
   Widget _appBar() {
     return Container(
@@ -45,6 +47,7 @@ class MagicCodeDialog extends StatelessWidget {
             height: targetHeight / 16,
             width: targetWidth / 1.2,
             child: GenericRoundedButtonDecoration(
+              borderRadius: borderRadius,
               buttonColor: CustomColors.primaryColor,
               splashColor: CustomColors.backGroundColor,
               disabledColor: Colors.grey,

@@ -16,11 +16,14 @@ class NoCompany extends StatefulWidget {
   final String description;
   final bool enableMagicCode;
   final String imageURL;
+  final String imageAsset;
   final Color backgroundColor;
   final Color buttonColor;
   final Color buttonSplashColor;
   final Color buttonDisabledColor;
   final String backgroundImageAsset;
+  final bool useAsset;
+  final Radius buttonsBorderRadius;
 
   NoCompany({
     this.title = 'Welcome!',
@@ -33,7 +36,10 @@ class NoCompany extends StatefulWidget {
     this.buttonColor = CustomColors.primaryColor,
     this.buttonSplashColor = CustomColors.backGroundColor,
     this.buttonDisabledColor = Colors.grey,
+    this.imageAsset = 'web/images/logo.png',
     this.backgroundImageAsset = 'web/images/desktop_background.jpg',
+    this.buttonsBorderRadius = const Radius.circular(90),
+    @required this.useAsset,
   });
 
   @override
@@ -74,6 +80,7 @@ class _NoCompanyState extends State<NoCompany> {
       height: targetHeight / 16,
       width: targetWidth / 1.2,
       child: GenericRoundedButtonDecoration(
+        borderRadius: widget.buttonsBorderRadius,
         buttonColor: widget.buttonColor,
         splashColor: widget.buttonSplashColor,
         disabledColor: widget.buttonDisabledColor,
@@ -114,10 +121,13 @@ class _NoCompanyState extends State<NoCompany> {
             height: targetHeight / 16,
             width: targetWidth / 1.2,
             child: GenericRoundedButtonDecoration(
+              borderRadius: widget.buttonsBorderRadius,
               buttonColor: widget.buttonColor,
               splashColor: widget.buttonSplashColor,
               disabledColor: widget.buttonDisabledColor,
-              child: DoYouHaveMagicCodeButton(),
+              child: DoYouHaveMagicCodeButton(
+                borderRadius: widget.buttonsBorderRadius,
+              ),
             ),
           ),
           targetWidth > 890.0
@@ -143,11 +153,16 @@ class _NoCompanyState extends State<NoCompany> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   SizedBox(height: targetHeight / 20),
-                  FadeInImage.memoryNetwork(
-                    height: targetHeight / 5,
-                    placeholder: kTransparentImage,
-                    image: widget.imageURL,
-                  ),
+                  widget.useAsset
+                      ? Image.asset(
+                          widget.imageAsset,
+                          height: targetHeight / 5,
+                        )
+                      : FadeInImage.memoryNetwork(
+                          height: targetHeight / 5,
+                          placeholder: kTransparentImage,
+                          image: widget.imageURL,
+                        ),
                   targetWidth > 890.0
                       ? SizedBox(height: 5)
                       : Container(height: targetHeight / 30),

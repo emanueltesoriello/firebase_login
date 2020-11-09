@@ -41,7 +41,9 @@ class _MyAppState extends State<MyApp> {
         navigatorPage: NavigatorPage(
             homePage: HomePage(),
             noCompany: NoCompany(
-                title: 'Welcome to Marketing Valhalla', enableMagicCode: true)),
+                useAsset: true,
+                title: 'Welcome to Marketing Valhalla',
+                enableMagicCode: true)),
         authPage: AuthPage(
             buttonsBorderRadius: const Radius.circular(90),
             useAsset: true,
