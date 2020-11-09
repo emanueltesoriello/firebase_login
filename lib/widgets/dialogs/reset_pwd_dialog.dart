@@ -11,6 +11,7 @@ class ResetPasswordDialog extends StatelessWidget {
   final Color buttonColor;
   final Color buttonSplashColor;
   final Color buttonDisabledColor;
+  final InputDecoration textFormFieldDecoration;
 
   final String imageAsset;
   ResetPasswordDialog({
@@ -19,6 +20,7 @@ class ResetPasswordDialog extends StatelessWidget {
     @required this.buttonColor,
     @required this.buttonDisabledColor,
     @required this.buttonSplashColor,
+    @required this.textFormFieldDecoration,
   });
 
   Widget _appBar() {
@@ -55,7 +57,9 @@ class ResetPasswordDialog extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          EmailTextFormField(),
+          EmailTextFormField(
+            decoration: textFormFieldDecoration,
+          ),
           Container(
             height: targetHeight / 16,
             width: targetWidth / 1.2,

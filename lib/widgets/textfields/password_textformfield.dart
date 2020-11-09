@@ -22,7 +22,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
       builder: (_) {
         FormStore _store = context.read();
         return TextFieldWidget(
-          //decoration: widget.decoration,
+          decoration: widget.decoration,
           hint: 'Password',
           isObscure: true,
           padding: EdgeInsets.only(top: 16.0),

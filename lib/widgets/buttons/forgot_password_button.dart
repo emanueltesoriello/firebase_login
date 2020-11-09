@@ -8,6 +8,8 @@ class ForgotPasswordButton extends StatefulWidget {
   final Color buttonColor;
   final Color buttonSplashColor;
   final Color buttonDisabledColor;
+  final InputDecoration textFormFieldDecoration;
+
   ForgotPasswordButton({
     @required this.text,
     @required this.popupImageAsset,
@@ -15,6 +17,7 @@ class ForgotPasswordButton extends StatefulWidget {
     @required this.buttonColor,
     @required this.buttonDisabledColor,
     @required this.buttonSplashColor,
+    @required this.textFormFieldDecoration,
   });
   @override
   _ForgotPasswordButtonState createState() => _ForgotPasswordButtonState();
@@ -38,6 +41,7 @@ class _ForgotPasswordButtonState extends State<ForgotPasswordButton> {
           showDialog(
               context: context,
               child: ResetPasswordDialog(
+                textFormFieldDecoration: widget.textFormFieldDecoration,
                 buttonBorderRadius: widget.buttonBorderRadius,
                 imageAsset: widget.popupImageAsset,
                 buttonColor: widget.buttonColor,

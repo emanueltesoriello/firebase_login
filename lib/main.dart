@@ -23,6 +23,17 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final Future<FirebaseApp> _initApp = Firebase.initializeApp();
 
+  static const decoration = InputDecoration(
+    fillColor: Color.fromRGBO(242, 245, 248, 1),
+    border: InputBorder.none,
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+      //  borderSide: BorderSide(color: Color.fromRGBO(233, 203, 150, 1))
+    ),
+    filled: true,
+    contentPadding: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
+  );
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -41,10 +52,12 @@ class _MyAppState extends State<MyApp> {
         navigatorPage: NavigatorPage(
             homePage: HomePage(),
             noCompany: NoCompany(
+                textFormFieldsDecoration: decoration,
                 useAsset: true,
                 title: 'Welcome to Marketing Valhalla',
                 enableMagicCode: true)),
         authPage: AuthPage(
+            textFormFieldsDecoration: decoration,
             buttonsBorderRadius: const Radius.circular(90),
             useAsset: true,
             loginImageAsset: 'web/images/logo.png',

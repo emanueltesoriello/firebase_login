@@ -21,6 +21,7 @@ class _MagicCodeTextFormFieldState extends State<MagicCodeTextFormField> {
       builder: (_) {
         FormStore _store = context.read();
         return TextFieldWidget(
+          decoration: widget.decoration,
           hint: 'Magic Code',
           inputType: TextInputType.text,
           icon: Icons.person,

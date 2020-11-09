@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 class DoYouHaveMagicCodeButton extends StatefulWidget {
   final String buttonText;
   final Radius borderRadius;
+  final InputDecoration textFormFieldDecoration;
   DoYouHaveMagicCodeButton(
-      {this.buttonText = 'Use magic code', @required this.borderRadius});
+      {this.buttonText = 'Use magic code',
+      @required this.borderRadius,
+      @required this.textFormFieldDecoration});
   @override
   _DoYouHaveMagicCodeButtonState createState() =>
       _DoYouHaveMagicCodeButtonState();
@@ -22,6 +25,7 @@ class _DoYouHaveMagicCodeButtonState extends State<DoYouHaveMagicCodeButton> {
         showDialog(
             context: context,
             child: MagicCodeDialog(
+              textFormFieldDecoration: widget.textFormFieldDecoration,
               borderRadius: widget.borderRadius,
             ));
       },

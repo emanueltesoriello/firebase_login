@@ -22,7 +22,7 @@ class _PasswordTextFormFieldState extends State<ConfirmPasswordTextFormField> {
       builder: (_) {
         FormStore _store = context.read();
         return TextFieldWidget(
-          //decoration: widget.decoration,
+          decoration: widget.decoration,
           hint: 'Confirm Password',
           isObscure: true,
           padding: EdgeInsets.only(top: 16.0),

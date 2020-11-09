@@ -24,6 +24,7 @@ class NoCompany extends StatefulWidget {
   final String backgroundImageAsset;
   final bool useAsset;
   final Radius buttonsBorderRadius;
+  final InputDecoration textFormFieldsDecoration;
 
   NoCompany({
     this.title = 'Welcome!',
@@ -40,6 +41,7 @@ class NoCompany extends StatefulWidget {
     this.backgroundImageAsset = 'web/images/desktop_background.jpg',
     this.buttonsBorderRadius = const Radius.circular(90),
     @required this.useAsset,
+    this.textFormFieldsDecoration,
   });
 
   @override
@@ -61,17 +63,15 @@ class _NoCompanyState extends State<NoCompany> {
     return Container(
       width: targetWidth / 1.12,
       child: ChamberOfCommerceTextFormField(
-          //decoration: textfieldInputDecoration('Chamber of Commerce no.'),
-          ),
+          decoration: widget.textFormFieldsDecoration),
     );
   }
 
   Widget _buildCompanyNameTextField() {
     return Container(
       width: targetWidth / 1.12,
-      child: CompanyNameTextFormField(
-          // decoration: textfieldInputDecoration('Company name'),
-          ),
+      child:
+          CompanyNameTextFormField(decoration: widget.textFormFieldsDecoration),
     );
   }
 
@@ -126,6 +126,7 @@ class _NoCompanyState extends State<NoCompany> {
               splashColor: widget.buttonSplashColor,
               disabledColor: widget.buttonDisabledColor,
               child: DoYouHaveMagicCodeButton(
+                textFormFieldDecoration: widget.textFormFieldsDecoration,
                 borderRadius: widget.buttonsBorderRadius,
               ),
             ),

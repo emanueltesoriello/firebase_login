@@ -8,7 +8,10 @@ class MagicCodeDialog extends StatelessWidget {
   double targetHeight;
   double targetWidth;
   Radius borderRadius;
-  MagicCodeDialog({@required this.borderRadius});
+  final InputDecoration textFormFieldDecoration;
+
+  MagicCodeDialog(
+      {@required this.borderRadius, @required this.textFormFieldDecoration});
 
   Widget _appBar() {
     return Container(
@@ -41,7 +44,7 @@ class MagicCodeDialog extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          MagicCodeTextFormField(),
+          MagicCodeTextFormField(decoration: textFormFieldDecoration),
           SizedBox(height: targetHeight / 20),
           Container(
             height: targetHeight / 16,

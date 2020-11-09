@@ -33,7 +33,7 @@ class AuthPage extends StatefulWidget {
   final Color switchToSignupColor;
   final String backgroundImageAsset;
   final Radius buttonsBorderRadius;
-  final InputDecoration textFormFieldsDdecoration;
+  final InputDecoration textFormFieldsDecoration;
   final String privacyText;
   final String privacyURL;
   final String forgotPasswordText;
@@ -61,7 +61,7 @@ class AuthPage extends StatefulWidget {
         "I've read the privacy statement and the terms and I fully agree with them.",
     this.privacyURL =
         "https://rocketroadmap.com/privacy-statement-rocket-roadmap/",
-    this.textFormFieldsDdecoration = const InputDecoration(),
+    this.textFormFieldsDecoration = const InputDecoration(),
     this.popupImageAsset = 'web/images/logo.png',
     this.forgotPasswordText = 'Forgot password?',
   });
@@ -151,20 +151,21 @@ class _AuthPageState extends State<AuthPage> {
             _titleAndSubtitle(),
             !isLogin
                 ? UsernameTextFormField(
-                    decoration: widget.textFormFieldsDdecoration)
+                    decoration: widget.textFormFieldsDecoration)
                 : Container(),
             SizedBox(height: 5),
-            EmailTextFormField(decoration: widget.textFormFieldsDdecoration),
+            EmailTextFormField(decoration: widget.textFormFieldsDecoration),
             SizedBox(height: 5),
-            PasswordTextFormField(decoration: widget.textFormFieldsDdecoration),
+            PasswordTextFormField(decoration: widget.textFormFieldsDecoration),
             SizedBox(height: 5),
             !isLogin
                 ? ConfirmPasswordTextFormField(
-                    decoration: widget.textFormFieldsDdecoration)
+                    decoration: widget.textFormFieldsDecoration)
                 : Container(),
             SizedBox(height: 5),
             isLogin
                 ? ForgotPasswordButton(
+                    textFormFieldDecoration: widget.textFormFieldsDecoration,
                     text: widget.forgotPasswordText,
                     popupImageAsset: widget.popupImageAsset,
                     buttonBorderRadius: widget.buttonsBorderRadius,
