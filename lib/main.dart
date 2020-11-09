@@ -43,6 +43,10 @@ class _MyAppState extends State<MyApp> {
             noCompany: NoCompany(
                 title: 'Welcome to Marketing Valhalla', enableMagicCode: true)),
         authPage: AuthPage(
+            buttonsBorderRadius: const Radius.circular(90),
+            useAsset: true,
+            loginImageAsset: 'web/images/logo.png',
+            registerImageAsset: 'web/images/logo.png',
             appName: 'MarketingValhalla',
             loginDescription:
                 'Login to reach again the Valhalla for Marketers?',

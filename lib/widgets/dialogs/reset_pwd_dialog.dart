@@ -7,10 +7,19 @@ import 'package:transparent_image/transparent_image.dart';
 class ResetPasswordDialog extends StatelessWidget {
   double targetHeight;
   double targetWidth;
+  Radius buttonBorderRadius;
+  final Color buttonColor;
+  final Color buttonSplashColor;
+  final Color buttonDisabledColor;
+
   final String imageAsset;
-  ResetPasswordDialog(
-      {this.imageAsset =
-          'https://marketinggenius.nl/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png'});
+  ResetPasswordDialog({
+    @required this.imageAsset,
+    @required this.buttonBorderRadius,
+    @required this.buttonColor,
+    @required this.buttonDisabledColor,
+    @required this.buttonSplashColor,
+  });
 
   Widget _appBar() {
     return Container(
@@ -22,8 +31,7 @@ class ResetPasswordDialog extends StatelessWidget {
             child: Container(
               width: targetWidth / 1.2,
               padding: EdgeInsets.all(targetHeight / 40),
-              child: FadeInImage.memoryNetwork(
-                  placeholder: kTransparentImage, image: imageAsset),
+              child: Image.asset(imageAsset),
             ),
           ),
           Container(
@@ -52,9 +60,10 @@ class ResetPasswordDialog extends StatelessWidget {
             height: targetHeight / 16,
             width: targetWidth / 1.2,
             child: GenericRoundedButtonDecoration(
-              buttonColor: Colors.blue,
-              splashColor: Colors.blue[100],
-              disabledColor: Colors.grey,
+              borderRadius: buttonBorderRadius,
+              buttonColor: buttonColor,
+              splashColor: buttonSplashColor,
+              disabledColor: buttonDisabledColor,
               child: SendResetPasswordButton(),
             ),
           ),

@@ -23,12 +23,21 @@ class AuthPage extends StatefulWidget {
   final String signupDescription;
   final String registerImageURL;
   final String loginImageURL;
+  final bool useAsset;
+  final String registerImageAsset;
+  final String loginImageAsset;
   final Color backgroundColor;
   final Color buttonColor;
   final Color buttonSplashColor;
   final Color buttonDisabledColor;
   final Color switchToSignupColor;
   final String backgroundImageAsset;
+  final Radius buttonsBorderRadius;
+  final InputDecoration textFormFieldsDdecoration;
+  final String privacyText;
+  final String privacyURL;
+  final String forgotPasswordText;
+  final String popupImageAsset;
 
   AuthPage({
     this.appName = '[APP_NAME]',
@@ -44,6 +53,17 @@ class AuthPage extends StatefulWidget {
     this.buttonDisabledColor = Colors.grey,
     this.switchToSignupColor = CustomColors.primaryColor,
     this.backgroundImageAsset = 'web/images/desktop_background.jpg',
+    @required this.useAsset,
+    this.registerImageAsset = 'web/images/logo.png',
+    this.buttonsBorderRadius = const Radius.circular(90),
+    this.loginImageAsset = 'web/images/logo.png',
+    this.privacyText =
+        "I've read the privacy statement and the terms and I fully agree with them.",
+    this.privacyURL =
+        "https://rocketroadmap.com/privacy-statement-rocket-roadmap/",
+    this.textFormFieldsDdecoration = const InputDecoration(),
+    this.popupImageAsset = 'web/images/logo.png',
+    this.forgotPasswordText = 'Forgot password?',
   });
   @override
   _AuthPageState createState() => _AuthPageState();
@@ -68,6 +88,7 @@ class _AuthPageState extends State<AuthPage> {
       height: targetHeight / 16,
       width: targetWidth / 1.2,
       child: GenericRoundedButtonDecoration(
+        borderRadius: widget.buttonsBorderRadius,
         buttonColor: widget.buttonColor,
         splashColor: widget.buttonSplashColor,
         disabledColor: widget.buttonDisabledColor,
@@ -81,6 +102,7 @@ class _AuthPageState extends State<AuthPage> {
       height: targetHeight / 16,
       width: targetWidth / 1.2,
       child: GenericRoundedButtonDecoration(
+        borderRadius: widget.buttonsBorderRadius,
         buttonColor: widget.buttonColor,
         splashColor: widget.buttonSplashColor,
         disabledColor: widget.buttonDisabledColor,
@@ -112,26 +134,55 @@ class _AuthPageState extends State<AuthPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            FadeInImage.memoryNetwork(
-                height: targetHeight / 5,
-                placeholder: kTransparentImage,
-                image:
-                    !isLogin ? widget.registerImageURL : widget.loginImageURL),
+            widget.useAsset
+                ? Image.asset(
+                    !isLogin
+                        ? widget.registerImageAsset
+                        : widget.loginImageAsset,
+                    height: targetHeight / 5,
+                  )
+                : FadeInImage.memoryNetwork(
+                    height: targetHeight / 5,
+                    placeholder: kTransparentImage,
+                    image: !isLogin
+                        ? widget.registerImageURL
+                        : widget.loginImageURL),
             SizedBox(height: 20),
             _titleAndSubtitle(),
-            !isLogin ? UsernameTextFormField() : Container(),
+            !isLogin
+                ? UsernameTextFormField(
+                    decoration: widget.textFormFieldsDdecoration)
+                : Container(),
             SizedBox(height: 5),
-            EmailTextFormField(),
+            EmailTextFormField(decoration: widget.textFormFieldsDdecoration),
             SizedBox(height: 5),
-            PasswordTextFormField(),
+            PasswordTextFormField(decoration: widget.textFormFieldsDdecoration),
             SizedBox(height: 5),
-            !isLogin ? ConfirmPasswordTextFormField() : Container(),
+            !isLogin
+                ? ConfirmPasswordTextFormField(
+                    decoration: widget.textFormFieldsDdecoration)
+                : Container(),
             SizedBox(height: 5),
-            isLogin ? ForgotPasswordButton() : Container(),
+            isLogin
+                ? ForgotPasswordButton(
+                    text: widget.forgotPasswordText,
+                    popupImageAsset: widget.popupImageAsset,
+                    buttonBorderRadius: widget.buttonsBorderRadius,
+                    buttonColor: widget.buttonColor,
+                    buttonDisabledColor: widget.buttonDisabledColor,
+                    buttonSplashColor: widget.buttonSplashColor,
+                  )
+                : Container(),
             SizedBox(height: 10),
             !isLogin ? _registerButton() : _loginButton(),
             SizedBox(height: 10),
-            !isLogin ? AcceptPrivacySwitch() : Container(),
+            !isLogin
+                ? AcceptPrivacySwitch(
+                    text: widget.privacyText,
+                    privacyUrl: widget.privacyURL,
+                    switchActiveColor: widget.switchToSignupColor,
+                  )
+                : Container(),
             !isLogin ? SizedBox(height: 5) : Container(),
             FlatButton(
                 onPressed: () {

@@ -3,7 +3,19 @@ import 'package:flutter/material.dart';
 
 class ForgotPasswordButton extends StatefulWidget {
   final String text;
-  ForgotPasswordButton({this.text = 'Forgot password?'});
+  final String popupImageAsset;
+  final Radius buttonBorderRadius;
+  final Color buttonColor;
+  final Color buttonSplashColor;
+  final Color buttonDisabledColor;
+  ForgotPasswordButton({
+    @required this.text,
+    @required this.popupImageAsset,
+    @required this.buttonBorderRadius,
+    @required this.buttonColor,
+    @required this.buttonDisabledColor,
+    @required this.buttonSplashColor,
+  });
   @override
   _ForgotPasswordButtonState createState() => _ForgotPasswordButtonState();
 }
@@ -23,7 +35,15 @@ class _ForgotPasswordButtonState extends State<ForgotPasswordButton> {
               .copyWith(decoration: TextDecoration.underline),
         ),
         onPressed: () async {
-          showDialog(context: context, child: ResetPasswordDialog());
+          showDialog(
+              context: context,
+              child: ResetPasswordDialog(
+                buttonBorderRadius: widget.buttonBorderRadius,
+                imageAsset: widget.popupImageAsset,
+                buttonColor: widget.buttonColor,
+                buttonDisabledColor: widget.buttonDisabledColor,
+                buttonSplashColor: widget.buttonSplashColor,
+              ));
         },
       ),
     );

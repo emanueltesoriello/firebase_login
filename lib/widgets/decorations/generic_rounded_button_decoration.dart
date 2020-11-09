@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class GenericRoundedButtonDecoration extends StatelessWidget {
   @required
+  final Radius borderRadius;
   final Widget child;
   final Color borderColor;
   final Color buttonColor;
@@ -10,6 +11,7 @@ class GenericRoundedButtonDecoration extends StatelessWidget {
 
   GenericRoundedButtonDecoration({
     this.child,
+    this.borderRadius = const Radius.circular(90),
     this.borderColor = Colors.transparent,
     this.buttonColor = Colors.green,
     this.disabledColor = Colors.grey,
@@ -27,7 +29,7 @@ class GenericRoundedButtonDecoration extends StatelessWidget {
       splashColor: splashColor,
       shape: OutlineInputBorder(
         borderSide: BorderSide(color: borderColor, width: 2),
-        borderRadius: BorderRadius.all(Radius.circular(90)),
+        borderRadius: BorderRadius.all(borderRadius),
       ),
     );
   }

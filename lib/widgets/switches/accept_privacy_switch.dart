@@ -13,24 +13,20 @@ class AcceptPrivacySwitch extends StatefulWidget {
   final Color switchActiveColor;
 
   AcceptPrivacySwitch(
-      {this.text =
-          "I've read the privacy statement and the terms and I fully agree with them.",
-      this.privacyUrl =
-          "https://rocketroadmap.com/privacy-statement-rocket-roadmap/",
-      this.switchActiveColor = CustomColors.primaryColor});
+      {@required this.text,
+      @required this.privacyUrl,
+      @required this.switchActiveColor});
   @override
   _AcceptPrivacySwitchState createState() => _AcceptPrivacySwitchState();
 }
 
 class _AcceptPrivacySwitchState extends State<AcceptPrivacySwitch> {
-  UserStore _userStore;
   FormStore _formStore;
 
   @override
   void initState() {
     super.initState();
     _formStore = context.read();
-    _userStore = context.read();
   }
 
   Widget _buildAcceptSwitch() {

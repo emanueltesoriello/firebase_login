@@ -43,7 +43,6 @@ class _HomePageState extends State<HomePage> {
         targetWidth = MediaQuery.of(context).size.width;
         return MainPage(
           floatingActionButton: _floatingActionButton(),
-         
           body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
