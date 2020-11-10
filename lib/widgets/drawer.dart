@@ -11,7 +11,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatefulWidget {
-  final Color primaryColor;
+  final Color backgroundColor;
   final Color logoutColor;
   final Color logoutTextColor;
   final Color logoutColorWeb;
@@ -20,7 +20,7 @@ class CustomDrawer extends StatefulWidget {
   final List<Widget> pages;
   final List<Widget> secondaryPages;
   CustomDrawer({
-    this.primaryColor = CustomColors.backGroundColor,
+    this.backgroundColor = CustomColors.backGroundColor,
     this.logoutColor = CustomColors.backGroundColor,
     this.logoutTextColor = Colors.white,
     this.logoutColorWeb = Colors.white,
@@ -48,7 +48,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     return Container(
       height: targetHeight / 5,
       padding: EdgeInsets.only(top: targetHeight / 15),
-      color: widget.primaryColor,
+      color: widget.backgroundColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -131,6 +131,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ? Container(
                 width: targetWidth / (targetWidth > 1920 ? 7 : 5),
                 child: CustomDrawerWeb(
+                  primaryColor: widget.backgroundColor,
                   logoutColor: widget.logoutColorWeb,
                   logoutTextColor: widget.logoutTextColorWeb,
                   pages: widget.pages, //widget.pages,
