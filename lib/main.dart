@@ -50,6 +50,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: FetchAppPage(
         navigatorPage: NavigatorPage(
+            splashScreen: SplashScreen(),
             homePage: HomePage(),
             noCompany: NoCompany(
                 textFormFieldsDecoration: decoration,

@@ -7,7 +7,12 @@ import 'package:provider/provider.dart';
 class NavigatorPage extends StatefulWidget {
   final Widget homePage;
   final Widget noCompany;
-  NavigatorPage({@required this.homePage, @required this.noCompany});
+  final Widget splashScreen;
+
+  NavigatorPage(
+      {@required this.homePage,
+      @required this.noCompany,
+      @required this.splashScreen});
   @override
   _NavigatorPageState createState() => _NavigatorPageState();
 }
@@ -27,7 +32,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
         builder: (_) {
           return Observer(builder: (_) {
             if (_queryStore.loading)
-              return SplashScreen();
+              return widget.splashScreen;
             else {
               if (_queryStore.getTheUser.companyVatNumber == null) {
                 return widget.noCompany;

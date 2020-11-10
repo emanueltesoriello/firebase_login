@@ -9,10 +9,12 @@ import 'package:provider/provider.dart';
 class CustomDrawerWeb extends StatefulWidget {
   final Color primaryColor;
   final Color logoutColor;
+  final Color logoutTextColor;
   final Color logoutSplashColor;
   final List<Widget> pages;
   final List<Widget> secondaryPages;
   CustomDrawerWeb({
+    this.logoutTextColor = Colors.black,
     this.primaryColor = CustomColors.backGroundColor,
     this.logoutColor = Colors.white,
     this.logoutSplashColor = CustomColors.primaryColor,
@@ -66,7 +68,7 @@ class _CustomDrawerWebState extends State<CustomDrawerWeb> {
                 buttonColor: widget.logoutColor,
                 splashColor: widget.logoutSplashColor,
                 disabledColor: Colors.grey,
-                child: LogoutButton(textColor: Colors.black),
+                child: LogoutButton(textColor: widget.logoutTextColor),
               ),
             ),
           ],
@@ -81,6 +83,7 @@ class _CustomDrawerWebState extends State<CustomDrawerWeb> {
     final double deviceHeight = MediaQuery.of(context).size.height;
     targetWidth = deviceWidth;
     targetHeight = deviceHeight;
+    print(targetWidth);
     return Observer(
       builder: (_) {
         return Container(

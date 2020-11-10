@@ -230,7 +230,7 @@ class _AuthPageState extends State<AuthPage> {
                           width: targetWidth > 1920.0
                               ? targetWidth / 5
                               : targetWidth / 3,
-                          height: targetHeight / 1.3,
+                          height: targetHeight / (targetHeight > 730 ? 1.3 : 1),
                           alignment: Alignment.center,
                           child: _buildBody()),
                     ),

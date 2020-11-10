@@ -3,6 +3,7 @@ import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/buttons/logout.dart';
 import 'package:firebase_login/widgets/circle_avatar_image.dart';
 import 'package:firebase_login/widgets/decorations/generic_rounded_button_decoration.dart';
+import 'package:firebase_login/widgets/drawer_web.dart';
 import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:firebase_login/widgets/list_tile.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +13,18 @@ import 'package:provider/provider.dart';
 class CustomDrawer extends StatefulWidget {
   final Color primaryColor;
   final Color logoutColor;
+  final Color logoutTextColor;
+  final Color logoutColorWeb;
+  final Color logoutTextColorWeb;
   final Color logoutSplashColor;
   final List<Widget> pages;
   final List<Widget> secondaryPages;
   CustomDrawer({
     this.primaryColor = CustomColors.backGroundColor,
     this.logoutColor = CustomColors.backGroundColor,
+    this.logoutTextColor = Colors.white,
+    this.logoutColorWeb = Colors.white,
+    this.logoutTextColorWeb = Colors.black,
     this.logoutSplashColor = CustomColors.primaryColor,
     this.pages = const [],
     this.secondaryPages = const [],
@@ -101,7 +108,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 buttonColor: widget.logoutColor,
                 splashColor: widget.logoutSplashColor,
                 disabledColor: Colors.grey,
-                child: LogoutButton(),
+                child: LogoutButton(
+                  textColor: widget.logoutTextColor,
+                ),
               ),
             ),
           ],
@@ -118,17 +127,27 @@ class _CustomDrawerState extends State<CustomDrawer> {
     targetHeight = deviceHeight;
     return Observer(
       builder: (_) {
-        return Drawer(
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                _buildTop(),
-                _buildBody(),
-              ],
-            ),
-          ),
-        );
+        return targetWidth > 1280.0
+            ? Container(
+                width: targetWidth / (targetWidth > 1920 ? 7 : 5),
+                child: CustomDrawerWeb(
+                  logoutColor: widget.logoutColorWeb,
+                  logoutTextColor: widget.logoutTextColorWeb,
+                  pages: widget.pages, //widget.pages,
+                  secondaryPages:
+                      widget.secondaryPages, //widget.secondaryPages,
+                ))
+            : Drawer(
+                child: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      _buildTop(),
+                      _buildBody(),
+                    ],
+                  ),
+                ),
+              );
       },
     );
   }

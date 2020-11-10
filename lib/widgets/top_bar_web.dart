@@ -7,6 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TopBarWeb extends StatefulWidget {
+  final Color color;
+  final Widget imageLogo;
+  final Color userAvatarColor;
+  TopBarWeb(
+      {this.color = CustomColors.primaryColor,
+      this.imageLogo,
+      this.userAvatarColor = CustomColors.backGroundColor});
   @override
   _TopBarWebState createState() => _TopBarWebState();
 }
@@ -30,7 +37,7 @@ class _TopBarWebState extends State<TopBarWeb> {
       height: targetHeight / 12,
       padding: EdgeInsets.only(left: targetWidth / 20, right: targetWidth / 30),
       decoration: BoxDecoration(
-        color: CustomColors.primaryColor,
+        color: widget.color,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
@@ -43,17 +50,13 @@ class _TopBarWebState extends State<TopBarWeb> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          TextDefault(
-            text: 'Company Logo',
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          widget.imageLogo ?? Container(),
           Container(
             height: targetHeight / 17,
             width: targetHeight / 17,
             child: Container(
               child: CircleAvatarImage(
-                color: CustomColors.backGroundColor,
+                color: widget.userAvatarColor,
                 imageURL: _userStore.getAuth?.currentUser?.photoURL,
                 text:
                     '${_userStore.getAuth?.currentUser?.displayName?.split(' ')[0].substring(0, 2).toUpperCase()}',

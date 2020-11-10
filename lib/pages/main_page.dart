@@ -2,12 +2,8 @@ import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/pages/home_page.dart';
 import 'package:firebase_login/pages/profile_page.dart';
 import 'package:firebase_login/stores/user_store.dart';
-import 'package:firebase_login/widgets/circle_avatar_image.dart';
 import 'package:firebase_login/widgets/list_tile.dart';
-import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:firebase_login/widgets/drawer.dart';
-import 'package:firebase_login/widgets/drawer_web.dart';
-import 'package:firebase_login/widgets/top_bar_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:firebase_login/stores/query_store.dart';
@@ -17,6 +13,11 @@ class MainPage extends StatefulWidget {
   final Widget body;
   final FloatingActionButton floatingActionButton;
   final Widget topBarWeb;
+  final EdgeInsetsGeometry padding;
+  final Color appBarMobileColor;
+  final Color appBarWebColor;
+  final Widget appBar;
+  final Widget customDrawer;
   //final List<Widget> pages;
   //final List<Widget> secondaryPages;
 
@@ -24,6 +25,11 @@ class MainPage extends StatefulWidget {
     this.body,
     this.floatingActionButton,
     @required this.topBarWeb,
+    this.padding = const EdgeInsets.all(25),
+    this.appBarMobileColor = Colors.transparent,
+    this.appBarWebColor = CustomColors.backGroundColor,
+    this.appBar,
+    this.customDrawer,
     //this.pages = const [],
     //this.secondaryPages = const [],
   });
@@ -83,26 +89,32 @@ class _MainPageState extends State<MainPage> {
     ];
   }
 
+  Widget _buildAppBar() {
+    return widget.appBar != null
+        ? widget.appBar
+        : targetWidth > 890.0
+            ? targetWidth > 1280.0
+                ? null
+                : AppBar(backgroundColor: widget.appBarWebColor)
+            : AppBar(
+                backgroundColor: widget.appBarMobileColor,
+                elevation: 0,
+                iconTheme: IconThemeData(color: Colors.black));
+  }
+
+  Widget _buildDrawer() {
+    return targetWidth < 1280.0 ? widget.customDrawer ?? CustomDrawer() : null;
+  }
+
   @override
   Widget build(BuildContext context) => Observer(builder: (_) {
         print(_queryStore.getTheUser.isCompanyAdmin);
         targetHeight = MediaQuery.of(context).size.height;
         targetWidth = MediaQuery.of(context).size.width;
+        //print(targetWidth);
         return Scaffold(
-            appBar: targetWidth > 890.0
-                ? targetWidth > 1280.0
-                    ? null
-                    : AppBar(backgroundColor: CustomColors.backGroundColor)
-                : AppBar(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    iconTheme: IconThemeData(color: Colors.black)),
-            drawer: CustomDrawer(
-              pages:
-                  _pages(color: CustomColors.backGroundColor), //widget.pages,
-              secondaryPages: _secondaryPages(
-                  color: CustomColors.backGroundColor), //widget.secondaryPages,
-            ),
+            appBar: _buildAppBar(),
+            drawer: _buildDrawer(),
             floatingActionButton: widget.floatingActionButton,
             body: targetWidth > 890.0 //is a large screen?
                 ? Column(children: [
@@ -113,40 +125,26 @@ class _MainPageState extends State<MainPage> {
                         child: Row(children: [
                           // is screen width > 1280?
                           targetWidth > 1280.0
-                              ? Container(
-                                  width: targetWidth / 5,
-                                  child: CustomDrawerWeb(
-                                    pages: _pages(), //widget.pages,
-                                    secondaryPages:
-                                        _secondaryPages(), //widget.secondaryPages,
-                                  ))
+                              ? widget.customDrawer ?? CustomDrawer()
                               : Container(),
                           // is screen width > 1280?
                           Container(
-                              width: targetWidth > 1280.0
-                                  ? (targetWidth - targetWidth / 5)
-                                  : targetWidth,
                               height: targetHeight,
                               child: Center(
                                   // is screen ultra wide?
                                   child: Container(
-                                      width: targetWidth > 1920.0
-                                          ? targetWidth / 5
-                                          : targetWidth / 3,
-                                      height: targetHeight / 1.3,
-                                      padding: const EdgeInsets.all(25),
+                                      width: targetWidth > 1280
+                                          ? (targetWidth -
+                                              targetWidth /
+                                                  (targetWidth > 1920 ? 7 : 5))
+                                          : targetWidth,
+                                      height: targetHeight,
+                                      padding: widget.padding,
                                       alignment: Alignment.center,
                                       child: widget.body)))
                         ]))
                   ])
                 // mobile View
-                : Container(
-                    padding: EdgeInsets.only(
-                      left: targetHeight / 30,
-                      right: targetHeight / 30,
-                      top: targetHeight / 30,
-                      bottom: targetHeight / 30,
-                    ),
-                    child: widget.body));
+                : Container(padding: widget.padding, child: widget.body));
       });
 }

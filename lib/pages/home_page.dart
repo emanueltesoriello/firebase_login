@@ -2,6 +2,7 @@ import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/pages/main_page.dart';
 import 'package:firebase_login/pages/profile_page.dart';
 import 'package:firebase_login/stores/user_store.dart';
+import 'package:firebase_login/widgets/drawer.dart';
 import 'package:firebase_login/widgets/list_tile.dart';
 import 'package:firebase_login/widgets/top_bar_web.dart';
 import 'package:flutter/material.dart';
@@ -43,23 +44,31 @@ class _HomePageState extends State<HomePage> {
         targetHeight = MediaQuery.of(context).size.height;
         targetWidth = MediaQuery.of(context).size.width;
         return MainPage(
+          customDrawer: CustomDrawer(),
           floatingActionButton: _floatingActionButton(),
           topBarWeb: TopBarWeb(),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          padding: EdgeInsets.all(0),
+          body: Container(
+            color: Colors.red,
+            child: Expanded(
+                child:
+                    Container() /*Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    'WELCOME TO YOUR HOMEPAGE!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 40),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'WELCOME TO YOUR HOMEPAGE!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 40),
+                      ),
+                      SizedBox(height: 10),
+                    ],
                   ),
-                  SizedBox(height: 10),
                 ],
-              ),
-            ],
+              ),*/
+                ),
           ),
         );
       });
