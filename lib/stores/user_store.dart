@@ -176,4 +176,10 @@ abstract class _UserStore with Store {
       errorStore.setErrorMessage(e);
     }
   }
+
+  Future updateProfilePic() async {
+    await getAuth.currentUser.updateProfile(
+        photoURL:
+            'https://www.emanueltesoriellodeveloper.com/wp-content/uploads/2019/05/logo-et-con-scritta-e1580480915528.png');
+  }
 }

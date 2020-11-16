@@ -103,7 +103,14 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget _buildDrawer() {
-    return targetWidth < 1280.0 ? widget.customDrawer ?? CustomDrawer() : null;
+    return targetWidth < 1280.0
+        ? widget.customDrawer ??
+            CustomDrawer(
+              pages: _pages(color: CustomColors.backGroundColor),
+              secondaryPages:
+                  _secondaryPages(color: CustomColors.backGroundColor),
+            )
+        : null;
   }
 
   @override

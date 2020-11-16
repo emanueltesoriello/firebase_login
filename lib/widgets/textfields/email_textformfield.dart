@@ -22,7 +22,7 @@ class _EmailTextFormFieldState extends State<EmailTextFormField> {
         FormStore _store = context.read();
         return TextFieldWidget(
           decoration: widget.decoration,
-          hint: 'Email',
+          hint: widget.decoration.labelText != null ? null : 'Email',
           inputType: TextInputType.emailAddress,
           icon: Icons.person,
           iconColor: Colors.white70,

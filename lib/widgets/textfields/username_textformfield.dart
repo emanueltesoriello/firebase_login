@@ -22,7 +22,7 @@ class _UsernameTextFormFieldState extends State<UsernameTextFormField> {
         FormStore _store = context.read();
         return TextFieldWidget(
           decoration: widget.decoration,
-          hint: 'Username',
+          hint: widget.decoration.labelText != null ? null : 'Username',
           inputType: TextInputType.text,
           icon: Icons.person,
           iconColor: Colors.white70,

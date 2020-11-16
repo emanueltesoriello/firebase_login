@@ -19,10 +19,13 @@ class CircleAvatarImage extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(90),
       child: imageURL != null
-          ? FadeInImage.memoryNetwork(
-              fit: BoxFit.contain,
-              placeholder: kTransparentImage,
-              image: imageURL,
+          ? Container(
+              color: color,
+              child: FadeInImage.memoryNetwork(
+                fit: BoxFit.contain,
+                placeholder: kTransparentImage,
+                image: imageURL,
+              ),
             )
           : CircleAvatarText(
               text: text,

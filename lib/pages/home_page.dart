@@ -44,31 +44,11 @@ class _HomePageState extends State<HomePage> {
         targetHeight = MediaQuery.of(context).size.height;
         targetWidth = MediaQuery.of(context).size.width;
         return MainPage(
-          customDrawer: CustomDrawer(),
           floatingActionButton: _floatingActionButton(),
           topBarWeb: TopBarWeb(),
           padding: EdgeInsets.all(0),
           body: Container(
-            color: Colors.red,
-            child: Expanded(
-                child:
-                    Container() /*Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'WELCOME TO YOUR HOMEPAGE!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 40),
-                      ),
-                      SizedBox(height: 10),
-                    ],
-                  ),
-                ],
-              ),*/
-                ),
+            child: Center(child: Text('HomePage')),
           ),
         );
       });
