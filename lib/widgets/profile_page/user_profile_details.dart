@@ -6,19 +6,23 @@ import 'package:firebase_login/widgets/textfields/company_name_textformfield.dar
 import 'package:firebase_login/widgets/textfields/email_textformfield.dart';
 import 'package:firebase_login/widgets/textfields/textfield_widget.dart';
 import 'package:firebase_login/widgets/textfields/username_textformfield.dart';
+import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx_widget/mobx_widget.dart';
 import 'package:provider/provider.dart';
 
 class UserProfileDetails extends StatefulWidget {
   final Color profileBackgroundColor;
   final Color refreshIndicatorBackgroundColor;
   final Color refreshIndicatorCircularColor;
+  final bool isEditMode;
 
   UserProfileDetails({
     this.profileBackgroundColor = CustomColors.backGroundColor,
     this.refreshIndicatorBackgroundColor = CustomColors.primaryColor,
     this.refreshIndicatorCircularColor = CustomColors.backGroundColor,
+    this.isEditMode = false,
   });
   @override
   _UserProfileDetailsState createState() => _UserProfileDetailsState();
@@ -39,7 +43,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
     _queryStore = context.read();
   }
 
-  Widget _username() {
+  Widget _usernameEdit() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -47,13 +51,13 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
         UsernameTextFormField(
           decoration: InputDecoration(
               hintText: 'New Username',
-              labelText:_queryStore.getTheUser.userName),
+              labelText: _queryStore.getTheUser.userName),
         )
       ],
     );
   }
 
-  Widget _email() {
+  Widget _emailEdit() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -67,18 +71,63 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
     );
   }
 
-  Widget _company() {
-    return Column(
+  Widget _username() {
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Company username'),
-        CompanyNameTextFormField(
-          decoration: InputDecoration(
-              hintText: 'New Company username',
-              labelText: _queryStore.getTheUser.companyVatNumber),
-        )
+        Text('Username: '),
+        Text(
+          _queryStore.getTheUser.userName,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ],
     );
+  }
+
+  Widget _email() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Email: '),
+        Text(
+          _userStore.getAuth?.currentUser?.email,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
+
+  Widget _company() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Your company username: '),
+        Text(
+          _queryStore.getTheUser.companyVatNumber,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
+
+  Widget _magicCode() {
+    return _queryStore.getTheUser.isCompanyAdmin &&
+            _queryStore.getTheUser.magicCode != null
+        ? FittedBox(
+            child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'MagicCode: ',
+                style: TextStyle(fontSize: 15),
+              ),
+              SelectableText(
+                _queryStore.getTheUser.magicCode,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )
+            ],
+          ))
+        : Container();
   }
 
   Widget _userProfileDetails() {
@@ -93,12 +142,14 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 5),
-              _username(),
-              SizedBox(height: 5),
-              _email(),
-              SizedBox(height: 5),
+              SizedBox(height: 10),
+              widget.isEditMode ? _usernameEdit() : _username(),
+              SizedBox(height: 10),
+              widget.isEditMode ? _emailEdit() : _email(),
+              SizedBox(height: 10),
               _company(),
+              SizedBox(height: 10),
+              _magicCode(),
             ],
           );
   }

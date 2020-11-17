@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -181,5 +182,44 @@ abstract class _UserStore with Store {
     await getAuth.currentUser.updateProfile(
         photoURL:
             'https://www.emanueltesoriellodeveloper.com/wp-content/uploads/2019/05/logo-et-con-scritta-e1580480915528.png');
+  }
+
+  Future updateDisplayName(String username) async {
+    loading = true;
+    try {
+      //final NetworkService networkService = NetworkService(getAuth);
+      getAuth.currentUser.updateProfile(displayName: username);
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(getAuth.currentUser.uid)
+          .update({
+        'userName': username,
+      });
+      loading = false;
+      success = true;
+      await fetchAuth();
+    } catch (e) {
+      loading = false;
+      errorStore.setErrorMessage(e);
+    }
+  }
+
+  Future updateEmail(String oldEmail, String password, String newEmail) async {
+    loading = true;
+    try {
+      //await getAuth.currentUser.updateEmail(newEmail);
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: oldEmail,
+        password: password,
+      );
+      var response = await userCredential.user.updateEmail(newEmail);
+      loading = false;
+      success = true;
+      await fetchAuth();
+    } catch (e) {
+      loading = false;
+      errorStore.setErrorMessage(e);
+    }
   }
 }

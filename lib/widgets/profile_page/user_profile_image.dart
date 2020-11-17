@@ -10,11 +10,13 @@ class UserProfileImage extends StatefulWidget {
   final Color profileBackgroundColor;
   final Color refreshIndicatorBackgroundColor;
   final Color refreshIndicatorCircularColor;
+  final bool isEditMode;
 
   UserProfileImage({
     this.profileBackgroundColor = CustomColors.backGroundColor,
     this.refreshIndicatorBackgroundColor = CustomColors.primaryColor,
     this.refreshIndicatorCircularColor = CustomColors.backGroundColor,
+    this.isEditMode = false,
   });
   @override
   _UserProfileImageState createState() => _UserProfileImageState();
@@ -36,11 +38,13 @@ class _UserProfileImageState extends State<UserProfileImage> {
 
   Widget _userProfileImage() {
     return FlatButton(
-      onPressed: () async {
-        setState(() => loading = true);
-        await _userStore.updateProfilePic();
-        setState(() => loading = false);
-      },
+      onPressed: widget.isEditMode
+          ? () async {
+              setState(() => loading = true);
+              await _userStore.updateProfilePic();
+              setState(() => loading = false);
+            }
+          : null,
       child: Column(
         children: [
           Container(
@@ -64,10 +68,12 @@ class _UserProfileImageState extends State<UserProfileImage> {
                   ),
           ),
           SizedBox(height: 5),
-          Text(
-            'Change profile image',
-            textAlign: TextAlign.center,
-          ),
+          widget.isEditMode
+              ? Text(
+                  'Change profile image',
+                  textAlign: TextAlign.center,
+                )
+              : Container(),
         ],
       ),
     );

@@ -86,6 +86,9 @@ abstract class _FormStore with Store {
       !formErrorStore.hasErrorInForgotPassword && userEmail.isNotEmpty;
 
   @computed
+  bool get canSendNewEmail => userEmail.isNotEmpty && password.isNotEmpty;
+
+  @computed
   bool get canAddCompany =>
       !formErrorStore.hasErrorsInAddCompany &&
       chamberOfCommerce.isNotEmpty &&
@@ -94,6 +97,12 @@ abstract class _FormStore with Store {
   @computed
   bool get canInsertMagicCode =>
       !formErrorStore.hasErrorsInInsertMagicCode && magicCode.isNotEmpty;
+
+  /*@computed
+  bool get canUpdateProfile =>
+      userName.isNotEmpty &&
+      userEmail.isNotEmpty &&
+      chamberOfCommerce.isNotEmpty;*/
 
   // actions:-------------------------------------------------------------------
   @action
@@ -163,7 +172,7 @@ abstract class _FormStore with Store {
     if (value.isEmpty) {
       formErrorStore.password = "Password can't be empty";
     } else if (value.length < 6) {
-      formErrorStore.password = "Password must be at-least 3 characters long";
+      formErrorStore.password = "Password must be at-least 6 characters long";
     } else {
       formErrorStore.password = null;
     }

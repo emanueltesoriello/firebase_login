@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   final Widget body;
-  final FloatingActionButton floatingActionButton;
+  final Widget floatingActionButton;
   final Widget topBarWeb;
   final EdgeInsetsGeometry padding;
   final Color appBarMobileColor;
