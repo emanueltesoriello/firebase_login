@@ -36,6 +36,13 @@ mixin _$FormStore on _FormStore, Store {
           () => super.canForgetPassword,
           name: '_FormStore.canForgetPassword'))
       .value;
+  Computed<bool> _$canSendNewEmailComputed;
+
+  @override
+  bool get canSendNewEmail =>
+      (_$canSendNewEmailComputed ??= Computed<bool>(() => super.canSendNewEmail,
+              name: '_FormStore.canSendNewEmail'))
+          .value;
   Computed<bool> _$canAddCompanyComputed;
 
   @override
@@ -49,6 +56,20 @@ mixin _$FormStore on _FormStore, Store {
   bool get canInsertMagicCode => (_$canInsertMagicCodeComputed ??=
           Computed<bool>(() => super.canInsertMagicCode,
               name: '_FormStore.canInsertMagicCode'))
+      .value;
+  Computed<bool> _$canUpdateEmailComputed;
+
+  @override
+  bool get canUpdateEmail =>
+      (_$canUpdateEmailComputed ??= Computed<bool>(() => super.canUpdateEmail,
+              name: '_FormStore.canUpdateEmail'))
+          .value;
+  Computed<bool> _$canUpdateUsernameComputed;
+
+  @override
+  bool get canUpdateUsername => (_$canUpdateUsernameComputed ??= Computed<bool>(
+          () => super.canUpdateUsername,
+          name: '_FormStore.canUpdateUsername'))
       .value;
 
   final _$userEmailAtom = Atom(name: '_FormStore.userEmail');
@@ -386,8 +407,11 @@ canLogin: ${canLogin},
 canSendEmailValidation: ${canSendEmailValidation},
 canRegister: ${canRegister},
 canForgetPassword: ${canForgetPassword},
+canSendNewEmail: ${canSendNewEmail},
 canAddCompany: ${canAddCompany},
-canInsertMagicCode: ${canInsertMagicCode}
+canInsertMagicCode: ${canInsertMagicCode},
+canUpdateEmail: ${canUpdateEmail},
+canUpdateUsername: ${canUpdateUsername}
     ''';
   }
 }
@@ -437,6 +461,20 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
               () => super.hasErrorsInInsertMagicCode,
               name: '_FormErrorStore.hasErrorsInInsertMagicCode'))
           .value;
+  Computed<bool> _$hasErrorInUpdateEmailComputed;
+
+  @override
+  bool get hasErrorInUpdateEmail => (_$hasErrorInUpdateEmailComputed ??=
+          Computed<bool>(() => super.hasErrorInUpdateEmail,
+              name: '_FormErrorStore.hasErrorInUpdateEmail'))
+      .value;
+  Computed<bool> _$hasErrorInUpdateUserNameComputed;
+
+  @override
+  bool get hasErrorInUpdateUserName => (_$hasErrorInUpdateUserNameComputed ??=
+          Computed<bool>(() => super.hasErrorInUpdateUserName,
+              name: '_FormErrorStore.hasErrorInUpdateUserName'))
+      .value;
 
   final _$userEmailAtom = Atom(name: '_FormErrorStore.userEmail');
 
@@ -559,7 +597,9 @@ hasErrorsInRegister: ${hasErrorsInRegister},
 hasErrorInForgotPassword: ${hasErrorInForgotPassword},
 hasErrorInSendEmailValidation: ${hasErrorInSendEmailValidation},
 hasErrorsInAddCompany: ${hasErrorsInAddCompany},
-hasErrorsInInsertMagicCode: ${hasErrorsInInsertMagicCode}
+hasErrorsInInsertMagicCode: ${hasErrorsInInsertMagicCode},
+hasErrorInUpdateEmail: ${hasErrorInUpdateEmail},
+hasErrorInUpdateUserName: ${hasErrorInUpdateUserName}
     ''';
   }
 }

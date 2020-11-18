@@ -12,6 +12,7 @@ import 'package:firebase_login/widgets/list_tile.dart';
 import 'package:firebase_login/widgets/profile_page/user_profile_details.dart';
 import 'package:firebase_login/widgets/profile_page/user_profile_image.dart';
 import 'package:firebase_login/widgets/top_bar_web.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:firebase_login/stores/query_store.dart';
@@ -39,20 +40,41 @@ class _ProfilePageState extends State<ProfilePage> {
     _userStore = context.read();
     _queryStore = context.read();
     _formStore = context.read();
+    isEditMode = false;
+  }
+
+  _showErrorMessage(String message) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      FlushbarHelper.createInformation(
+        message: message,
+        title: 'Attention!',
+        duration: Duration(seconds: 3),
+      )..show(context);
+    });
+    return SizedBox.shrink();
+  }
+
+  _showSuccessMessage(String message) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      FlushbarHelper.createInformation(
+        message: message,
+        title: 'Great!',
+        duration: Duration(seconds: 3),
+      )..show(context);
+    });
+    return SizedBox.shrink();
   }
 
   Widget _saveChanges() {
     return UnicornButton(
         currentButton: FloatingActionButton(
             onPressed: () async {
-              /*if (_formStore.formErrorStore.userName == null &&
-                  _formStore.formErrorStore.userEmail == null) {*/
               DeviceUtils.hideKeyboard(context);
-              if (_formStore.userName.isNotEmpty) {
+              if (_formStore.canUpdateUsername) {
                 print(_formStore.userName);
                 await _userStore.updateDisplayName(_formStore.userName);
               }
-              if (_formStore.userEmail.isNotEmpty) {
+              if (_formStore.canUpdateEmail) {
                 print(_formStore.userEmail);
                 await showDialog(
                     context: context,
@@ -64,18 +86,28 @@ class _ProfilePageState extends State<ProfilePage> {
                       buttonDisabledColor: Colors.grey,
                       buttonSplashColor: CustomColors.backGroundColor,
                     ));
-                // await _userStore.updateEmail(_formStore.userEmail);
-                var a = 0;
+                if (_userStore.errorStore.errorMessage.isNotEmpty) {
+                  _showErrorMessage(_userStore.errorStore.errorMessage);
+                  return;
+                }
               }
-              if (_userStore.errorStore.errorMessage != null) {
+              if (_userStore.errorStore.errorMessage.isNotEmpty ||
+                  (_formStore.formErrorStore.userName.isNotEmpty &&
+                      _formStore.formErrorStore.userName !=
+                          "Username can't be empty") ||
+                  (_formStore.formErrorStore.userEmail.isNotEmpty &&
+                      _formStore.formErrorStore.userEmail !=
+                          "Email can't be empty")) {
                 print(_userStore.errorStore.errorMessage);
+                _showErrorMessage(_userStore.errorStore.errorMessage +
+                    '\n' +
+                    _formStore.formErrorStore.userName +
+                    '\n' +
+                    _formStore.formErrorStore.userEmail);
+                return;
               }
-              /*  } else {
-                String errorUserName = _formStore.formErrorStore.userName;
-                String erroruserEmail = _formStore.formErrorStore.userEmail;
-                print(errorUserName);
-                print(erroruserEmail);
-              }*/
+              _showSuccessMessage('Updated successfull!');
+              isEditMode = true;
             },
             heroTag: "save",
             backgroundColor: Colors.green,

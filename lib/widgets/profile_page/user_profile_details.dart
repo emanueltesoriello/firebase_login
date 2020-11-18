@@ -146,10 +146,10 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
               widget.isEditMode ? _usernameEdit() : _username(),
               SizedBox(height: 10),
               widget.isEditMode ? _emailEdit() : _email(),
-              SizedBox(height: 10),
-              _company(),
-              SizedBox(height: 10),
-              _magicCode(),
+              widget.isEditMode ? Container() : SizedBox(height: 10),
+              widget.isEditMode ? Container() : _company(),
+              widget.isEditMode ? Container() : SizedBox(height: 10),
+              widget.isEditMode ? Container() : _magicCode(),
             ],
           );
   }

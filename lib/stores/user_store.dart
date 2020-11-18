@@ -219,7 +219,7 @@ abstract class _UserStore with Store {
       await fetchAuth();
     } catch (e) {
       loading = false;
-      errorStore.setErrorMessage(e);
+      errorStore.setErrorMessage(e.message);
     }
   }
 }

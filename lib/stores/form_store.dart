@@ -86,7 +86,10 @@ abstract class _FormStore with Store {
       !formErrorStore.hasErrorInForgotPassword && userEmail.isNotEmpty;
 
   @computed
-  bool get canSendNewEmail => userEmail.isNotEmpty && password.isNotEmpty;
+  bool get canSendNewEmail =>
+      !formErrorStore.hasErrorInCanChangeEmail &&
+      userEmail.isNotEmpty &&
+      password.isNotEmpty;
 
   @computed
   bool get canAddCompany =>
@@ -97,6 +100,14 @@ abstract class _FormStore with Store {
   @computed
   bool get canInsertMagicCode =>
       !formErrorStore.hasErrorsInInsertMagicCode && magicCode.isNotEmpty;
+
+  @computed
+  bool get canUpdateEmail =>
+      userEmail.isNotEmpty && !formErrorStore.hasErrorInUpdateEmail;
+
+  @computed
+  bool get canUpdateUsername =>
+      userName.isNotEmpty && !formErrorStore.hasErrorInUpdateUserName;
 
   /*@computed
   bool get canUpdateProfile =>
@@ -288,6 +299,9 @@ abstract class _FormErrorStore with Store {
   bool get hasErrorInForgotPassword => userEmail != null;
 
   @computed
+  bool get hasErrorInCanChangeEmail => password != null;
+
+  @computed
   bool get hasErrorInSendEmailValidation =>
       userEmail != null || password != null;
 
@@ -297,4 +311,10 @@ abstract class _FormErrorStore with Store {
 
   @computed
   bool get hasErrorsInInsertMagicCode => magicCode != null;
+
+  @computed
+  bool get hasErrorInUpdateEmail => userEmail != null;
+
+  @computed
+  bool get hasErrorInUpdateUserName => userName != null;
 }
