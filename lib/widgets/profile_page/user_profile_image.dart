@@ -1,7 +1,7 @@
 import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/query_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
-import 'package:firebase_login/widgets/circle_avatar_image.dart';
+import 'package:firebase_login/widgets/circle_avatar/circle_avatar_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -60,11 +60,11 @@ class _UserProfileImageState extends State<UserProfileImage> {
                   )
                 : Container(
                     child: CircleAvatarImage(
-                      color: widget.profileBackgroundColor,
-                      imageURL: _userStore.getAuth?.currentUser?.photoURL,
-                      text:
-                          '${_userStore.getAuth?.currentUser?.displayName?.split(' ')[0].substring(0, 2).toUpperCase()}',
-                    ),
+                        color: widget.profileBackgroundColor,
+                        imageURL: _userStore.getAuth?.currentUser?.photoURL,
+                        text:
+                            '-' //'${(_userStore.getAuth?.currentUser?.displayName.split(' ')[0] ?? '-'.substring(0, 2)) ?? '-'.toUpperCase()}',
+                        ),
                   ),
           ),
           SizedBox(height: 5),

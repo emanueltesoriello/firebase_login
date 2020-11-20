@@ -1,7 +1,7 @@
 import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/query_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
-import 'package:firebase_login/widgets/circle_avatar_image.dart';
+import 'package:firebase_login/widgets/circle_avatar/circle_avatar_image.dart';
 import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +59,7 @@ class _TopBarWebState extends State<TopBarWeb> {
                 color: widget.userAvatarColor,
                 imageURL: _userStore.getAuth?.currentUser?.photoURL,
                 text:
-                    '${_userStore.getAuth?.currentUser?.displayName?.split(' ')[0].substring(0, 2).toUpperCase()}',
+                    '.'//'${(_userStore.getAuth?.currentUser?.displayName.split(' ')[0] ?? '-'.substring(0, 2)) ?? '-'.toUpperCase()}',
               ),
             ),
           ),

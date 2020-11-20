@@ -1,5 +1,5 @@
 import 'package:firebase_login/constants/colors.dart';
-import 'package:firebase_login/widgets/circle_avatar_text.dart';
+import 'package:firebase_login/widgets/circle_avatar/circle_avatar_text.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 

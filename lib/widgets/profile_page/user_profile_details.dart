@@ -1,7 +1,7 @@
 import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/query_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
-import 'package:firebase_login/widgets/circle_avatar_image.dart';
+import 'package:firebase_login/widgets/circle_avatar/circle_avatar_image.dart';
 import 'package:firebase_login/widgets/textfields/company_name_textformfield.dart';
 import 'package:firebase_login/widgets/textfields/email_textformfield.dart';
 import 'package:firebase_login/widgets/textfields/textfield_widget.dart';

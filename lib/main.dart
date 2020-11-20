@@ -22,7 +22,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final Future<FirebaseApp> _initApp = Firebase.initializeApp();
-
   static const decoration = InputDecoration(
     fillColor: Color.fromRGBO(242, 245, 248, 1),
     border: InputBorder.none,

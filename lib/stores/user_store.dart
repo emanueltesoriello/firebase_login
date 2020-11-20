@@ -181,7 +181,7 @@ abstract class _UserStore with Store {
   Future updateProfilePic() async {
     await getAuth.currentUser.updateProfile(
         photoURL:
-            'https://www.emanueltesoriellodeveloper.com/wp-content/uploads/2019/05/logo-et-con-scritta-e1580480915528.png');
+            'https://bovc2s9gue-flywheel.netdna-ssl.com/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png');
   }
 
   Future updateDisplayName(String username) async {

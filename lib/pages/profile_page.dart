@@ -1,14 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_login/constants/colors.dart';
-import 'package:firebase_login/pages/home_page.dart';
 import 'package:firebase_login/pages/main_page.dart';
 import 'package:firebase_login/stores/form_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/utilities/device_utils.dart';
-import 'package:firebase_login/widgets/circle_avatar_image.dart';
-import 'package:firebase_login/widgets/custom_menu_fab.dart';
 import 'package:firebase_login/widgets/dialogs/change_email_dialog.dart';
-import 'package:firebase_login/widgets/list_tile.dart';
 import 'package:firebase_login/widgets/profile_page/user_profile_details.dart';
 import 'package:firebase_login/widgets/profile_page/user_profile_image.dart';
 import 'package:firebase_login/widgets/top_bar_web.dart';
@@ -16,11 +11,21 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:firebase_login/stores/query_store.dart';
-import 'package:mobx_widget/mobx_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:unicorndial/unicorndial.dart';
 
 class ProfilePage extends StatefulWidget {
+  final Color firstFloatingActionButtonColor;
+  final Color editModeFloatingActionButtonColor;
+  final Color saveFloatingActionButtonColor;
+  final Color cancelFloatingActionButtonColor;
+  ProfilePage({
+    this.firstFloatingActionButtonColor = CustomColors.primaryColor,
+    this.editModeFloatingActionButtonColor = Colors.red,
+    this.saveFloatingActionButtonColor = Colors.green,
+    this.cancelFloatingActionButtonColor = Colors.blueAccent,
+  });
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -69,48 +74,54 @@ class _ProfilePageState extends State<ProfilePage> {
     return UnicornButton(
         currentButton: FloatingActionButton(
             onPressed: () async {
-              DeviceUtils.hideKeyboard(context);
-              if (_formStore.canUpdateUsername) {
-                print(_formStore.userName);
-                await _userStore.updateDisplayName(_formStore.userName);
-              }
-              if (_formStore.canUpdateEmail) {
-                print(_formStore.userEmail);
-                await showDialog(
-                    context: context,
-                    child: ChangeEmailDialog(
-                      textFormFieldDecoration: InputDecoration(),
-                      buttonBorderRadius: Radius.circular(90),
-                      imageAsset: 'web/images/logo.png',
-                      buttonColor: CustomColors.primaryColor,
-                      buttonDisabledColor: Colors.grey,
-                      buttonSplashColor: CustomColors.backGroundColor,
-                    ));
-                if (_userStore.errorStore.errorMessage.isNotEmpty) {
-                  _showErrorMessage(_userStore.errorStore.errorMessage);
+              try {
+                DeviceUtils.hideKeyboard(context);
+                if (_formStore.canUpdateUsername) {
+                  print(_formStore.userName);
+                  await _userStore.updateDisplayName(_formStore.userName);
+                }
+                if (_formStore.canUpdateEmail) {
+                  print(_formStore.userEmail);
+                  await showDialog(
+                      context: context,
+                      child: ChangeEmailDialog(
+                        textFormFieldDecoration: InputDecoration(),
+                        buttonBorderRadius: Radius.circular(90),
+                        imageAsset: 'web/images/logo.png',
+                        buttonColor: CustomColors.primaryColor,
+                        buttonDisabledColor: Colors.grey,
+                        buttonSplashColor: CustomColors.backGroundColor,
+                      ));
+                  if (_userStore.errorStore.errorMessage.isNotEmpty) {
+                    _showErrorMessage(_userStore.errorStore.errorMessage);
+                    return;
+                  }
+                }
+                if (_userStore.errorStore.errorMessage.isNotEmpty ||
+                    ((_formStore.formErrorStore.userName ?? '').isNotEmpty &&
+                        (_formStore.formErrorStore.userName ?? '') !=
+                            "Username can't be empty") ||
+                    (_formStore.formErrorStore.userEmail.isNotEmpty &&
+                        _formStore.formErrorStore.userEmail !=
+                            "Email can't be empty")) {
+                  print(_userStore.errorStore.errorMessage);
+                  _showErrorMessage(_userStore.errorStore.errorMessage +
+                      '\n' +
+                      (_formStore.formErrorStore.userName ?? '') +
+                      '\n' +
+                      _formStore.formErrorStore.userEmail);
                   return;
                 }
+              } catch (e) {
+                print(e);
               }
-              if (_userStore.errorStore.errorMessage.isNotEmpty ||
-                  (_formStore.formErrorStore.userName.isNotEmpty &&
-                      _formStore.formErrorStore.userName !=
-                          "Username can't be empty") ||
-                  (_formStore.formErrorStore.userEmail.isNotEmpty &&
-                      _formStore.formErrorStore.userEmail !=
-                          "Email can't be empty")) {
-                print(_userStore.errorStore.errorMessage);
-                _showErrorMessage(_userStore.errorStore.errorMessage +
-                    '\n' +
-                    _formStore.formErrorStore.userName +
-                    '\n' +
-                    _formStore.formErrorStore.userEmail);
-                return;
-              }
-              _showSuccessMessage('Updated successfull!');
+              if (_formStore.userEmail.isNotEmpty ||
+                  _formStore.userName.isNotEmpty)
+                _showSuccessMessage('Updated successfull!');
               isEditMode = true;
             },
             heroTag: "save",
-            backgroundColor: Colors.green,
+            backgroundColor: widget.saveFloatingActionButtonColor,
             mini: true,
             child: Icon(Icons.save)));
   }
@@ -123,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   _formStore.reset();
                 }),
             heroTag: "cancel",
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: widget.cancelFloatingActionButtonColor,
             mini: true,
             child: Icon(Icons.undo)));
   }
@@ -145,46 +156,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _floatingActionButtonEnableEdit() {
     return FloatingActionButton(
+      backgroundColor: widget.firstFloatingActionButtonColor,
       onPressed: () async {
         setState(() {
           isEditMode = true;
         });
       },
       child: Icon(Icons.edit),
-    );
-  }
-
-  Widget _appInfos() {
-    return Column(
-      children: [
-        ListTile(
-          contentPadding: EdgeInsets.all(0),
-          title: Text(
-            'Privacy Policy',
-            style: TextStyle(fontSize: 15),
-          ),
-          onTap: () {},
-          trailing: Icon(Icons.arrow_forward_ios, size: 15),
-        ),
-        ListTile(
-          contentPadding: EdgeInsets.all(0),
-          title: Text(
-            'Terms of use',
-            style: TextStyle(fontSize: 15),
-          ),
-          onTap: () {},
-          trailing: Icon(Icons.arrow_forward_ios, size: 15),
-        ),
-        ListTile(
-          contentPadding: EdgeInsets.all(0),
-          title: Text(
-            'Settings',
-            style: TextStyle(fontSize: 15),
-          ),
-          onTap: () {},
-          trailing: Icon(Icons.arrow_forward_ios, size: 15),
-        ),
-      ],
     );
   }
 
@@ -211,35 +189,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       Center(child: UserProfileImage(isEditMode: isEditMode)),
                       UserProfileDetails(isEditMode: isEditMode),
                       isEditMode ? Container() : SizedBox(height: 50),
-                      isEditMode ? Container() : Divider(),
-                      isEditMode ? Container() : _appInfos()
-                      /*SizedBox(height: 50),
-                      Text(
-                        'PROFILE PAGE!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 40),
-                      ),
-                      SizedBox(height: 10),
-                      ObserverText(
-                          onData: (_) =>
-                              'Email: ${_userStore.getAuth?.currentUser?.email}'),
-                      ObserverText(
-                          onData: (_) =>
-                              'Username: ${_queryStore.getTheUser.userName}'),
-                      ObserverText(
-                          onData: (_) =>
-                              'Company Vat Number: ${_queryStore.getTheUser.companyVatNumber}'),
-                      ObserverText(
-                          onData: (_) =>
-                              'UserId: ${_queryStore.getTheUser.objectId}'),
-                      _queryStore.getTheUser.isCompanyAdmin
-                          ? _queryStore.getTheUser.magicCode != null
-                              ? SelectableText(
-                                  'MagicCode: ${_queryStore.getTheUser.magicCode}')
-                              : ObserverText(
-                                  onData: (_) =>
-                                      'MagicCode: ${_queryStore.getTheUser.magicCode}')
-                          : Container(),*/
                     ],
                   ),
           ),

@@ -2,7 +2,7 @@ import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/pages/main_page.dart';
 import 'package:firebase_login/pages/profile_page.dart';
 import 'package:firebase_login/stores/user_store.dart';
-import 'package:firebase_login/widgets/drawer.dart';
+import 'package:firebase_login/widgets/drawer/drawer.dart';
 import 'package:firebase_login/widgets/list_tile.dart';
 import 'package:firebase_login/widgets/top_bar_web.dart';
 import 'package:flutter/material.dart';

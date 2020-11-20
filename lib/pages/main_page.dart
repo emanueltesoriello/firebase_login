@@ -3,7 +3,7 @@ import 'package:firebase_login/pages/home_page.dart';
 import 'package:firebase_login/pages/profile_page.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/list_tile.dart';
-import 'package:firebase_login/widgets/drawer.dart';
+import 'package:firebase_login/widgets/drawer/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:firebase_login/stores/query_store.dart';

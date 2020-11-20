@@ -1,9 +1,9 @@
 import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/buttons/logout.dart';
-import 'package:firebase_login/widgets/circle_avatar_image.dart';
+import 'package:firebase_login/widgets/circle_avatar/circle_avatar_image.dart';
 import 'package:firebase_login/widgets/decorations/generic_rounded_button_decoration.dart';
-import 'package:firebase_login/widgets/drawer_web.dart';
+import 'package:firebase_login/widgets/drawer/drawer_web.dart';
 import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:firebase_login/widgets/list_tile.dart';
 import 'package:flutter/material.dart';
@@ -57,10 +57,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
             width: targetHeight / 17,
             child: Container(
               child: CircleAvatarImage(
-                imageURL: _userStore.getAuth?.currentUser?.photoURL,
-                text:
-                    '${_userStore.getAuth?.currentUser?.displayName?.split(' ')[0].substring(0, 2).toUpperCase()}',
-              ),
+                  imageURL: _userStore.getAuth?.currentUser?.photoURL,
+                  text:
+                      '-'), // '${(_userStore.getAuth?.currentUser?.displayName.split(' ')[0] ?? '-'.substring(0, 2)) ?? '-'.toUpperCase()}'),
             ),
           ),
           TextDefault(
