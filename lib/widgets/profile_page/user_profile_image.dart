@@ -44,15 +44,13 @@ class _UserProfileImageState extends State<UserProfileImage> {
       onPressed: widget.isEditMode
           ? () async {
               setState(() => loading = true);
-              print("befor");
+              print("before");
               uploadProfileStore.selectFile().then(
                   (value) => uploadProfileStore.uploadImage().then((value) {
-                    print(value);
+                        print(value);
                         _userStore.updateProfilePic(value);
                         setState(() => loading = false);
                       }));
-
-              
             }
           : null,
       child: Column(

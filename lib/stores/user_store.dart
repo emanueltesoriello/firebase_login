@@ -179,9 +179,8 @@ abstract class _UserStore with Store {
   }
 
   Future updateProfilePic(String url) async {
-    await getAuth.currentUser.updateProfile(
-        photoURL:
-            url);
+    await getAuth.currentUser.updateProfile(photoURL: url);
+    await fetchAuth();
   }
 
   Future updateDisplayName(String username) async {
