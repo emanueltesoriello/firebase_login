@@ -178,10 +178,9 @@ abstract class _UserStore with Store {
     }
   }
 
-  Future updateProfilePic() async {
-    await getAuth.currentUser.updateProfile(
-        photoURL:
-            'https://bovc2s9gue-flywheel.netdna-ssl.com/wp-content/uploads/2020/09/Marketing_Genius_Raket-Circle_BLAUW_500-1280x1280.png');
+  Future updateProfilePic(String url) async {
+    await getAuth.currentUser.updateProfile(photoURL: url);
+    await fetchAuth();
   }
 
   Future updateDisplayName(String username) async {

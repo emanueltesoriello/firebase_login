@@ -1,5 +1,6 @@
 import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/query_store.dart';
+import 'package:firebase_login/stores/upload_profile_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/circle_avatar/circle_avatar_image.dart';
 import 'package:flutter/material.dart';
@@ -28,12 +29,14 @@ class _UserProfileImageState extends State<UserProfileImage> {
   double targetWidth;
   UserStore _userStore;
   QueryStore _queryStore;
+  UploadProfileStore uploadProfileStore;
 
   @override
   void initState() {
     super.initState();
     _userStore = context.read();
     _queryStore = context.read();
+    uploadProfileStore = context.read();
   }
 
   Widget _userProfileImage() {
@@ -41,8 +44,13 @@ class _UserProfileImageState extends State<UserProfileImage> {
       onPressed: widget.isEditMode
           ? () async {
               setState(() => loading = true);
-              await _userStore.updateProfilePic();
-              setState(() => loading = false);
+              print("before");
+              uploadProfileStore.selectFile().then(
+                  (value) => uploadProfileStore.uploadImage().then((value) {
+                        print(value);
+                        _userStore.updateProfilePic(value);
+                        setState(() => loading = false);
+                      }));
             }
           : null,
       child: Column(

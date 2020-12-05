@@ -6,6 +6,7 @@ import 'package:firebase_login/pages/navigator_page.dart';
 import 'package:firebase_login/pages/no_company.dart';
 import 'package:firebase_login/pages/splash_screen.dart';
 import 'package:firebase_login/stores/query_store.dart';
+import 'package:firebase_login/stores/upload_profile_store.dart';
 import 'package:firebase_login/widgets/restart_widget.dart';
 import 'package:flutter/material.dart';
 import './stores/form_store.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final Future<FirebaseApp> _initApp = Firebase.initializeApp();
+  
   static const decoration = InputDecoration(
     fillColor: Color.fromRGBO(242, 245, 248, 1),
     border: InputBorder.none,
@@ -32,11 +34,20 @@ class _MyAppState extends State<MyApp> {
     filled: true,
     contentPadding: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
   );
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Firebase.initializeApp().then((value) => print('DONE'));
+  }
   @override
   Widget build(BuildContext context) {
+    
     return MultiProvider(
       providers: [
+        Provider<UploadProfileStore>(
+          create: (_) => UploadProfileStore(),
+        ),
         Provider<FormStore>(
           create: (_) => FormStore(),
         ),
