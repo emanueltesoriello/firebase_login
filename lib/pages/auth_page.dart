@@ -1,6 +1,5 @@
 import 'package:firebase_login/constants/auth_messages.dart';
 import 'package:firebase_login/constants/colors.dart';
-import 'package:firebase_login/services/launch_url.dart';
 import 'package:firebase_login/stores/form_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/buttons/forgot_password_button.dart';

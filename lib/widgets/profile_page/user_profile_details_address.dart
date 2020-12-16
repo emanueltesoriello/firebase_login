@@ -1,31 +1,37 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/query_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
+import 'package:firebase_login/widgets/circle_avatar/circle_avatar_image.dart';
+import 'package:firebase_login/widgets/textfields/address_textformfield.dart';
+import 'package:firebase_login/widgets/textfields/city_textformfield.dart';
+import 'package:firebase_login/widgets/textfields/company_name_textformfield.dart';
 import 'package:firebase_login/widgets/textfields/email_textformfield.dart';
+import 'package:firebase_login/widgets/textfields/postal_code_textformfield.dart';
+import 'package:firebase_login/widgets/textfields/textfield_widget.dart';
 import 'package:firebase_login/widgets/textfields/username_textformfield.dart';
+import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx_widget/mobx_widget.dart';
 import 'package:provider/provider.dart';
 
-class UserProfileDetails extends StatefulWidget {
+class UserProfileDetailsAddress extends StatefulWidget {
   final Color profileBackgroundColor;
   final Color refreshIndicatorBackgroundColor;
   final Color refreshIndicatorCircularColor;
   final bool isEditMode;
 
-  UserProfileDetails({
+  UserProfileDetailsAddress({
     this.profileBackgroundColor = CustomColors.backGroundColor,
     this.refreshIndicatorBackgroundColor = CustomColors.primaryColor,
     this.refreshIndicatorCircularColor = CustomColors.backGroundColor,
     this.isEditMode = false,
   });
-
   @override
-  _UserProfileDetailsState createState() => _UserProfileDetailsState();
+  _UserProfileDetailsAddressState createState() => _UserProfileDetailsAddressState();
 }
 
-class _UserProfileDetailsState extends State<UserProfileDetails> {
+class _UserProfileDetailsAddressState extends State<UserProfileDetailsAddress> {
   bool loading = false;
   double targetHeight;
   double targetWidth;
@@ -40,90 +46,85 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
     _queryStore = context.read();
   }
 
-  Widget _usernameEdit() {
+  Widget _addressEdit() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Username'),
-        UsernameTextFormField(
+        Text('Address'),
+        AddressTextFormField(
           decoration: InputDecoration(
-              hintText: 'New Username',
-              labelText: _queryStore.getTheUser.userName),
+              hintText: 'New Address',
+              labelText: _queryStore.getTheUser.address!=null? _queryStore.getTheUser.address: ""),
         )
       ],
     );
   }
 
-  Widget _emailEdit() {
+  Widget _postalCodeEdit() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Email'),
-        EmailTextFormField(
+        Text('PostalCode'),
+        PostalCodeTextFormField(
           decoration: InputDecoration(
-              hintText: 'New Email',
-              labelText: _userStore.getAuth?.currentUser?.email),
+              hintText: 'New Postal Code',
+              labelText: _queryStore.getTheUser.postalCode!=null? _queryStore.getTheUser.postalCode: ""),
         )
       ],
     );
   }
 
-  Widget _username() {
+  Widget _cityEdit() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('City'),
+        CityTextFormField(
+          decoration: InputDecoration(
+              hintText: 'New City',
+              labelText: _queryStore.getTheUser.city!=null? _queryStore.getTheUser.city: ""),
+        )
+      ],
+    );
+  }
+
+  Widget _address() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Username: '),
+        Text('Address: '),
         Text(
-          _queryStore.getTheUser.userName,
+          _queryStore.getTheUser.address!=null? _queryStore.getTheUser.address: "",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ],
     );
   }
 
-  Widget _email() {
+  Widget _postalCode() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Email: '),
+        Text('Postal Code: '),
         Text(
-          _userStore.getAuth?.currentUser?.email,
+          _queryStore.getTheUser.postalCode!=null? _queryStore.getTheUser.postalCode: "",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ],
     );
   }
 
-  Widget _company() {
+  Widget _city() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Your company username: '),
+        Text('City: '),
         Text(
-          _queryStore.getTheUser.associatedCompany,
+          _queryStore.getTheUser.city!=null? _queryStore.getTheUser.city: "",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ],
     );
-  }
-
-  Widget _magicCode() {
-    return _queryStore.getTheUser.isCompanyAdmin && _queryStore.getTheUser.magicCode != null
-        ? FittedBox(
-            child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'MagicCode: ',
-                style: TextStyle(fontSize: 15),
-              ),
-              SelectableText(
-                _queryStore.getTheUser.magicCode,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )
-            ],
-          ))
-        : Container();
   }
 
   Widget _userProfileDetails() {
@@ -139,13 +140,11 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10),
-              widget.isEditMode ? _usernameEdit() : _username(),
+              widget.isEditMode ? _addressEdit() : _address(),
               SizedBox(height: 10),
-              widget.isEditMode ? _emailEdit() : _email(),
-              widget.isEditMode ? Container() : SizedBox(height: 10),
-              widget.isEditMode ? Container() : _company(),
-              widget.isEditMode ? Container() : SizedBox(height: 10),
-              widget.isEditMode ? Container() : _magicCode(),
+              widget.isEditMode ? _postalCodeEdit() : _postalCode(),
+              SizedBox(height: 10),
+              widget.isEditMode ? _cityEdit() : _city()
             ],
           );
   }

@@ -71,6 +71,27 @@ mixin _$FormStore on _FormStore, Store {
           () => super.canUpdateUsername,
           name: '_FormStore.canUpdateUsername'))
       .value;
+  Computed<bool> _$canUpdateAddressComputed;
+
+  @override
+  bool get canUpdateAddress => (_$canUpdateAddressComputed ??= Computed<bool>(
+          () => super.canUpdateAddress,
+          name: '_FormStore.canUpdateAddress'))
+      .value;
+  Computed<bool> _$canUpdatePostalCodeComputed;
+
+  @override
+  bool get canUpdatePostalCode => (_$canUpdatePostalCodeComputed ??=
+          Computed<bool>(() => super.canUpdatePostalCode,
+              name: '_FormStore.canUpdatePostalCode'))
+      .value;
+  Computed<bool> _$canUpdateCityComputed;
+
+  @override
+  bool get canUpdateCity =>
+      (_$canUpdateCityComputed ??= Computed<bool>(() => super.canUpdateCity,
+              name: '_FormStore.canUpdateCity'))
+          .value;
 
   final _$userEmailAtom = Atom(name: '_FormStore.userEmail');
 
@@ -174,6 +195,51 @@ mixin _$FormStore on _FormStore, Store {
   set magicCode(String value) {
     _$magicCodeAtom.reportWrite(value, super.magicCode, () {
       super.magicCode = value;
+    });
+  }
+
+  final _$addressAtom = Atom(name: '_FormStore.address');
+
+  @override
+  String get address {
+    _$addressAtom.reportRead();
+    return super.address;
+  }
+
+  @override
+  set address(String value) {
+    _$addressAtom.reportWrite(value, super.address, () {
+      super.address = value;
+    });
+  }
+
+  final _$postalCodeAtom = Atom(name: '_FormStore.postalCode');
+
+  @override
+  String get postalCode {
+    _$postalCodeAtom.reportRead();
+    return super.postalCode;
+  }
+
+  @override
+  set postalCode(String value) {
+    _$postalCodeAtom.reportWrite(value, super.postalCode, () {
+      super.postalCode = value;
+    });
+  }
+
+  final _$cityAtom = Atom(name: '_FormStore.city');
+
+  @override
+  String get city {
+    _$cityAtom.reportRead();
+    return super.city;
+  }
+
+  @override
+  set city(String value) {
+    _$cityAtom.reportWrite(value, super.city, () {
+      super.city = value;
     });
   }
 
@@ -303,6 +369,39 @@ mixin _$FormStore on _FormStore, Store {
   }
 
   @override
+  void setAddress(String value) {
+    final _$actionInfo =
+        _$_FormStoreActionController.startAction(name: '_FormStore.setAddress');
+    try {
+      return super.setAddress(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setPostalCode(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.setPostalCode');
+    try {
+      return super.setPostalCode(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setCity(String value) {
+    final _$actionInfo =
+        _$_FormStoreActionController.startAction(name: '_FormStore.setCity');
+    try {
+      return super.setCity(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setAcceptPrivacySwitch(bool value) {
     final _$actionInfo = _$_FormStoreActionController.startAction(
         name: '_FormStore.setAcceptPrivacySwitch');
@@ -391,6 +490,39 @@ mixin _$FormStore on _FormStore, Store {
   }
 
   @override
+  void validatePostalCode(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.validatePostalCode');
+    try {
+      return super.validatePostalCode(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void validateAddress(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.validateAddress');
+    try {
+      return super.validateAddress(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void validateCity(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.validateCity');
+    try {
+      return super.validateCity(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 userEmail: ${userEmail},
@@ -400,6 +532,9 @@ confirmPassword: ${confirmPassword},
 chamberOfCommerce: ${chamberOfCommerce},
 companyName: ${companyName},
 magicCode: ${magicCode},
+address: ${address},
+postalCode: ${postalCode},
+city: ${city},
 success: ${success},
 loading: ${loading},
 acceptPrivacySwitch: ${acceptPrivacySwitch},
@@ -411,7 +546,10 @@ canSendNewEmail: ${canSendNewEmail},
 canAddCompany: ${canAddCompany},
 canInsertMagicCode: ${canInsertMagicCode},
 canUpdateEmail: ${canUpdateEmail},
-canUpdateUsername: ${canUpdateUsername}
+canUpdateUsername: ${canUpdateUsername},
+canUpdateAddress: ${canUpdateAddress},
+canUpdatePostalCode: ${canUpdatePostalCode},
+canUpdateCity: ${canUpdateCity}
     ''';
   }
 }
@@ -437,6 +575,13 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
   bool get hasErrorInForgotPassword => (_$hasErrorInForgotPasswordComputed ??=
           Computed<bool>(() => super.hasErrorInForgotPassword,
               name: '_FormErrorStore.hasErrorInForgotPassword'))
+      .value;
+  Computed<bool> _$hasErrorInCanChangeEmailComputed;
+
+  @override
+  bool get hasErrorInCanChangeEmail => (_$hasErrorInCanChangeEmailComputed ??=
+          Computed<bool>(() => super.hasErrorInCanChangeEmail,
+              name: '_FormErrorStore.hasErrorInCanChangeEmail'))
       .value;
   Computed<bool> _$hasErrorInSendEmailValidationComputed;
 
@@ -474,6 +619,28 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
   bool get hasErrorInUpdateUserName => (_$hasErrorInUpdateUserNameComputed ??=
           Computed<bool>(() => super.hasErrorInUpdateUserName,
               name: '_FormErrorStore.hasErrorInUpdateUserName'))
+      .value;
+  Computed<bool> _$hasErrorInUpdateAddressComputed;
+
+  @override
+  bool get hasErrorInUpdateAddress => (_$hasErrorInUpdateAddressComputed ??=
+          Computed<bool>(() => super.hasErrorInUpdateAddress,
+              name: '_FormErrorStore.hasErrorInUpdateAddress'))
+      .value;
+  Computed<bool> _$hasErrorInUpdatePostalCodeComputed;
+
+  @override
+  bool get hasErrorInUpdatePostalCode =>
+      (_$hasErrorInUpdatePostalCodeComputed ??= Computed<bool>(
+              () => super.hasErrorInUpdatePostalCode,
+              name: '_FormErrorStore.hasErrorInUpdatePostalCode'))
+          .value;
+  Computed<bool> _$hasErrorInUpdateCityComputed;
+
+  @override
+  bool get hasErrorInUpdateCity => (_$hasErrorInUpdateCityComputed ??=
+          Computed<bool>(() => super.hasErrorInUpdateCity,
+              name: '_FormErrorStore.hasErrorInUpdateCity'))
       .value;
 
   final _$userEmailAtom = Atom(name: '_FormErrorStore.userEmail');
@@ -582,6 +749,51 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     });
   }
 
+  final _$postalCodeAtom = Atom(name: '_FormErrorStore.postalCode');
+
+  @override
+  String get postalCode {
+    _$postalCodeAtom.reportRead();
+    return super.postalCode;
+  }
+
+  @override
+  set postalCode(String value) {
+    _$postalCodeAtom.reportWrite(value, super.postalCode, () {
+      super.postalCode = value;
+    });
+  }
+
+  final _$addressAtom = Atom(name: '_FormErrorStore.address');
+
+  @override
+  String get address {
+    _$addressAtom.reportRead();
+    return super.address;
+  }
+
+  @override
+  set address(String value) {
+    _$addressAtom.reportWrite(value, super.address, () {
+      super.address = value;
+    });
+  }
+
+  final _$cityAtom = Atom(name: '_FormErrorStore.city');
+
+  @override
+  String get city {
+    _$cityAtom.reportRead();
+    return super.city;
+  }
+
+  @override
+  set city(String value) {
+    _$cityAtom.reportWrite(value, super.city, () {
+      super.city = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
@@ -592,14 +804,21 @@ password: ${password},
 confirmPassword: ${confirmPassword},
 chamberOfCommerce: ${chamberOfCommerce},
 companyName: ${companyName},
+postalCode: ${postalCode},
+address: ${address},
+city: ${city},
 hasErrorsInLogin: ${hasErrorsInLogin},
 hasErrorsInRegister: ${hasErrorsInRegister},
 hasErrorInForgotPassword: ${hasErrorInForgotPassword},
+hasErrorInCanChangeEmail: ${hasErrorInCanChangeEmail},
 hasErrorInSendEmailValidation: ${hasErrorInSendEmailValidation},
 hasErrorsInAddCompany: ${hasErrorsInAddCompany},
 hasErrorsInInsertMagicCode: ${hasErrorsInInsertMagicCode},
 hasErrorInUpdateEmail: ${hasErrorInUpdateEmail},
-hasErrorInUpdateUserName: ${hasErrorInUpdateUserName}
+hasErrorInUpdateUserName: ${hasErrorInUpdateUserName},
+hasErrorInUpdateAddress: ${hasErrorInUpdateAddress},
+hasErrorInUpdatePostalCode: ${hasErrorInUpdatePostalCode},
+hasErrorInUpdateCity: ${hasErrorInUpdateCity}
     ''';
   }
 }

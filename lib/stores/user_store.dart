@@ -221,4 +221,59 @@ abstract class _UserStore with Store {
       errorStore.setErrorMessage(e.message);
     }
   }
+
+  Future updatePostalCode(String postalCode) async {
+    loading = true;
+    try {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(getAuth.currentUser.uid)
+          .update({
+        'postalCode': postalCode,
+      });
+      loading = false;
+      success = true;
+      await fetchAuth();
+    } catch (e) {
+      loading = false;
+      errorStore.setErrorMessage(e);
+    }
+  }
+
+  Future updateAddress(String address) async {
+    loading = true;
+    try {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(getAuth.currentUser.uid)
+          .update({
+        'address': address,
+      });
+      loading = false;
+      success = true;
+      await fetchAuth();
+    } catch (e) {
+      loading = false;
+      errorStore.setErrorMessage(e);
+    }
+  }
+
+  Future updateCity(String city) async {
+    loading = true;
+    try {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(getAuth.currentUser.uid)
+          .update({
+        'city': city,
+      });
+      loading = false;
+      success = true;
+      await fetchAuth();
+    } catch (e) {
+      loading = false;
+      errorStore.setErrorMessage(e);
+    }
+  }
+
 }

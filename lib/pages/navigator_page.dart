@@ -34,7 +34,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
             if (_queryStore.loading)
               return widget.splashScreen;
             else {
-              if (_queryStore.getTheUser.companyVatNumber == null) {
+              if (_queryStore.getTheUser.associatedCompany == null) {
                 return widget.noCompany;
               } else {
                 return widget.homePage;

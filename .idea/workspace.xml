@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="15e3c6c9-7cc2-44b3-9dd8-355feb5f311b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/widgets/profile_page/user_profile_details_address.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/textfields/address_textformfield.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/textfields/city_textformfield.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/textfields/postal_code_textformfield.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.packages" beforeDir="false" afterPath="$PROJECT_DIR$/.packages" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/generated_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated_plugin_registrant.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/user.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/auth_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/auth_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/navigator_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/navigator_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/profile_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/profile_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/stores/error_store.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stores/error_store.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/stores/form_store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stores/form_store.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/stores/form_store.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stores/form_store.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/stores/query_store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stores/query_store.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/stores/query_store.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stores/query_store.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/stores/upload_profile_store.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stores/upload_profile_store.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/stores/user_store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stores/user_store.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/stores/user_store.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stores/user_store.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/profile_page/user_profile_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/profile_page/user_profile_details.dart" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1lk45eCJdGNdmxoWBDVHigdKJMC" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/widgets/textfields" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Spykey\Documents\GitHub\firebase_login\lib\widgets\textfields" />
+      <recent name="C:\Users\Spykey\Documents\GitHub\firebase_login\lib\widgets\profile_page" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="15e3c6c9-7cc2-44b3-9dd8-355feb5f311b" name="Default Changelist" comment="" />
+      <created>1608127572059</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1608127572059</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1234" height="402" key="GridCell.Tab.0.bottom" timestamp="1608144517329">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1234" height="402" key="GridCell.Tab.0.bottom/2560.846.1920.1040/0.0.2560.1400@0.0.2560.1400" timestamp="1608144517329" />
+    <state width="1234" height="402" key="GridCell.Tab.0.center" timestamp="1608144517329">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1234" height="402" key="GridCell.Tab.0.center/2560.846.1920.1040/0.0.2560.1400@0.0.2560.1400" timestamp="1608144517329" />
+    <state width="1234" height="402" key="GridCell.Tab.0.left" timestamp="1608144517328">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1234" height="402" key="GridCell.Tab.0.left/2560.846.1920.1040/0.0.2560.1400@0.0.2560.1400" timestamp="1608144517328" />
+    <state width="1234" height="402" key="GridCell.Tab.0.right" timestamp="1608144517329">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1234" height="402" key="GridCell.Tab.0.right/2560.846.1920.1040/0.0.2560.1400@0.0.2560.1400" timestamp="1608144517329" />
+  </component>
+</project>

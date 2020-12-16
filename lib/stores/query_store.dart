@@ -37,17 +37,35 @@ abstract class _QueryStore with Store {
         if (element.exists) {
           await FirebaseFirestore.instance
               .collection("companies")
-              .doc(element.data()['companyVatNumber'].toString().toLowerCase())
+              .doc(element.data()['associatedCompany'].toString().toLowerCase())
               .snapshots()
               .forEach((companyData) async {
             if (companyData.exists) {
-              List<dynamic> companyAdmins = companyData.data()['companyAdmins'];
               String magicCode = companyData.data()['magicCode'];
               var userData = element.data();
-              userData.addAll(
-                  {'companyAdmins': companyAdmins, 'magicCode': magicCode});
-              user = ObservableFuture(Future.value(mv.User.fromJSON(userData)));
-              loading = false;
+              await FirebaseFirestore.instance
+                  .collection("roles")
+                  .doc(userData["associatedTechnicalRole"].toString())
+                  .snapshots()
+                  .forEach((element) {
+                if (element.exists) {
+                  bool isCompanyAdmin = false;
+                  if (element.data()["roleName"] == "Admin") {
+                    isCompanyAdmin = true;
+                  }
+                  userData.addAll({
+                    'magicCode': magicCode,
+                    'isCompanyAdmin': isCompanyAdmin
+                  });
+                  print(userData);
+                  user = ObservableFuture(
+                      Future.value(mv.User.fromJSON(userData)));
+                  loading = false;
+                } else {
+                  user = ObservableFuture(Future.value(null));
+                  loading = false;
+                }
+              });
             } else {
               user = ObservableFuture(Future.value(null));
               loading = false;
@@ -92,16 +110,30 @@ abstract class _QueryStore with Store {
         await FirebaseFirestore.instance
             .collection("companies")
             .doc(chamberOfCommerceNo.toLowerCase())
-            .set({
-          'companyName': companyName,
-          'companyAdmins': [userId],
-          'magicCode': mgCode
+            .set({'companyName': companyName, 'magicCode': mgCode});
+        // add standard roles for the company
+        await FirebaseFirestore.instance.collection("roles").add({
+          "roleName": "Admin",
+          "associatedCompany": chamberOfCommerceNo.toLowerCase(),
         });
-        // add document into users
-        await FirebaseFirestore.instance.collection("users").doc(userId).set({
-          'companyVatNumber': chamberOfCommerceNo,
-          'objectId': userId,
-          'userName': userName,
+        await FirebaseFirestore.instance.collection("roles").add({
+          "roleName": "User",
+          "associatedCompany": chamberOfCommerceNo.toLowerCase(),
+        });
+        await FirebaseFirestore.instance
+            .collection("roles")
+            .where("roleName", isEqualTo: "Admin")
+            .where("associatedCompany",
+                isEqualTo: chamberOfCommerceNo.toLowerCase())
+            .get()
+            .then((response) async {
+          //add techincalRole to user
+          await FirebaseFirestore.instance.collection("users").doc(userId).set({
+            'associatedCompany': chamberOfCommerceNo.toLowerCase(),
+            'associatedTechnicalRole': response.docs[0].id,
+            'objectId': userId,
+            'userName': userName,
+          });
         });
         await FirebaseFirestore.instance
             .collection("magic-codes")

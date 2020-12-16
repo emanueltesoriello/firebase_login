@@ -76,6 +76,15 @@ class _ProfilePageState extends State<ProfilePage> {
             onPressed: () async {
               try {
                 DeviceUtils.hideKeyboard(context);
+                if(_formStore.canUpdateAddress){
+                  await _userStore.updateAddress(_formStore.address);
+                }
+                if(_formStore.canUpdatePostalCode){
+                  await _userStore.updatePostalCode(_formStore.postalCode);
+                }
+                if(_formStore.canUpdateCity){
+                  await _userStore.updateCity(_formStore.city);
+                }
                 if (_formStore.canUpdateUsername) {
                   print(_formStore.userName);
                   await _userStore.updateDisplayName(_formStore.userName);
@@ -186,7 +195,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Center(child: UserProfileImage(isEditMode: isEditMode)),
                       UserProfileDetails(isEditMode: isEditMode),
                       isEditMode ? Container() : SizedBox(height: 50),
                     ],

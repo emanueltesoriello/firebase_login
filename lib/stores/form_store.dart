@@ -25,7 +25,10 @@ abstract class _FormStore with Store {
       reaction((_) => confirmPassword, validateConfirmPassword),
       reaction((_) => chamberOfCommerce, validateChamberOfCommerce),
       reaction((_) => companyName, validateCompanyName),
-      reaction((_) => magicCode, validateMagicCode)
+      reaction((_) => magicCode, validateMagicCode),
+      reaction((_) => address, validateAddress),
+      reaction((_) => postalCode, validatePostalCode),
+      reaction((_) => city, validateCity),
     ];
   }
 
@@ -50,6 +53,15 @@ abstract class _FormStore with Store {
 
   @observable
   String magicCode = '';
+
+  @observable
+  String address = '';
+
+  @observable
+  String postalCode = '';
+
+  @observable
+  String city = '';
 
   @observable
   bool success = false;
@@ -109,6 +121,18 @@ abstract class _FormStore with Store {
   bool get canUpdateUsername =>
       userName.isNotEmpty && !formErrorStore.hasErrorInUpdateUserName;
 
+  @computed
+  bool get canUpdateAddress =>
+      address.isNotEmpty && !formErrorStore.hasErrorInUpdateAddress;
+
+  @computed
+  bool get canUpdatePostalCode =>
+      postalCode.isNotEmpty && !formErrorStore.hasErrorInUpdatePostalCode;
+
+  @computed
+  bool get canUpdateCity =>
+      city.isNotEmpty && !formErrorStore.hasErrorInUpdateCity;
+
   /*@computed
   bool get canUpdateProfile =>
       userName.isNotEmpty &&
@@ -149,6 +173,21 @@ abstract class _FormStore with Store {
   @action
   void setMagicCode(String value) {
     magicCode = value;
+  }
+
+  @action
+  void setAddress(String value) {
+    address = value;
+  }
+
+  @action
+  void setPostalCode(String value) {
+    postalCode = value;
+  }
+
+  @action
+  void setCity(String value) {
+    city = value;
   }
 
   @action
@@ -235,6 +274,40 @@ abstract class _FormStore with Store {
     }
   }
 
+  @action
+  void validatePostalCode(String value) {
+    if (value.isEmpty) {
+      formErrorStore.postalCode = "Postal Code can't be empty";
+    } else if (value.length < 3) {
+      formErrorStore.postalCode = 'Please enter a valid Postal Code';
+    } else {
+      formErrorStore.postalCode = null;
+    }
+  }
+
+  @action
+  void validateAddress(String value) {
+    print(value);
+    if (value.isEmpty) {
+      formErrorStore.address = "Address can't be empty";
+    } else if (value.length < 3) {
+      formErrorStore.address = 'Please enter a valid Address';
+    } else {
+      formErrorStore.address = null;
+    }
+  }
+
+  @action
+  void validateCity(String value) {
+    if (value.isEmpty) {
+      formErrorStore.city = "City can't be empty";
+    } else if (value.length < 3) {
+      formErrorStore.city = 'Please enter a valid City';
+    } else {
+      formErrorStore.city = null;
+    }
+  }
+
   // general methods:-----------------------------------------------------------
   void dispose() {
     for (final d in _disposers) {
@@ -250,6 +323,9 @@ abstract class _FormStore with Store {
     chamberOfCommerce = '';
     companyName = '';
     magicCode = '';
+    address = '';
+    postalCode = '';
+    city = '';
     success = false;
     loading = false;
   }
@@ -258,6 +334,9 @@ abstract class _FormStore with Store {
     validatePassword(password);
     //validateUserEmail(userEmail);
     validateUserName(userName);
+    validateCity(city);
+    validateAddress(address);
+    validatePostalCode(postalCode);
   }
 }
 
@@ -284,6 +363,15 @@ abstract class _FormErrorStore with Store {
 
   @observable
   String companyName;
+
+  @observable
+  String postalCode;
+
+  @observable
+  String address;
+
+  @observable
+  String city;
 
   @computed
   bool get hasErrorsInLogin => userEmail != null || password != null;
@@ -317,4 +405,13 @@ abstract class _FormErrorStore with Store {
 
   @computed
   bool get hasErrorInUpdateUserName => userName != null;
+
+  @computed
+  bool get hasErrorInUpdateAddress => address != null;
+
+  @computed
+  bool get hasErrorInUpdatePostalCode => postalCode != null;
+
+  @computed
+  bool get hasErrorInUpdateCity => city != null;
 }
