@@ -32,7 +32,6 @@ class _AcceptPrivacySwitchState extends State<AcceptPrivacySwitch> {
   Widget _buildAcceptSwitch() {
     var style = Theme.of(context).textTheme.caption.copyWith(
         decoration: TextDecoration.none,
-        color: Colors.black,
         fontSize: MediaQuery.of(context).size.height / 55);
     return Container(
       width: MediaQuery.of(context).size.width / 1.12,
