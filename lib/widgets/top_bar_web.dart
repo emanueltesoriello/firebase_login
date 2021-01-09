@@ -1,8 +1,8 @@
+import 'package:firebase_login/constants/assets.dart';
 import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/query_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/circle_avatar/circle_avatar_image.dart';
-import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,22 +10,28 @@ class TopBarWeb extends StatefulWidget {
   final Color color;
   final Widget imageLogo;
   final Color userAvatarColor;
+  final Function(int) pageSetter;
+
   TopBarWeb(
       {this.color = CustomColors.primaryColor,
       this.imageLogo,
-      this.userAvatarColor = CustomColors.backGroundColor});
+      this.userAvatarColor = CustomColors.backGroundColor,
+      this.pageSetter});
+
   @override
   _TopBarWebState createState() => _TopBarWebState();
 }
 
 class _TopBarWebState extends State<TopBarWeb> {
   UserStore _userStore;
+  QueryStore _queryStore;
   double targetHeight;
   double targetWidth;
 
   @override
   void initState() {
     super.initState();
+    _queryStore = context.read();
     _userStore = context.read();
   }
 
@@ -48,18 +54,32 @@ class _TopBarWebState extends State<TopBarWeb> {
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          widget.imageLogo ?? Container(),
+          InkWell(onTap: () => widget.pageSetter(0), child: widget.imageLogo) ??
+              Container(),
+          Spacer(),
+          Padding(
+              padding: EdgeInsets.only(right: 25),
+              child: Text(
+                _queryStore.getTheUser.userName,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              )),
           Container(
             height: targetHeight / 17,
             width: targetHeight / 17,
             child: Container(
-              child: CircleAvatarImage(
-                color: widget.userAvatarColor,
-                imageURL: _userStore.getAuth?.currentUser?.photoURL,
-                text:
-                    '.'//'${(_userStore.getAuth?.currentUser?.displayName.split(' ')[0] ?? '-'.substring(0, 2)) ?? '-'.toUpperCase()}',
+              child: InkWell(
+                onTap: () => widget.pageSetter(3),
+                child: CircleAvatarImage(
+                  color: widget.userAvatarColor,
+                  imageURL: _userStore.getAuth?.currentUser?.photoURL != null
+                      ? _userStore.getAuth?.currentUser?.photoURL
+                      : Assets.emptyUserPic,
+                ),
               ),
             ),
           ),

@@ -44,7 +44,7 @@ abstract class _QueryStore with Store {
               String magicCode = companyData.data()['magicCode'];
               var userData = element.data();
               await FirebaseFirestore.instance
-                  .collection("roles")
+                  .collection("technicalRoles")
                   .doc(userData["associatedTechnicalRole"].toString())
                   .snapshots()
                   .forEach((element) {
@@ -112,16 +112,16 @@ abstract class _QueryStore with Store {
             .doc(chamberOfCommerceNo.toLowerCase())
             .set({'companyName': companyName, 'magicCode': mgCode});
         // add standard roles for the company
-        await FirebaseFirestore.instance.collection("roles").add({
+        await FirebaseFirestore.instance.collection("technicalRoles").add({
           "roleName": "Admin",
           "associatedCompany": chamberOfCommerceNo.toLowerCase(),
         });
-        await FirebaseFirestore.instance.collection("roles").add({
+        await FirebaseFirestore.instance.collection("technicalRoles").add({
           "roleName": "User",
           "associatedCompany": chamberOfCommerceNo.toLowerCase(),
         });
         await FirebaseFirestore.instance
-            .collection("roles")
+            .collection("technicalRoles")
             .where("roleName", isEqualTo: "Admin")
             .where("associatedCompany",
                 isEqualTo: chamberOfCommerceNo.toLowerCase())
@@ -139,7 +139,7 @@ abstract class _QueryStore with Store {
             .collection("magic-codes")
             .doc(mgCode)
             .set({
-          'companyVatNumber': chamberOfCommerceNo,
+          'companyVatNumber': chamberOfCommerceNo.toLowerCase(),
         });
         loading = false;
       }
@@ -162,12 +162,28 @@ abstract class _QueryStore with Store {
         String userId = FirebaseAuth.instance.currentUser.uid;
         String userName = FirebaseAuth.instance.currentUser.displayName;
         print('Correct magic code');
-        // add document into users
-        await FirebaseFirestore.instance.collection("users").doc(userId).set({
-          'companyVatNumber': ds.data()['companyVatNumber'],
-          'objectId': userId,
-          'userName': userName,
-        });
+        // find normal user technical Role
+        await FirebaseFirestore.instance
+            .collection("technicalRoles")
+            .where("associatedCompany",
+                isEqualTo: ds.data()['companyVatNumber'].toString().toLowerCase())
+            .where("roleName", isEqualTo: "User")
+            .get()
+            .then((elements) => {
+                  elements.docs.forEach((element) async {
+                    print("role found");
+                    // add document into users
+                    await FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(userId)
+                        .set({
+                      'associatedCompany': ds.data()['companyVatNumber'],
+                      'associatedTechnicalRole': element.id,
+                      'objectId': userId,
+                      'userName': userName,
+                    });
+                  })
+                });
         loading = false;
       } else {
         print('Wrong magic code');
@@ -176,6 +192,7 @@ abstract class _QueryStore with Store {
         loading = false;
       }
     } catch (e) {
+      print("WUUUUUT");
       print(e);
       loading = false;
     }

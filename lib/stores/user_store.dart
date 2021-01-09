@@ -17,6 +17,10 @@ abstract class _UserStore with Store {
   final Future<FirebaseApp> firebaseApp;
   final Future<FirebaseAuth> firebaseAuth;
   _UserStore({this.firebaseApp, this.firebaseAuth}) {
+    fetchAll();
+  }
+
+  fetchAll() async {
     fetchApp();
     fetchAuth();
     fetchUser();
@@ -66,12 +70,27 @@ abstract class _UserStore with Store {
   Future fetchAuth() async {
     myFirebaseAuth = ObservableFuture(
         Future.value(FirebaseAuth.instanceFor(app: await firebaseApp)));
+    await FirebaseAuth.instanceFor(app: await firebaseApp).setPersistence(Persistence.SESSION);
   }
 
   Future fetchUser() async {
-    FirebaseAuth.instanceFor(app: await firebaseApp)
+    //AuthStateChanges not working
+    /*FirebaseAuth.instanceFor(app: await firebaseApp)
         .authStateChanges()
         .listen((User user) {
+          print(user);
+      if (user == null) {
+        isUserLogged = ObservableFuture(Future.value(false));
+        print('User is currently signed out!');
+      } else {
+        isUserLogged = ObservableFuture(Future.value(true));
+        print('User is signed in!');
+      }
+    });*/
+    FirebaseAuth.instanceFor(app: await firebaseApp)
+        .userChanges()
+        .listen((User user) {
+      print(user);
       if (user == null) {
         isUserLogged = ObservableFuture(Future.value(false));
         print('User is currently signed out!');
@@ -266,6 +285,24 @@ abstract class _UserStore with Store {
           .doc(getAuth.currentUser.uid)
           .update({
         'city': city,
+      });
+      loading = false;
+      success = true;
+      await fetchAuth();
+    } catch (e) {
+      loading = false;
+      errorStore.setErrorMessage(e);
+    }
+  }
+
+  Future updatePhoneNumber(String phoneNumber) async {
+    loading = true;
+    try {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(getAuth.currentUser.uid)
+          .update({
+        'phoneNumber': phoneNumber,
       });
       loading = false;
       success = true;

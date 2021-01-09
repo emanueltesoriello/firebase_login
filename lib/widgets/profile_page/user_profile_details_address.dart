@@ -1,18 +1,12 @@
 import 'package:firebase_login/constants/colors.dart';
+import 'package:firebase_login/models/user.dart';
 import 'package:firebase_login/stores/query_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
-import 'package:firebase_login/widgets/circle_avatar/circle_avatar_image.dart';
 import 'package:firebase_login/widgets/textfields/address_textformfield.dart';
 import 'package:firebase_login/widgets/textfields/city_textformfield.dart';
-import 'package:firebase_login/widgets/textfields/company_name_textformfield.dart';
-import 'package:firebase_login/widgets/textfields/email_textformfield.dart';
 import 'package:firebase_login/widgets/textfields/postal_code_textformfield.dart';
-import 'package:firebase_login/widgets/textfields/textfield_widget.dart';
-import 'package:firebase_login/widgets/textfields/username_textformfield.dart';
-import 'package:firebase_login/widgets/texts/text_default.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx_widget/mobx_widget.dart';
 import 'package:provider/provider.dart';
 
 class UserProfileDetailsAddress extends StatefulWidget {
@@ -20,15 +14,19 @@ class UserProfileDetailsAddress extends StatefulWidget {
   final Color refreshIndicatorBackgroundColor;
   final Color refreshIndicatorCircularColor;
   final bool isEditMode;
+  User user;
 
   UserProfileDetailsAddress({
     this.profileBackgroundColor = CustomColors.backGroundColor,
     this.refreshIndicatorBackgroundColor = CustomColors.primaryColor,
     this.refreshIndicatorCircularColor = CustomColors.backGroundColor,
     this.isEditMode = false,
+    @required this.user
   });
+
   @override
-  _UserProfileDetailsAddressState createState() => _UserProfileDetailsAddressState();
+  _UserProfileDetailsAddressState createState() =>
+      _UserProfileDetailsAddressState();
 }
 
 class _UserProfileDetailsAddressState extends State<UserProfileDetailsAddress> {
@@ -54,7 +52,9 @@ class _UserProfileDetailsAddressState extends State<UserProfileDetailsAddress> {
         AddressTextFormField(
           decoration: InputDecoration(
               hintText: 'New Address',
-              labelText: _queryStore.getTheUser.address!=null? _queryStore.getTheUser.address: ""),
+              labelText: widget.user.address != null
+                  ? widget.user.address
+                  : ""),
         )
       ],
     );
@@ -68,7 +68,9 @@ class _UserProfileDetailsAddressState extends State<UserProfileDetailsAddress> {
         PostalCodeTextFormField(
           decoration: InputDecoration(
               hintText: 'New Postal Code',
-              labelText: _queryStore.getTheUser.postalCode!=null? _queryStore.getTheUser.postalCode: ""),
+              labelText: widget.user.postalCode != null
+                  ? widget.user.postalCode
+                  : ""),
         )
       ],
     );
@@ -82,7 +84,9 @@ class _UserProfileDetailsAddressState extends State<UserProfileDetailsAddress> {
         CityTextFormField(
           decoration: InputDecoration(
               hintText: 'New City',
-              labelText: _queryStore.getTheUser.city!=null? _queryStore.getTheUser.city: ""),
+              labelText: widget.user.city != null
+                  ? widget.user.city
+                  : ""),
         )
       ],
     );
@@ -92,11 +96,10 @@ class _UserProfileDetailsAddressState extends State<UserProfileDetailsAddress> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Address: '),
-        Text(
-          _queryStore.getTheUser.address!=null? _queryStore.getTheUser.address: "",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        Text('Address: ', style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(widget.user.address != null
+            ? widget.user.address
+            : ""),
       ],
     );
   }
@@ -105,11 +108,10 @@ class _UserProfileDetailsAddressState extends State<UserProfileDetailsAddress> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Postal Code: '),
-        Text(
-          _queryStore.getTheUser.postalCode!=null? _queryStore.getTheUser.postalCode: "",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        Text('Postal Code: ', style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(widget.user.postalCode != null
+            ? widget.user.postalCode
+            : ""),
       ],
     );
   }
@@ -118,16 +120,15 @@ class _UserProfileDetailsAddressState extends State<UserProfileDetailsAddress> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('City: '),
-        Text(
-          _queryStore.getTheUser.city!=null? _queryStore.getTheUser.city: "",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        Text('City: ', style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(widget.user.city != null
+            ? widget.user.city
+            : ""),
       ],
     );
   }
 
-  Widget _userProfileDetails() {
+  Widget _userProfileAddressDetails() {
     return loading
         ? Center(
             child: CircularProgressIndicator(
@@ -151,11 +152,9 @@ class _UserProfileDetailsAddressState extends State<UserProfileDetailsAddress> {
 
   @override
   Widget build(BuildContext context) {
-    targetHeight = MediaQuery.of(context).size.height;
-    targetWidth = MediaQuery.of(context).size.width;
     return Observer(
       builder: (_) {
-        return _userProfileDetails();
+        return _userProfileAddressDetails();
       },
     );
   }

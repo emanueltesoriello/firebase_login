@@ -195,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      UserProfileDetails(isEditMode: isEditMode),
+                      UserProfileDetails(user:_queryStore.getTheUser,isEditMode: isEditMode),
                       isEditMode ? Container() : SizedBox(height: 50),
                     ],
                   ),

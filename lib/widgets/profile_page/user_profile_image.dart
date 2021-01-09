@@ -1,8 +1,8 @@
+import 'package:firebase_login/constants/assets.dart';
 import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/query_store.dart';
 import 'package:firebase_login/stores/upload_profile_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
-import 'package:firebase_login/widgets/circle_avatar/circle_avatar_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +19,7 @@ class UserProfileImage extends StatefulWidget {
     this.refreshIndicatorCircularColor = CustomColors.backGroundColor,
     this.isEditMode = false,
   });
+
   @override
   _UserProfileImageState createState() => _UserProfileImageState();
 }
@@ -30,6 +31,7 @@ class _UserProfileImageState extends State<UserProfileImage> {
   UserStore _userStore;
   QueryStore _queryStore;
   UploadProfileStore uploadProfileStore;
+  bool showPencil = false;
 
   @override
   void initState() {
@@ -40,49 +42,73 @@ class _UserProfileImageState extends State<UserProfileImage> {
   }
 
   Widget _userProfileImage() {
-    return FlatButton(
-      onPressed: widget.isEditMode
-          ? () async {
-              setState(() => loading = true);
-              print("before");
-              uploadProfileStore.selectFile().then(
-                  (value) => uploadProfileStore.uploadImage().then((value) {
-                        print(value);
-                        _userStore.updateProfilePic(value);
-                        setState(() => loading = false);
-                      }));
+    return Container(
+      child: InkWell(
+        customBorder: CircleBorder(),
+        onHover: (hover) {
+          print(hover);
+          if (widget.isEditMode) {
+            if (hover) {
+              setState(() => showPencil = true);
+            } else {
+              setState(() => showPencil = false);
             }
-          : null,
-      child: Column(
-        children: [
-          Container(
-            height: targetHeight / 8,
-            width: targetHeight / 8,
-            child: loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: widget.refreshIndicatorBackgroundColor,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          widget.refreshIndicatorCircularColor),
-                    ),
-                  )
-                : Container(
-                    child: CircleAvatarImage(
-                        color: widget.profileBackgroundColor,
-                        imageURL: _userStore.getAuth?.currentUser?.photoURL,
-                        text:
-                            '-' //'${(_userStore.getAuth?.currentUser?.displayName.split(' ')[0] ?? '-'.substring(0, 2)) ?? '-'.toUpperCase()}',
+          }
+        },
+        onTap: widget.isEditMode
+            ? () async {
+                setState(() => loading = true);
+                print("before");
+                uploadProfileStore.selectFile().then(
+                    (value) => uploadProfileStore.uploadImage().then((value) {
+                          print(value);
+                          _userStore.updateProfilePic(value);
+                          setState(() => loading = false);
+                        }));
+              }
+            : null,
+        child: loading
+            ? Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: widget.refreshIndicatorBackgroundColor,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      widget.refreshIndicatorCircularColor),
+                ),
+              )
+            : Stack(
+                children: [
+                  showPencil
+                      ? ClipOval(
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                                Colors.grey[700], BlendMode.modulate),
+                            child: Image.network(
+                                _userStore
+                                        .getAuth?.currentUser?.photoURL !=
+                                    null
+                                ? _userStore.getAuth?.currentUser?.photoURL
+                                : Assets.emptyUserPic),
+                          ),
+                        )
+                      : ClipOval(
+                          child: Image.network(_userStore
+                                      .getAuth?.currentUser?.photoURL !=
+                                  null
+                              ? _userStore.getAuth?.currentUser?.photoURL
+                              : Assets.emptyUserPic),
                         ),
-                  ),
-          ),
-          SizedBox(height: 5),
-          widget.isEditMode
-              ? Text(
-                  'Change profile image',
-                  textAlign: TextAlign.center,
-                )
-              : Container(),
-        ],
+                  showPencil
+                      ? Positioned.fill(
+                          child: Align(
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.mode_edit,
+                                color: Colors.white,
+                              )),
+                        )
+                      : Container(),
+                ],
+              ),
       ),
     );
   }

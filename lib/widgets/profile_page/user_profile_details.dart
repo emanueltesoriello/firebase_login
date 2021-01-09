@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_login/constants/colors.dart';
+import 'package:firebase_login/models/user.dart';
 import 'package:firebase_login/stores/query_store.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/textfields/email_textformfield.dart';
+import 'package:firebase_login/widgets/textfields/phone_number_textformfield.dart';
 import 'package:firebase_login/widgets/textfields/username_textformfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -13,13 +14,14 @@ class UserProfileDetails extends StatefulWidget {
   final Color refreshIndicatorBackgroundColor;
   final Color refreshIndicatorCircularColor;
   final bool isEditMode;
+  User user;
 
-  UserProfileDetails({
-    this.profileBackgroundColor = CustomColors.backGroundColor,
-    this.refreshIndicatorBackgroundColor = CustomColors.primaryColor,
-    this.refreshIndicatorCircularColor = CustomColors.backGroundColor,
-    this.isEditMode = false,
-  });
+  UserProfileDetails(
+      {this.profileBackgroundColor = CustomColors.backGroundColor,
+      this.refreshIndicatorBackgroundColor = CustomColors.primaryColor,
+      this.refreshIndicatorCircularColor = CustomColors.backGroundColor,
+      this.isEditMode = false,
+      @required this.user});
 
   @override
   _UserProfileDetailsState createState() => _UserProfileDetailsState();
@@ -47,8 +49,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
         Text('Username'),
         UsernameTextFormField(
           decoration: InputDecoration(
-              hintText: 'New Username',
-              labelText: _queryStore.getTheUser.userName),
+              hintText: 'New Username', labelText: widget.user.userName),
         )
       ],
     );
@@ -68,14 +69,29 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
     );
   }
 
+  Widget _phoneNumberEdit() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Phone Number'),
+        PhoneNumberTextFormField(
+          decoration: InputDecoration(
+              hintText: 'New Phone Number',
+              labelText: widget.user.phoneNumber != null
+                  ? widget.user.phoneNumber
+                  : ""),
+        )
+      ],
+    );
+  }
+
   Widget _username() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Username: '),
+        Text('Username: ', style: TextStyle(fontWeight: FontWeight.bold)),
         Text(
-          _queryStore.getTheUser.userName,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          widget.user.userName,
         ),
       ],
     );
@@ -85,11 +101,18 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Email: '),
-        Text(
-          _userStore.getAuth?.currentUser?.email,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        Text('Email: ', style: TextStyle(fontWeight: FontWeight.bold)),
+        SelectableText(widget.user.email),
+      ],
+    );
+  }
+
+  Widget _phoneNumber() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Phone Number: ', style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(widget.user.phoneNumber != null ? widget.user.phoneNumber : ""),
       ],
     );
   }
@@ -98,29 +121,22 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Your company username: '),
-        Text(
-          _queryStore.getTheUser.associatedCompany,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        Text('Your company username: ',
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(widget.user.associatedCompany),
       ],
     );
   }
 
   Widget _magicCode() {
-    return _queryStore.getTheUser.isCompanyAdmin && _queryStore.getTheUser.magicCode != null
+    return widget.user.isCompanyAdmin && widget.user.magicCode != null
         ? FittedBox(
             child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'MagicCode: ',
-                style: TextStyle(fontSize: 15),
-              ),
-              SelectableText(
-                _queryStore.getTheUser.magicCode,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )
+              Text('MagicCode: ',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              SelectableText(widget.user.magicCode)
             ],
           ))
         : Container();
@@ -143,9 +159,27 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
               SizedBox(height: 10),
               widget.isEditMode ? _emailEdit() : _email(),
               widget.isEditMode ? Container() : SizedBox(height: 10),
-              widget.isEditMode ? Container() : _company(),
-              widget.isEditMode ? Container() : SizedBox(height: 10),
-              widget.isEditMode ? Container() : _magicCode(),
+              widget.isEditMode ? _phoneNumberEdit() : _phoneNumber(),
+              widget.user.email != _queryStore.getTheUser.email
+                  ? Container()
+                  : widget.isEditMode
+                      ? Container()
+                      : SizedBox(height: 10),
+              widget.user.email != _queryStore.getTheUser.email
+                  ? Container()
+                  : widget.isEditMode
+                      ? Container()
+                      : _company(),
+              widget.user.email != _queryStore.getTheUser.email
+                  ? Container()
+                  : widget.isEditMode
+                      ? Container()
+                      : SizedBox(height: 10),
+              widget.user.email != _queryStore.getTheUser.email
+                  ? Container()
+                  : widget.isEditMode
+                      ? Container()
+                      : _magicCode(),
             ],
           );
   }

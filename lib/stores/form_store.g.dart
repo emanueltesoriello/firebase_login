@@ -92,6 +92,13 @@ mixin _$FormStore on _FormStore, Store {
       (_$canUpdateCityComputed ??= Computed<bool>(() => super.canUpdateCity,
               name: '_FormStore.canUpdateCity'))
           .value;
+  Computed<bool> _$canUpdatePhoneNumberComputed;
+
+  @override
+  bool get canUpdatePhoneNumber => (_$canUpdatePhoneNumberComputed ??=
+          Computed<bool>(() => super.canUpdatePhoneNumber,
+              name: '_FormStore.canUpdatePhoneNumber'))
+      .value;
 
   final _$userEmailAtom = Atom(name: '_FormStore.userEmail');
 
@@ -240,6 +247,21 @@ mixin _$FormStore on _FormStore, Store {
   set city(String value) {
     _$cityAtom.reportWrite(value, super.city, () {
       super.city = value;
+    });
+  }
+
+  final _$phoneNumberAtom = Atom(name: '_FormStore.phoneNumber');
+
+  @override
+  String get phoneNumber {
+    _$phoneNumberAtom.reportRead();
+    return super.phoneNumber;
+  }
+
+  @override
+  set phoneNumber(String value) {
+    _$phoneNumberAtom.reportWrite(value, super.phoneNumber, () {
+      super.phoneNumber = value;
     });
   }
 
@@ -402,6 +424,17 @@ mixin _$FormStore on _FormStore, Store {
   }
 
   @override
+  void setPhoneNumber(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.setPhoneNumber');
+    try {
+      return super.setPhoneNumber(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setAcceptPrivacySwitch(bool value) {
     final _$actionInfo = _$_FormStoreActionController.startAction(
         name: '_FormStore.setAcceptPrivacySwitch');
@@ -523,6 +556,17 @@ mixin _$FormStore on _FormStore, Store {
   }
 
   @override
+  void validatePhoneNumber(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.validatePhoneNumber');
+    try {
+      return super.validatePhoneNumber(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 userEmail: ${userEmail},
@@ -535,6 +579,7 @@ magicCode: ${magicCode},
 address: ${address},
 postalCode: ${postalCode},
 city: ${city},
+phoneNumber: ${phoneNumber},
 success: ${success},
 loading: ${loading},
 acceptPrivacySwitch: ${acceptPrivacySwitch},
@@ -549,7 +594,8 @@ canUpdateEmail: ${canUpdateEmail},
 canUpdateUsername: ${canUpdateUsername},
 canUpdateAddress: ${canUpdateAddress},
 canUpdatePostalCode: ${canUpdatePostalCode},
-canUpdateCity: ${canUpdateCity}
+canUpdateCity: ${canUpdateCity},
+canUpdatePhoneNumber: ${canUpdatePhoneNumber}
     ''';
   }
 }
@@ -642,6 +688,14 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
           Computed<bool>(() => super.hasErrorInUpdateCity,
               name: '_FormErrorStore.hasErrorInUpdateCity'))
       .value;
+  Computed<bool> _$hasErrorInUpdatePhoneNumberComputed;
+
+  @override
+  bool get hasErrorInUpdatePhoneNumber =>
+      (_$hasErrorInUpdatePhoneNumberComputed ??= Computed<bool>(
+              () => super.hasErrorInUpdatePhoneNumber,
+              name: '_FormErrorStore.hasErrorInUpdatePhoneNumber'))
+          .value;
 
   final _$userEmailAtom = Atom(name: '_FormErrorStore.userEmail');
 
@@ -794,6 +848,21 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     });
   }
 
+  final _$phoneNumberAtom = Atom(name: '_FormErrorStore.phoneNumber');
+
+  @override
+  String get phoneNumber {
+    _$phoneNumberAtom.reportRead();
+    return super.phoneNumber;
+  }
+
+  @override
+  set phoneNumber(String value) {
+    _$phoneNumberAtom.reportWrite(value, super.phoneNumber, () {
+      super.phoneNumber = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
@@ -807,6 +876,7 @@ companyName: ${companyName},
 postalCode: ${postalCode},
 address: ${address},
 city: ${city},
+phoneNumber: ${phoneNumber},
 hasErrorsInLogin: ${hasErrorsInLogin},
 hasErrorsInRegister: ${hasErrorsInRegister},
 hasErrorInForgotPassword: ${hasErrorInForgotPassword},
@@ -818,7 +888,8 @@ hasErrorInUpdateEmail: ${hasErrorInUpdateEmail},
 hasErrorInUpdateUserName: ${hasErrorInUpdateUserName},
 hasErrorInUpdateAddress: ${hasErrorInUpdateAddress},
 hasErrorInUpdatePostalCode: ${hasErrorInUpdatePostalCode},
-hasErrorInUpdateCity: ${hasErrorInUpdateCity}
+hasErrorInUpdateCity: ${hasErrorInUpdateCity},
+hasErrorInUpdatePhoneNumber: ${hasErrorInUpdatePhoneNumber}
     ''';
   }
 }

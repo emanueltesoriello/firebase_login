@@ -29,6 +29,7 @@ abstract class _FormStore with Store {
       reaction((_) => address, validateAddress),
       reaction((_) => postalCode, validatePostalCode),
       reaction((_) => city, validateCity),
+      reaction((_) => phoneNumber, validatePhoneNumber)
     ];
   }
 
@@ -62,6 +63,9 @@ abstract class _FormStore with Store {
 
   @observable
   String city = '';
+
+  @observable
+  String phoneNumber = '';
 
   @observable
   bool success = false;
@@ -133,6 +137,10 @@ abstract class _FormStore with Store {
   bool get canUpdateCity =>
       city.isNotEmpty && !formErrorStore.hasErrorInUpdateCity;
 
+  @computed
+  bool get canUpdatePhoneNumber =>
+      phoneNumber.isNotEmpty && !formErrorStore.hasErrorInUpdatePhoneNumber;
+
   /*@computed
   bool get canUpdateProfile =>
       userName.isNotEmpty &&
@@ -188,6 +196,11 @@ abstract class _FormStore with Store {
   @action
   void setCity(String value) {
     city = value;
+  }
+
+  @action
+  void setPhoneNumber(String value) {
+    phoneNumber = value;
   }
 
   @action
@@ -308,6 +321,11 @@ abstract class _FormStore with Store {
     }
   }
 
+  @action
+  void validatePhoneNumber(String value) {
+    formErrorStore.phoneNumber = null;
+  }
+
   // general methods:-----------------------------------------------------------
   void dispose() {
     for (final d in _disposers) {
@@ -373,6 +391,9 @@ abstract class _FormErrorStore with Store {
   @observable
   String city;
 
+  @observable
+  String phoneNumber;
+
   @computed
   bool get hasErrorsInLogin => userEmail != null || password != null;
 
@@ -414,4 +435,7 @@ abstract class _FormErrorStore with Store {
 
   @computed
   bool get hasErrorInUpdateCity => city != null;
+
+  @computed
+  bool get hasErrorInUpdatePhoneNumber => phoneNumber != null;
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_login/constants/assets.dart';
 import 'package:firebase_login/constants/colors.dart';
 import 'package:firebase_login/stores/user_store.dart';
 import 'package:firebase_login/widgets/buttons/logout.dart';
@@ -19,6 +20,7 @@ class CustomDrawer extends StatefulWidget {
   final Color logoutSplashColor;
   final List<Widget> pages;
   final List<Widget> secondaryPages;
+  final Function(int) pageLoader;
   CustomDrawer({
     this.backgroundColor = CustomColors.backGroundColor,
     this.logoutColor = CustomColors.backGroundColor,
@@ -28,6 +30,7 @@ class CustomDrawer extends StatefulWidget {
     this.logoutSplashColor = CustomColors.primaryColor,
     this.pages = const [],
     this.secondaryPages = const [],
+    this.pageLoader
   });
   @override
   _CustomDrawerState createState() => _CustomDrawerState();
@@ -52,24 +55,43 @@ class _CustomDrawerState extends State<CustomDrawer> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Container(
-            height: targetHeight / 17,
-            width: targetHeight / 17,
-            child: Container(
-              child: CircleAvatarImage(
-                  imageURL: _userStore.getAuth?.currentUser?.photoURL,
-                  text:
-                      '-'), // '${(_userStore.getAuth?.currentUser?.displayName.split(' ')[0] ?? '-'.substring(0, 2)) ?? '-'.toUpperCase()}'),
+          Padding(
+            padding: EdgeInsets.only(left:25,right: 10),
+            child:Container(
+              height: targetHeight / 17,
+              width: targetHeight / 17,
+              child: Container(
+                child: InkWell(
+                  onTap: ()=>widget.pageLoader(3),
+                  child: CircleAvatarImage(
+                    imageURL: _userStore
+                        .getAuth?.currentUser?.photoURL !=
+                        null
+                        ? _userStore.getAuth?.currentUser?.photoURL
+                        : Assets.emptyUserPic,
+                  ),
+                ), // '${(_userStore.getAuth?.currentUser?.displayName.split(' ')[0] ?? '-'.substring(0, 2)) ?? '-'.toUpperCase()}'),
+              ),
+            )
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(right:25.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FittedBox(
+                    child: TextDefault(
+                      text: 'Hi ${_userStore.getAuth?.currentUser?.displayName}',
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          TextDefault(
-            text: 'Hi ${_userStore.getAuth?.currentUser?.displayName}',
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-          SizedBox(
-            width: targetHeight / 12,
-          )
         ],
       ),
     );
